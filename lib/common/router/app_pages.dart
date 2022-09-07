@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'app_router.dart';
 
 import 'package:rc_china_freshplan_app/pages/index/view.dart';
+import 'package:rc_china_freshplan_app/pages/addressManage/view.dart';
 import 'package:rc_china_freshplan_app/pages/account/view.dart';
 import 'package:rc_china_freshplan_app/pages/login/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_list/view.dart';
@@ -13,7 +14,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: AppRoutes.index,
-      page: () => IndexPage(),
+      page: () => const IndexPage(),
     ),
     GetPage(
       name: AppRoutes.account,
