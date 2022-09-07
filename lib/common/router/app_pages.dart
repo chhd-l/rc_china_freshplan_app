@@ -14,7 +14,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: AppRoutes.index,
-      page: () => const IndexPage(),
+      page: () => IndexPage(),
     ),
     GetPage(
       name: AppRoutes.account,
@@ -31,6 +31,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.petDetail,
       page: () => PetDetailPage(),
+    ),
+    GetPage(
+      name: AppRoutes.addressManage,
+      page: () => AddRessManage(),
     ),
   ];
 }
