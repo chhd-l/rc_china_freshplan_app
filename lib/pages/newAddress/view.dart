@@ -5,7 +5,6 @@ import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 
 // ignore: camel_case_types
 class newAddress extends StatelessWidget {
-  static const String _title = 'Radio Button Example';
 
   const newAddress({super.key, required this.name, required this.phone, required this.details, required this.cite, required this.open});
 
@@ -19,9 +18,8 @@ class newAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
       home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
+        appBar: commonAppBar('新增地址'),
         body: const MyStatefulWidget(key: null,),
         bottomNavigationBar:  Container(
             padding: const EdgeInsets.only(bottom:12.0),

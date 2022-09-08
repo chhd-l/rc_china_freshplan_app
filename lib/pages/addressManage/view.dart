@@ -5,16 +5,14 @@ import 'package:rc_china_freshplan_app/pages/newAddress/view.dart';
 /// This Widget is the main application widget.
 const ress = 'xxxx';
 class AddRessManage extends StatelessWidget {
-  static const String _title = 'Radio Button Example';
 
   const AddRessManage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
       home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
+        appBar: commonAppBar('地址管理'),
         body: const Center(
           child: MyStatefulWidget(key: null,),
         ),
