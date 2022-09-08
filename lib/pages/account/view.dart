@@ -227,33 +227,38 @@ class AccountPage extends StatelessWidget {
         color: Colors.white,
       ),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/location-icon.png',
-            width: 20,
-            height: 20,
-            fit: BoxFit.fitWidth,
-          ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.only(left: 10),
-              child: const Text(
-                '收货地址',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+      child: GestureDetector(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/location-icon.png',
+              width: 20,
+              height: 20,
+              fit: BoxFit.fitWidth,
+            ),
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(left: 10),
+                child: const Text(
+                  '收货地址',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),
-          ),
-          const Icon(
-            Icons.arrow_forward_ios,
-            color: Color.fromARGB(255, 153, 153, 153),
-            size: 12,
-          ),
-        ],
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: Color.fromARGB(255, 153, 153, 153),
+              size: 12,
+            ),
+          ],
+        ),
+        onTap: () {
+          Get.toNamed(AppRoutes.addressManage);
+        },
       ),
     );
 
