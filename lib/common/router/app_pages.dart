@@ -23,7 +23,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.createPet,
-      page: () => const CreatePetPage(),
+      page: () => CreatePetPage(),
     ),
     GetPage(
       name: AppRoutes.createPetNext,

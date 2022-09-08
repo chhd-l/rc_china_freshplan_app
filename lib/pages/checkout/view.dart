@@ -43,20 +43,210 @@ class CheckoutPage extends StatelessWidget {
                         ],
                       )),
                   commonContainer(
-                      282.5,
+                      200.5,
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             '订单商品',
                             style: textSyle700(
-                                fontSize: 17,
-                                color: const Color.fromRGBO(51, 51, 51, 1)),
+                                fontSize: 16,
+                                color: const Color.fromRGBO(0, 0, 0, 1)),
                           ),
-                         Row(children: [
-                           Image.asset('assets/images/牛肉泥.png'),
-
-                         ],)
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset('assets/images/牛肉泥.png'),
+                              Column(
+                                children: [
+                                  Text('牛肉泥',
+                                      style: textSyle700(
+                                          fontSize: 14,
+                                          color: const Color.fromRGBO(
+                                              51, 51, 51, 1))),
+                                  Text('￥129.00',
+                                      style: textSyle700(
+                                          fontSize: 12,
+                                          color: const Color.fromRGBO(
+                                              153, 153, 153, 1))),
+                                ],
+                              ),
+                              const Spacer(),
+                              Text('X1',
+                                  style: textSyle700(
+                                      fontSize: 10,
+                                      color: const Color.fromRGBO(
+                                          157, 157, 157, 1))),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              RichText(
+                                textAlign: TextAlign.end,
+                                text: TextSpan(
+                                    style: textSyle700(
+                                        fontSize: 14,
+                                        color: const Color.fromRGBO(
+                                            102, 102, 102, 1)),
+                                    children: const [
+                                      TextSpan(text: '商品小计：'),
+                                      TextSpan(
+                                        text: '￥129.00',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 1)),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
+                  commonContainer(
+                      220.5,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('商品金额',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color: const Color.fromRGBO(
+                                          102, 102, 102, 1))),
+                              Text('¥129.00',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color:
+                                          const Color.fromRGBO(51, 51, 51, 1))),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('促销折扣',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color: const Color.fromRGBO(
+                                          102, 102, 102, 1))),
+                              Text('-¥20.00',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color:
+                                          const Color.fromRGBO(51, 51, 51, 1))),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('新人折扣',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color: const Color.fromRGBO(
+                                          102, 102, 102, 1))),
+                              Text('-¥20.00',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color:
+                                          const Color.fromRGBO(51, 51, 51, 1))),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('运费',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color: const Color.fromRGBO(
+                                          102, 102, 102, 1))),
+                              Text('¥0.00',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color:
+                                          const Color.fromRGBO(51, 51, 51, 1))),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              RichText(
+                                textAlign: TextAlign.end,
+                                text: TextSpan(
+                                    style: textSyle700(
+                                        fontSize: 14,
+                                        color:
+                                            const Color.fromRGBO(0, 0, 0, 1)),
+                                    children: const [
+                                      TextSpan(text: '合计：'),
+                                      TextSpan(
+                                        text: '￥129.00',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromRGBO(
+                                                212, 157, 40, 1)),
+                                      ),
+                                    ]),
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
+                  commonContainer(
+                      90.5,
+                      Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('首次发货',
+                                    style: textSyle700(
+                                        fontSize: 14,
+                                        color: const Color.fromRGBO(
+                                            102, 102, 102, 1))),
+                                Text('2022-08-23',
+                                    style: textSyle700(
+                                        fontSize: 14,
+                                        color: const Color.fromRGBO(
+                                            51, 51, 51, 1))),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('发货周期',
+                                    style: textSyle700(
+                                        fontSize: 14,
+                                        color: const Color.fromRGBO(
+                                            102, 102, 102, 1))),
+                                Text('四周',
+                                    style: textSyle700(
+                                        fontSize: 14,
+                                        color: const Color.fromRGBO(
+                                            51, 51, 51, 1))),
+                              ],
+                            ),
+                          ])),
+                  commonContainer(
+                      50,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('备注',
+                              style: textSyle700(
+                                  fontSize: 14,
+                                  color:
+                                      const Color.fromRGBO(102, 102, 102, 1))),
+                          Text('留言建议提前协商 (250字内)',
+                              style: textSyle700(
+                                  fontSize: 14,
+                                  color: const Color.fromRGBO(51, 51, 51, 1))),
                         ],
                       )),
                 ]),

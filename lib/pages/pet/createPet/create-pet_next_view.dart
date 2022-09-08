@@ -8,15 +8,18 @@ import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
 
 import 'common-widget-view.dart';
 import 'logic.dart';
+import 'state.dart';
 
 class CreatePetNextPage extends StatelessWidget {
   CreatePetNextPage({super.key});
 
   final CreatePetLogic logic = Get.put(CreatePetLogic());
+  final CreatePetState state = Get.find<CreatePetLogic>().state;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         appBar: commonAppBar('创建宠物档案'),
         body: SafeArea(
@@ -26,49 +29,80 @@ class CreatePetNextPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                     right: 16.w, left: 16.w, top: 40.w, bottom: 16.h),
                 child: Column(children: [
-                  commonTitle('球球近期的体重', subTitle: '（kg）'),
+                  commonTitle('${logic.petNameController.text}近期的体重',
+                      subTitle: '（kg）'),
                   Padding(
                     padding: const EdgeInsets.only(top: 26, bottom: 32),
-                    child: selectBox(),
+                    child: textFiled(
+                        controller: logic.recentWeightController,
+                        keyboardType: TextInputType.number),
                   ),
-                  commonTitle('球球近期状态'),
+                  commonTitle('${logic.petNameController.text}近期状态'),
                   Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 32),
                     child: Row(
                       children: [
-                        statusBox('assets/images/fit.png', '瘦弱'),
-                        statusBox('assets/images/standrad.png', '标准'),
-                        statusBox('assets/images/oversize.png', '超重'),
+                        Obx(() => statusBox(state.recentPosture.value == 'thin',
+                                'thin', '瘦弱', () {
+                              state.recentPosture.value = 'thin';
+                            })),
+                        Obx(() => statusBox(
+                                state.recentPosture.value == 'standard',
+                                'standard',
+                                '标准', () {
+                              state.recentPosture.value = 'standard';
+                            })),
+                        Obx(() => statusBox(
+                                state.recentPosture.value == 'overweight',
+                                'overweight',
+                                '超重', () {
+                              state.recentPosture.value = 'overweight';
+                            })),
                       ],
                     ),
                   ),
-                  commonTitle('球球近期成年目标体重', subTitle: '（kg）'),
+                  commonTitle('${logic.petNameController.text}近期成年目标体重',
+                      subTitle: '（kg）'),
                   Padding(
                     padding: const EdgeInsets.only(top: 26, bottom: 32),
-                    child: selectBox(),
+                    child: textFiled(
+                        controller: logic.targetWeightController,
+                        keyboardType: TextInputType.number),
                   ),
-                  commonTitle('球球近期的健康情况', subTitle: '（可多选）'),
+                  commonTitle('${logic.petNameController.text}近期的健康情况'),
                   Padding(
                     padding: const EdgeInsets.only(top: 26, bottom: 32),
                     child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: logic.healthList.length,
                         itemBuilder: (context, index) {
+                          final item = logic.healthList[index];
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 15),
-                            child: Container(
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(246, 246, 246, 1),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(15),
-                                  )),
-                              child: Text(
-                                logic.healthList[index]['name'],
-                                style: textSyle700(fontSize: 15),
-                              ),
-                            ),
+                            child: GestureDetector(
+                                onTap: () {
+                                  state.recentHealth.value = item['value'];
+                                },
+                                child: Obx(() => Container(
+                                      height: 50,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: state.recentHealth.value ==
+                                                  item['value']
+                                              ? AppColors.tint
+                                              : const Color.fromRGBO(
+                                                  246, 246, 246, 1),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(15),
+                                          )),
+                                      child: Text(item['name'],
+                                          style: textSyle700(
+                                              fontSize: 15,
+                                              color: state.recentHealth.value ==
+                                                      item['value']
+                                                  ? Colors.white
+                                                  : AppColors.primaryText)),
+                                    ))),
                           );
                         }),
                   ),
@@ -90,7 +124,7 @@ class CreatePetNextPage extends StatelessWidget {
                       width: 145,
                       bgColor: const Color.fromRGBO(217, 217, 217, 1)),
                   titleButton('推荐食谱', () {
-                    Get.offAllNamed(AppRoutes.recommendRecipes);
+                    Get.toNamed(AppRoutes.recommendRecipes);
                   }, width: 145)
                 ],
               ),
@@ -100,22 +134,37 @@ class CreatePetNextPage extends StatelessWidget {
   }
 }
 
-Widget statusBox(String iconAsset, String title) {
-  return Container(
-    width: 130,
-    height: 112,
-    alignment: Alignment.center,
-    decoration: const BoxDecoration(color: Color.fromRGBO(246, 246, 246, 1)),
-    child: Column(
-      children: [
-        const SizedBox(height: 20),
-        Image.asset(iconAsset),
-        const SizedBox(height: 8),
-        Text(
-          title,
-          style: textSyle400(fontSize: 14),
-        )
-      ],
-    ),
-  );
+Widget statusBox(
+    bool isSelected, String status, String title, VoidCallback onPressed) {
+  return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 130,
+        height: 112,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: isSelected
+                ? const Color.fromRGBO(224, 241, 196, 1)
+                : const Color.fromRGBO(246, 246, 246, 1),
+            borderRadius: status == 'thin'
+                ? const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(15))
+                : status == 'overweight'
+                    ? const BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        bottomRight: Radius.circular(15))
+                    : const BorderRadius.all(Radius.circular(0))),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Image.asset('assets/images/$status.png'),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: textSyle400(fontSize: 14),
+            )
+          ],
+        ),
+      ));
 }
