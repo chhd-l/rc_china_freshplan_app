@@ -42,23 +42,29 @@ class CreatePetNextPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 32),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Obx(() => statusBox(state.recentPosture.value == 'thin',
-                                'thin', '瘦弱', () {
+                        Obx(() => Expanded(
+                                child: statusBox(
+                                    state.recentPosture.value == 'thin',
+                                    'thin',
+                                    '瘦弱', () {
                               state.recentPosture.value = 'thin';
-                            })),
-                        Obx(() => statusBox(
-                                state.recentPosture.value == 'standard',
-                                'standard',
-                                '标准', () {
+                            }))),
+                        Obx(() => Expanded(
+                                child: statusBox(
+                                    state.recentPosture.value == 'standard',
+                                    'standard',
+                                    '标准', () {
                               state.recentPosture.value = 'standard';
-                            })),
-                        Obx(() => statusBox(
-                                state.recentPosture.value == 'overweight',
-                                'overweight',
-                                '超重', () {
+                            }))),
+                        Obx(() => Expanded(
+                                child: statusBox(
+                                    state.recentPosture.value == 'overweight',
+                                    'overweight',
+                                    '超重', () {
                               state.recentPosture.value = 'overweight';
-                            })),
+                            }))),
                       ],
                     ),
                   ),
@@ -125,7 +131,8 @@ class CreatePetNextPage extends StatelessWidget {
                       width: 145,
                       bgColor: const Color.fromRGBO(217, 217, 217, 1)),
                   titleButton('推荐食谱', () {
-                    Get.put(GlobalConfigService()).petName.value=state.name.value;
+                    Get.put(GlobalConfigService()).petName.value =
+                        state.name.value;
                     Get.toNamed(AppRoutes.recommendRecipes);
                   }, width: 145)
                 ],
@@ -141,7 +148,6 @@ Widget statusBox(
   return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 130,
         height: 112,
         alignment: Alignment.center,
         decoration: BoxDecoration(
