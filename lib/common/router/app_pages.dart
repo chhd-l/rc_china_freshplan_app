@@ -8,8 +8,8 @@ import 'package:rc_china_freshplan_app/pages/account/view.dart';
 import 'package:rc_china_freshplan_app/pages/login/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_list/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_detail/view.dart';
-import 'package:rc_china_freshplan_app/pages/pet/createPet/view.dart';
-import 'package:rc_china_freshplan_app/pages/pet/createPet/create-pet_next_view.dart';
+import 'package:rc_china_freshplan_app/pages/createPet/view.dart';
+import 'package:rc_china_freshplan_app/pages/createPet/create-pet_next_view.dart';
 import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 

@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/pages/pet/createPet/common-widget-view.dart';
+import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
 
 import 'logic.dart';
 import 'state.dart';
