@@ -5,6 +5,7 @@ import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
+import 'package:rc_china_freshplan_app/global.dart';
 
 import 'common-widget-view.dart';
 import 'logic.dart';
@@ -124,6 +125,7 @@ class CreatePetNextPage extends StatelessWidget {
                       width: 145,
                       bgColor: const Color.fromRGBO(217, 217, 217, 1)),
                   titleButton('推荐食谱', () {
+                    Get.put(GlobalConfigService()).petName.value=state.name.value;
                     Get.toNamed(AppRoutes.recommendRecipes);
                   }, width: 145)
                 ],

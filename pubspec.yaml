@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.17.0
 
   flutter_screenutil: ^5.5.3+2
+  shared_preferences: ^2.0.5
 
   #loading
   flutter_easyloading: ^3.0.3
