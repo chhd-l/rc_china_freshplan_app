@@ -29,7 +29,13 @@ class AddRessManage extends StatelessWidget {
                     Navigator.push(context, 
                       MaterialPageRoute(
                         builder: (BuildContext ress) {
-                          return const newAddress();
+                          return const newAddress(
+                            name: '我的',
+                            details: '重庆市沙坪坝区 重庆某某某街道学',
+                            open: false,
+                            phone:'18723489954',
+                            cite: '重庆市 重庆市 沙坪坝区',
+                            );
                         }),
                     );
                   },
@@ -50,7 +56,7 @@ class MyStatefulWidget extends StatefulWidget {
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
 }
 
-List ressList = [0, 1];
+List ressList = [false, true];
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
@@ -87,7 +93,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               )),
                     ),
                     Expanded(
-                      child: Text('18723489950', textAlign: TextAlign.right, style: TextStyle(
+                      child: Text('18723489954', textAlign: TextAlign.right, style: TextStyle(
                                color: Color.fromARGB(255, 153, 153, 153),
                              ),),
                     ),
@@ -109,10 +115,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             Radio(
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               value: ressList[i],
-                              groupValue: 0,
+                              groupValue: true,
                               onChanged: (value) {
                                 setState(() {
-                                  
+                                  ressList.reversed;
                                 });
                               },
                             ),
@@ -128,6 +134,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, 
+                                MaterialPageRoute(
+                                  builder: (BuildContext ress) {
+                                    return newAddress(
+                                      name: '',
+                                      details: '',
+                                      open: ressList[i],
+                                      phone:'',
+                                      cite: '',
+                                      );
+                                  }),
+                              );
+                            },
                             child: Container(
                               margin: const EdgeInsets.only(right: 8.0),
                               child: Image.asset(

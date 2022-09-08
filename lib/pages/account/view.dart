@@ -20,12 +20,17 @@ class AccountPage extends StatelessWidget {
         ),
         Container(
           margin: const EdgeInsets.only(left: 10),
-          child: const Text(
-            '点击登录',
-            style: TextStyle(
-              fontSize: 22,
-              color: Color.fromARGB(255, 51, 51, 51),
+          child: GestureDetector(
+            child: const Text(
+              '点击登录',
+              style: TextStyle(
+                fontSize: 22,
+                color: Color.fromARGB(255, 51, 51, 51),
+              ),
             ),
+            onTap: () {
+              Get.toNamed(AppRoutes.login);
+            },
           ),
         ),
       ]),
@@ -287,6 +292,46 @@ class AccountPage extends StatelessWidget {
           petSection,
           addressSection,
         ]),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/images/freshplan.png',
+              width: 22,
+              height: 22,
+            ),
+            activeIcon: Image.asset(
+              'assets/images/freshplan-selected.png',
+              width: 22,
+              height: 22,
+            ),
+            label: '智能推荐',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/images/home.png',
+              width: 22,
+              height: 22,
+            ),
+            activeIcon: Image.asset(
+              'assets/images/home-selected.png',
+              width: 22,
+              height: 22,
+            ),
+            label: '我的',
+          ),
+        ],
+        unselectedItemColor: const Color.fromARGB(255, 153, 153, 153),
+        selectedItemColor: const Color.fromARGB(255, 150, 204, 57),
+        currentIndex: 1,
+        onTap: (idx) {
+          if (idx == 0) {
+            Get.toNamed(AppRoutes.index);
+          } else {
+            Get.toNamed(AppRoutes.account);
+          }
+        },
       ),
     );
   }
