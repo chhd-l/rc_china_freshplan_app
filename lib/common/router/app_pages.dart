@@ -3,38 +3,63 @@ import 'app_router.dart';
 
 import 'package:rc_china_freshplan_app/pages/index/view.dart';
 import 'package:rc_china_freshplan_app/pages/addressManage/view.dart';
+import 'package:rc_china_freshplan_app/pages/newAddress/view.dart';
 import 'package:rc_china_freshplan_app/pages/account/view.dart';
 import 'package:rc_china_freshplan_app/pages/login/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_list/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_detail/view.dart';
+import 'package:rc_china_freshplan_app/pages/pet/createPet/view.dart';
+import 'package:rc_china_freshplan_app/pages/pet/createPet/create-pet_next_view.dart';
+import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
+import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 
 class AppPages {
-  static const initial = AppRoutes.account;
+  static const initial = AppRoutes.index;
 
   static final routes = [
     GetPage(
       name: AppRoutes.index,
-      page: () => IndexPage(),
+      page: () => const IndexPage(),
+    ),
+    GetPage(
+      name: AppRoutes.createPet,
+      page: () => CreatePetPage(),
+    ),
+    GetPage(
+      name: AppRoutes.createPetNext,
+      page: () => CreatePetNextPage(),
+    ),
+    GetPage(
+      name: AppRoutes.recommendRecipes,
+      page: () => RecommendRecipesPage(),
+    ),
+    GetPage(
+      name: AppRoutes.checkout,
+      page: () => CheckoutPage(),
     ),
     GetPage(
       name: AppRoutes.account,
-      page: () => AccountPage(),
+      page: () => const AccountPage(),
     ),
     GetPage(
       name: AppRoutes.login,
-      page: () => LoginPage(),
+      page: () => const LoginPage(),
     ),
     GetPage(
       name: AppRoutes.petList,
-      page: () => PetListPage(),
+      page: () => const PetListPage(),
     ),
     GetPage(
       name: AppRoutes.petDetail,
-      page: () => PetDetailPage(),
+      page: () => const PetDetailPage(),
     ),
     GetPage(
       name: AppRoutes.addressManage,
-      page: () => AddRessManage(),
+      page: () => const AddRessManage(),
+    ),
+    GetPage(
+      name: AppRoutes.newAddress,
+      page: () => const newAddress(name: '',details: '',open: false,phone:'',cite: '',),
     ),
   ];
 }

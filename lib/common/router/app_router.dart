@@ -5,4 +5,9 @@ abstract class AppRoutes {
   static const petList = '/pet-list';
   static const petDetail = '/pet-detail';
   static const addressManage = '/address-list';
+  static const newAddress = '/new-address';
+  static const createPet = '/create-pet';
+  static const createPetNext = '/create-pet-next';
+  static const recommendRecipes = '/recommend-recipes';
+  static const checkout = '/checkout';
 }

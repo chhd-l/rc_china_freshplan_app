@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
+import 'package:card_swiper/card_swiper.dart';
+import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
 class IndexPage extends StatelessWidget {
   const IndexPage({Key? key}) : super(key: key);
@@ -42,9 +45,20 @@ class IndexPage extends StatelessWidget {
             ),
           ),
           Image.asset('assets/images/fresh-plan-1.png'),
+          // Expanded(
+          //     child: Swiper.children(
+          //         autoplay: true,
+          //         containerHeight: 100,
+          //         scrollDirection: Axis.horizontal,
+          //         children: [
+          //       Image.asset('assets/images/fresh-plan-1.png'),
+          //       Image.asset('assets/images/fresh-plan-2.png'),
+          //     ])),
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
-            child: titleButton('定制鲜粮', () {},
+            child: titleButton('定制鲜粮', () {
+              Get.toNamed(AppRoutes.createPet);
+            },
                 isCircle: true,
                 icon: Container(
                   padding: const EdgeInsets.only(right: 12),
@@ -193,7 +207,8 @@ Widget answerChild(String title, String content) {
                   padding: const EdgeInsets.only(left: 8),
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/images/rectangle.png'),fit:BoxFit.fill)),
+                          image: AssetImage('assets/images/rectangle.png'),
+                          fit: BoxFit.fill)),
                   child: Text(title,
                       style: textSyle700(
                           fontSize: 14, color: AppColors.secondText))),
