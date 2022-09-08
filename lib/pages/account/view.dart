@@ -175,26 +175,31 @@ class AccountPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             child: Row(
               children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  width: 58,
-                  height: 58,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(29),
-                    color: const Color.fromARGB(255, 249, 249, 249),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 219, 219, 219),
-                      width: 1,
-                      style: BorderStyle.solid,
+                GestureDetector(
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    width: 58,
+                    height: 58,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(29),
+                      color: const Color.fromARGB(255, 249, 249, 249),
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 219, 219, 219),
+                        width: 1,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      size: 30,
+                      color: Colors.black,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.add,
-                    size: 30,
-                    color: Colors.black,
-                  ),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.createPet);
+                  },
                 ),
-                Expanded(
+                GestureDetector(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -218,6 +223,9 @@ class AccountPage extends StatelessWidget {
                       ),
                     ],
                   ),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.createPet);
+                  },
                 ),
               ],
             ),
