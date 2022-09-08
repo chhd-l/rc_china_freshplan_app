@@ -130,10 +130,11 @@ Widget recipesItem(
         ]),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(assets),
-        Container(
-          width: 210,
+        Expanded(
+            child: Container(
           margin: const EdgeInsets.only(left: 8),
           padding: const EdgeInsets.only(top: 20),
           child: Column(
@@ -150,7 +151,7 @@ Widget recipesItem(
               ),
             ],
           ),
-        ),
+        )),
         isSelected
             ? Image.asset('assets/images/checkbox-selected.png')
             : Image.asset('assets/images/checkbox.png')
