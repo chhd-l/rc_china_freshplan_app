@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,7 +71,7 @@ class RecommendRecipesPage extends StatelessWidget {
                   ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: logic.recipesList.length,
+                      itemCount: logic.global.recipesList.length,
                       itemBuilder: (context, index) {
                         final item = logic.recipesList[index];
                         return GestureDetector(
@@ -99,6 +101,7 @@ class RecommendRecipesPage extends StatelessWidget {
                   color: Colors.white),
               padding: EdgeInsets.fromLTRB(24.w, 19.h, 24.w, 19.h),
               child: titleButton('立即购买', () {
+                logic.global.selectProduct.value=logic.selectedProduct;
                 Get.toNamed(AppRoutes.checkout);
               }),
             )

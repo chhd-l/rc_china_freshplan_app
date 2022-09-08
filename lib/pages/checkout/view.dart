@@ -18,17 +18,26 @@ class CheckoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(191, 191, 191, 0.1),
-        appBar: commonAppBar('确认订单'),
+        appBar: commonAppBar('确认订单',
+            bgColor: const Color.fromARGB(255, 195, 236, 123)),
         body: SafeArea(
           child: Column(children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                    right: 12.w, left: 12.w, top: 24.w, bottom: 16.h),
-                child: Column(children: [
-                  commonContainer(
-                      74.5,
-                      Row(
+                child: Container(
+                    padding: EdgeInsets.only(
+                        right: 12.w, left: 12.w, top: 24.w, bottom: 16.h),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromARGB(255, 195, 236, 123),
+                            Color.fromARGB(0, 195, 236, 123),
+                          ]),
+                    ),
+                    child: Column(children: [
+                      commonContainer(Row(
                         children: [
                           Image.asset('assets/images/address.png'),
                           const SizedBox(width: 8),
@@ -42,9 +51,7 @@ class CheckoutPage extends StatelessWidget {
                           Image.asset('assets/images/arrow-right.png'),
                         ],
                       )),
-                  commonContainer(
-                      200.5,
-                      Column(
+                      commonContainer(Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -53,32 +60,44 @@ class CheckoutPage extends StatelessWidget {
                                 fontSize: 16,
                                 color: const Color.fromRGBO(0, 0, 0, 1)),
                           ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset('assets/images/牛肉泥.png'),
-                              Column(
-                                children: [
-                                  Text('牛肉泥',
-                                      style: textSyle700(
-                                          fontSize: 14,
-                                          color: const Color.fromRGBO(
-                                              51, 51, 51, 1))),
-                                  Text('￥129.00',
-                                      style: textSyle700(
-                                          fontSize: 12,
-                                          color: const Color.fromRGBO(
-                                              153, 153, 153, 1))),
-                                ],
-                              ),
-                              const Spacer(),
-                              Text('X1',
-                                  style: textSyle700(
-                                      fontSize: 10,
-                                      color: const Color.fromRGBO(
-                                          157, 157, 157, 1))),
-                            ],
-                          ),
+                          ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: logic.orderProduct.length,
+                              itemBuilder: (context, index) {
+                                final item = logic.orderProduct[index];
+                                return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Image.asset(item['assets']),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 20),
+                                      child: Column(
+                                        children: [
+                                          Text(item['name'],
+                                              style: textSyle700(
+                                                  fontSize: 14,
+                                                  color: const Color.fromRGBO(
+                                                      51, 51, 51, 1))),
+                                          Text(logic.handlePrice(item['price']),
+                                              style: textSyle700(
+                                                  fontSize: 12,
+                                                  color: const Color.fromRGBO(
+                                                      153, 153, 153, 1))),
+                                        ],
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 20),
+                                        child: Text('X1',
+                                            style: textSyle700(
+                                                fontSize: 10,
+                                                color: const Color.fromRGBO(
+                                                    157, 157, 157, 1)))),
+                                  ],
+                                );
+                              }),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -89,11 +108,12 @@ class CheckoutPage extends StatelessWidget {
                                         fontSize: 14,
                                         color: const Color.fromRGBO(
                                             102, 102, 102, 1)),
-                                    children: const [
-                                      TextSpan(text: '商品小计：'),
+                                    children: [
+                                      const TextSpan(text: '商品小计：'),
                                       TextSpan(
-                                        text: '￥129.00',
-                                        style: TextStyle(
+                                        text: logic.handlePrice(
+                                            logic.productTotalPrice.value),
+                                        style: const TextStyle(
                                             color: Color.fromRGBO(0, 0, 0, 1)),
                                       ),
                                     ]),
@@ -102,9 +122,7 @@ class CheckoutPage extends StatelessWidget {
                           )
                         ],
                       )),
-                  commonContainer(
-                      220.5,
-                      Column(
+                      commonContainer(Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
@@ -115,7 +133,7 @@ class CheckoutPage extends StatelessWidget {
                                       fontSize: 14,
                                       color: const Color.fromRGBO(
                                           102, 102, 102, 1))),
-                              Text('¥129.00',
+                              Text('¥${logic.productTotalPrice.value}.00',
                                   style: textSyle700(
                                       fontSize: 14,
                                       color:
@@ -181,11 +199,12 @@ class CheckoutPage extends StatelessWidget {
                                         fontSize: 14,
                                         color:
                                             const Color.fromRGBO(0, 0, 0, 1)),
-                                    children: const [
-                                      TextSpan(text: '合计：'),
+                                    children: [
+                                      const TextSpan(text: '合计：'),
                                       TextSpan(
-                                        text: '￥129.00',
-                                        style: TextStyle(
+                                        text:
+                                            '￥${logic.productTotalPrice.value}.00',
+                                        style: const TextStyle(
                                             fontSize: 20,
                                             color: Color.fromRGBO(
                                                 212, 157, 40, 1)),
@@ -196,9 +215,7 @@ class CheckoutPage extends StatelessWidget {
                           )
                         ],
                       )),
-                  commonContainer(
-                      90.5,
-                      Column(
+                      commonContainer(Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
@@ -233,9 +250,7 @@ class CheckoutPage extends StatelessWidget {
                               ],
                             ),
                           ])),
-                  commonContainer(
-                      50,
-                      Row(
+                      commonContainer(Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('备注',
@@ -249,7 +264,7 @@ class CheckoutPage extends StatelessWidget {
                                   color: const Color.fromRGBO(51, 51, 51, 1))),
                         ],
                       )),
-                ]),
+                    ])),
               ),
             ),
             Container(
@@ -269,11 +284,11 @@ class CheckoutPage extends StatelessWidget {
                         style: textSyle700(
                             fontSize: 16,
                             color: const Color.fromRGBO(51, 51, 51, 1)),
-                        children: const [
-                          TextSpan(text: '应付：'),
+                        children: [
+                          const TextSpan(text: '应付：'),
                           TextSpan(
-                            text: '￥90.00',
-                            style: TextStyle(
+                            text: '￥${logic.productTotalPrice.value}.00',
+                            style: const TextStyle(
                                 fontSize: 16,
                                 color: Color.fromRGBO(212, 157, 40, 1)),
                           ),
@@ -290,9 +305,8 @@ class CheckoutPage extends StatelessWidget {
   }
 }
 
-Widget commonContainer(double height, Widget child) {
+Widget commonContainer(Widget child) {
   return Container(
-    height: height,
     padding: const EdgeInsets.all(16),
     margin: const EdgeInsets.only(bottom: 15),
     decoration: const BoxDecoration(

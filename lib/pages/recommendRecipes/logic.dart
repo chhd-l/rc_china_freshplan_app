@@ -6,6 +6,8 @@ class RecommendRecipesLogic extends GetxController {
 
   String petName=Get.put(GlobalConfigService()).petName.value;
 
+  final global=Get.put(GlobalConfigService());
+
   final List recipesList = [
     {
       'name': '牛肉泥',
