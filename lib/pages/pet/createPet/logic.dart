@@ -14,11 +14,11 @@ class CreatePetLogic extends GetxController {
   TextEditingController targetWeightController = TextEditingController();
 
   final List healthList = [
-    {'name': '对食物很挑剔','value': '对食物很挑剔'},
-    {'name': '食物过敏或胃敏感','value': '食物过敏或胃敏感'},
-    {'name': '无光泽或片状被毛','value': '无光泽或片状被毛'},
-    {'name': '关节炎或关节痛','value': '关节炎或关节痛'},
-    {'name': '以上都没有','value': '以上都没有'},
+    {'name': '对食物很挑剔', 'value': '对食物很挑剔'},
+    {'name': '食物过敏或胃敏感', 'value': '食物过敏或胃敏感'},
+    {'name': '无光泽或片状被毛', 'value': '无光泽或片状被毛'},
+    {'name': '关节炎或关节痛', 'value': '关节炎或关节痛'},
+    {'name': '以上都没有', 'value': '以上都没有'},
   ];
 
   @override
@@ -36,6 +36,13 @@ class CreatePetLogic extends GetxController {
     targetWeightController.addListener(() {
       state.targetWeight.value = double.parse(targetWeightController.text);
     });
+  }
+
+  isCanNext() {
+    return state.name.value != '' &&
+        state.type.value != '' &&
+        state.breedName.value != '' &&
+        state.birthday.value != '';
   }
 
   tapHeadIcon() async {

@@ -167,9 +167,14 @@ class CreatePetPage extends StatelessWidget {
                   ),
                   color: Colors.white),
               padding: EdgeInsets.fromLTRB(24.w, 19.h, 24.w, 19.h),
-              child: titleButton('下一步', () {
-                Get.toNamed(AppRoutes.createPetNext);
-              }),
+              child: Obx(() => titleButton('下一步', () {
+                    if (logic.isCanNext()) {
+                      Get.toNamed(AppRoutes.createPetNext);
+                    }
+                  },
+                      bgColor: !logic.isCanNext()
+                          ? const Color.fromRGBO(194, 229, 134, 1)
+                          : AppColors.tint)),
             )
           ]),
         ));
