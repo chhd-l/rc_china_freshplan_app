@@ -159,12 +159,13 @@ TextStyle textSyle400(
 }
 
 PreferredSizeWidget commonAppBar(String appBarTitle,
-    {bool needBack = true, List<Widget>? actions}) {
+    {bool needBack = true, List<Widget>? actions,Color bgColor=Colors.white }) {
   return PreferredSize(
+      preferredSize: const Size.fromHeight(70.0),
       child: Padding(
         padding: const EdgeInsets.only(top: 10.0),
         child: AppBar(
-          backgroundColor: AppColors.primaryBackground,
+          backgroundColor: bgColor,
           title: Row(
             children: <Widget>[
               Text(appBarTitle, style: textSyle900(fontSize: 24.sp)),
@@ -172,7 +173,7 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
           ),
           leading: needBack
               ? IconButton(
-                  icon: Image.asset('assets/images/back_arrow.png'),
+                  icon: Image.asset('assets/images/arrow-left.png'),
                   onPressed: () {
                     Get.back();
                   })
@@ -181,6 +182,5 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
           elevation: 1.0,
           actions: actions,
         ),
-      ),
-      preferredSize: Size.fromHeight(70.0));
+      ));
 }

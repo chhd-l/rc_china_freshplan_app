@@ -44,6 +44,9 @@ dependencies:
   #loading
   flutter_easyloading: ^3.0.3
 
+  #卡片切换
+  card_swiper: ^2.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

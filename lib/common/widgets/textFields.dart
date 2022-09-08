@@ -33,8 +33,8 @@ Widget textFiled(
     ),
     borderSide: BorderSide(
       color: showErrorBorder
-          ? Color.fromARGB(255, 249, 91, 1)
-          : Color.fromARGB(255, 255, 87, 53),
+          ? const Color.fromARGB(255, 249, 91, 1)
+          : const Color.fromRGBO(246, 246, 246, 1),
       width: borderWidth,
     ),
   );
@@ -75,7 +75,7 @@ Widget textFiled(
         ),
         errorBorder: border,
         focusedErrorBorder: border,
-        fillColor: Colors.white,
+        fillColor: const Color.fromRGBO(246, 246, 246, 1),
         filled: true,
         hintStyle: hintStyle ?? TextStyle(fontSize: 16.sp),
       ),

@@ -8,6 +8,10 @@ import 'package:rc_china_freshplan_app/pages/account/view.dart';
 import 'package:rc_china_freshplan_app/pages/login/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_list/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_detail/view.dart';
+import 'package:rc_china_freshplan_app/pages/pet/createPet/view.dart';
+import 'package:rc_china_freshplan_app/pages/pet/createPet/create-pet_next_view.dart';
+import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
+import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 
 class AppPages {
   static const initial = AppRoutes.newAddress;
@@ -16,6 +20,22 @@ class AppPages {
     GetPage(
       name: AppRoutes.index,
       page: () => const IndexPage(),
+    ),
+    GetPage(
+      name: AppRoutes.createPet,
+      page: () => const CreatePetPage(),
+    ),
+    GetPage(
+      name: AppRoutes.createPetNext,
+      page: () => CreatePetNextPage(),
+    ),
+    GetPage(
+      name: AppRoutes.recommendRecipes,
+      page: () => RecommendRecipesPage(),
+    ),
+    GetPage(
+      name: AppRoutes.checkout,
+      page: () => CheckoutPage(),
     ),
     GetPage(
       name: AppRoutes.account,
