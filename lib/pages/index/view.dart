@@ -184,7 +184,7 @@ class IndexPage extends StatelessWidget {
             label: '我的',
           ),
         ],
-        unselectedItemColor: const Color.fromARGB(255, 153, 153, 153),
+        unselectedItemColor: AppColors.text999,
         selectedItemColor: const Color.fromARGB(255, 150, 204, 57),
         currentIndex: 0,
         onTap: (idx) {

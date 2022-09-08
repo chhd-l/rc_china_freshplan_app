@@ -116,15 +116,8 @@ class CreatePetNextPage extends StatelessWidget {
                 ]),
               ),
             ),
-            Container(
-              decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                        color: AppColors.tabCellSeparator, width: 1.0),
-                  ),
-                  color: Colors.white),
-              padding: EdgeInsets.fromLTRB(24.w, 19.h, 24.w, 19.h),
-              child: Row(
+            fixBottomContainer(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   titleButton('上一步', () {},
@@ -143,36 +136,3 @@ class CreatePetNextPage extends StatelessWidget {
   }
 }
 
-Widget statusBox(
-    bool isSelected, String status, String title, VoidCallback onPressed) {
-  return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        height: 112,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: isSelected
-                ? const Color.fromRGBO(224, 241, 196, 1)
-                : const Color.fromRGBO(246, 246, 246, 1),
-            borderRadius: status == 'thin'
-                ? const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    bottomLeft: Radius.circular(15))
-                : status == 'overweight'
-                    ? const BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15))
-                    : const BorderRadius.all(Radius.circular(0))),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Image.asset('assets/images/$status.png'),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              style: textSyle400(fontSize: 14),
-            )
-          ],
-        ),
-      ));
-}

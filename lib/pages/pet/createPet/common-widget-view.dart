@@ -113,3 +113,79 @@ Widget genderBox(bool isSelected, String gender, VoidCallback onPressed) {
                 color: isSelected ? Colors.white : AppColors.primaryText)),
       ));
 }
+
+Widget verticalOptions(List titles, Function callBack) {
+  final List<Widget> widgets = titles
+      .asMap()
+      .entries
+      .map((e) => Container(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: titleButton(e.value, () {
+              callBack(e.value, e.key);
+            }),
+          ))
+      .toList();
+
+  return _bottomOption(
+      Column(children: widgets), const EdgeInsets.fromLTRB(24, 22, 24, 0));
+}
+
+Widget _bottomOption(Widget widget, EdgeInsets padding) {
+  return Container(
+    decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(color: AppColors.tabCellSeparator, width: 1.0),
+        ),
+        color: Colors.white),
+    padding: padding,
+    child: SafeArea(
+      child: widget,
+    ),
+  );
+}
+
+Widget fixBottomContainer(Widget child) {
+  return Container(
+    decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(color: AppColors.tabCellSeparator, width: 1.0),
+        ),
+        color: Colors.white),
+    padding: const EdgeInsets.fromLTRB(24, 19, 24, 19),
+    child: child,
+  );
+}
+
+Widget statusBox(
+    bool isSelected, String status, String title, VoidCallback onPressed) {
+  return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 112,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: isSelected
+                ? const Color.fromRGBO(224, 241, 196, 1)
+                : const Color.fromRGBO(246, 246, 246, 1),
+            borderRadius: status == 'thin'
+                ? const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(15))
+                : status == 'overweight'
+                    ? const BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        bottomRight: Radius.circular(15))
+                    : const BorderRadius.all(Radius.circular(0))),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Image.asset('assets/images/$status.png'),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: textSyle400(fontSize: 14),
+            )
+          ],
+        ),
+      ));
+}

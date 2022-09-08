@@ -27,13 +27,10 @@ class CreatePetPage extends StatelessWidget {
           builder: (BuildContext context) => Container(
                 height: 216,
                 padding: const EdgeInsets.only(top: 6.0),
-                // The Bottom margin is provided to align the popup above the system navigation bar.
                 margin: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
-                // Provide a background color for the popup.
                 color: CupertinoColors.systemBackground.resolveFrom(context),
-                // Use a SafeArea widget to avoid system overlaps.
                 child: SafeArea(
                   top: false,
                   child: child,
@@ -63,7 +60,9 @@ class CreatePetPage extends StatelessWidget {
                           image: DecorationImage(
                               image: AssetImage(
                                   'assets/images/select-pet-avatar.png'))),
-                      child: Image.asset('assets/images/pet-gray.png'),
+                      child: Obx(() => Image.asset(state.avatar.value != ''
+                          ? state.avatar.value
+                          : 'assets/images/pet-gray.png')),
                     ),
                   ),
                   const SizedBox(height: 50),
@@ -119,7 +118,6 @@ class CreatePetPage extends StatelessWidget {
                               squeeze: 1.2,
                               useMagnifier: true,
                               itemExtent: 32.0,
-                              // This is called when selected item is changed.
                               onSelectedItemChanged: (int selectedItem) {
                                 state.breedName.value = '拉布拉多犬';
                               },
@@ -159,15 +157,8 @@ class CreatePetPage extends StatelessWidget {
                 ]),
               ),
             ),
-            Container(
-              decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                        color: AppColors.tabCellSeparator, width: 1.0),
-                  ),
-                  color: Colors.white),
-              padding: EdgeInsets.fromLTRB(24.w, 19.h, 24.w, 19.h),
-              child: Obx(() => titleButton('下一步', () {
+            fixBottomContainer(
+              Obx(() => titleButton('下一步', () {
                     if (logic.isCanNext()) {
                       Get.toNamed(AppRoutes.createPetNext);
                     }
@@ -179,34 +170,4 @@ class CreatePetPage extends StatelessWidget {
           ]),
         ));
   }
-}
-
-Widget verticalOptions(List titles, Function callBack) {
-  final List<Widget> widgets = titles
-      .asMap()
-      .entries
-      .map((e) => Container(
-            padding: EdgeInsets.only(bottom: 10.h),
-            child: titleButton(e.value, () {
-              callBack(e.value, e.key);
-            }),
-          ))
-      .toList();
-
-  return _bottomOption(
-      Column(children: widgets), EdgeInsets.fromLTRB(24.w, 22.h, 24.w, 0));
-}
-
-Widget _bottomOption(Widget widget, EdgeInsets padding) {
-  return Container(
-    decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: AppColors.tabCellSeparator, width: 1.0),
-        ),
-        color: Colors.white),
-    padding: padding,
-    child: SafeArea(
-      child: widget,
-    ),
-  );
 }

@@ -36,10 +36,11 @@ class RecommendRecipesPage extends StatelessWidget {
                         style: textSyle700(
                             fontSize: 16,
                             color: const Color.fromRGBO(51, 51, 51, 1)),
-                        children:  [
+                        children: [
                           const TextSpan(text: '专家根据您的宠物信息推荐牛肉泥套餐'),
                           TextSpan(
-                            text: logic.global.recipesList[logic.initIndex]['name'],
+                            text: logic.global.recipesList[logic.initIndex]
+                                ['name'],
                             style: const TextStyle(
                                 fontSize: 16,
                                 color: Color.fromRGBO(150, 204, 57, 1)),
@@ -98,7 +99,7 @@ class RecommendRecipesPage extends StatelessWidget {
                   color: Colors.white),
               padding: EdgeInsets.fromLTRB(24.w, 19.h, 24.w, 19.h),
               child: titleButton('立即购买', () {
-                logic.global.selectProduct.value=logic.selectedProduct;
+                logic.global.selectProduct.value = logic.selectedProduct;
                 Get.toNamed(AppRoutes.checkout);
               }),
             )
@@ -145,9 +146,7 @@ Widget recipesItem(
               ),
               Text(
                 description,
-                style: textSyle700(
-                    fontSize: 13,
-                    color: const Color.fromRGBO(153, 153, 153, 1)),
+                style: textSyle700(fontSize: 13, color: AppColors.text999),
               ),
             ],
           ),

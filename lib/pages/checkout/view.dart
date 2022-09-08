@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/pages/pet/createPet/common-widget-view.dart';
 
 import 'logic.dart';
 import 'state.dart';
@@ -18,26 +19,24 @@ class CheckoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(191, 191, 191, 0.1),
-        appBar: commonAppBar('确认订单',
-            bgColor: const Color.fromARGB(255, 195, 236, 123)),
+        appBar: commonAppBar('确认订单', bgColor: AppColors.bgLinearGradient1),
         body: SafeArea(
           child: Column(children: [
             Expanded(
               child: SingleChildScrollView(
                 child: Container(
-                    padding: EdgeInsets.only(
-                        right: 12.w, left: 12.w, top: 24.w, bottom: 16.h),
+                    padding: const EdgeInsets.all(12),
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Color.fromARGB(255, 195, 236, 123),
-                            Color.fromARGB(0, 195, 236, 123),
+                            AppColors.bgLinearGradient1,
+                            AppColors.bgLinearGradient2
                           ]),
                     ),
                     child: Column(children: [
+                      const SizedBox(height: 12),
                       commonContainer(Row(
                         children: [
                           Image.asset('assets/images/address.png'),
@@ -45,8 +44,7 @@ class CheckoutPage extends StatelessWidget {
                           Text(
                             '添加收货地址',
                             style: textSyle700(
-                                fontSize: 17,
-                                color: const Color.fromRGBO(51, 51, 51, 1)),
+                                fontSize: 17, color: AppColors.text333),
                           ),
                           const Spacer(),
                           Image.asset('assets/images/arrow-right.png'),
@@ -55,43 +53,33 @@ class CheckoutPage extends StatelessWidget {
                       commonContainer(Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '订单商品',
-                            style: textSyle700(
-                                fontSize: 16,
-                                color: const Color.fromRGBO(0, 0, 0, 1)),
-                          ),
+                          Text('订单商品', style: textSyle700(fontSize: 16)),
                           Obx(
                             () => ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: state.orderProduct.length,
                                 itemBuilder: (context, index) {
+                                  final item = state.orderProduct[index];
                                   return Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Image.asset(
-                                          state.orderProduct[index]['assets']),
+                                      Image.asset(item['assets']),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 20),
                                         child: Column(
                                           children: [
-                                            Text(
-                                                state.orderProduct[index]
-                                                    ['name'],
+                                            Text(item['name'],
                                                 style: textSyle700(
                                                     fontSize: 14,
-                                                    color: const Color.fromRGBO(
-                                                        51, 51, 51, 1))),
+                                                    color: AppColors.text333)),
                                             Text(
-                                                logic.handlePrice(
-                                                    state.orderProduct[index]
-                                                        ['price']),
+                                                logic
+                                                    .handlePrice(item['price']),
                                                 style: textSyle700(
                                                     fontSize: 12,
-                                                    color: const Color.fromRGBO(
-                                                        153, 153, 153, 1))),
+                                                    color: AppColors.text999)),
                                           ],
                                         ),
                                       ),
@@ -102,8 +90,7 @@ class CheckoutPage extends StatelessWidget {
                                           child: Text('X1',
                                               style: textSyle700(
                                                   fontSize: 10,
-                                                  color: const Color.fromRGBO(
-                                                      157, 157, 157, 1)))),
+                                                  color: AppColors.text999))),
                                     ],
                                   );
                                 }),
@@ -116,16 +103,14 @@ class CheckoutPage extends StatelessWidget {
                                     text: TextSpan(
                                         style: textSyle700(
                                             fontSize: 14,
-                                            color: const Color.fromRGBO(
-                                                102, 102, 102, 1)),
+                                            color: AppColors.text666),
                                         children: [
                                           const TextSpan(text: '商品小计：'),
                                           TextSpan(
                                             text: logic.handlePrice(
                                                 state.productTotalPrice.value),
                                             style: const TextStyle(
-                                                color:
-                                                    Color.fromRGBO(0, 0, 0, 1)),
+                                                color: AppColors.primaryText),
                                           ),
                                         ]),
                                   )),
@@ -136,78 +121,26 @@ class CheckoutPage extends StatelessWidget {
                       commonContainer(Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('商品金额',
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color: const Color.fromRGBO(
-                                          102, 102, 102, 1))),
-                              Obx(() => Text(
-                                  logic.handlePrice(
-                                      state.productTotalPrice.value),
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color: const Color.fromRGBO(
-                                          51, 51, 51, 1)))),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('促销折扣',
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color: const Color.fromRGBO(
-                                          102, 102, 102, 1))),
-                              Text('-¥20.00',
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color:
-                                          const Color.fromRGBO(51, 51, 51, 1))),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('新人折扣',
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color: const Color.fromRGBO(
-                                          102, 102, 102, 1))),
-                              Text('-¥20.00',
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color:
-                                          const Color.fromRGBO(51, 51, 51, 1))),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('运费',
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color: const Color.fromRGBO(
-                                          102, 102, 102, 1))),
-                              Text('¥0.00',
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color:
-                                          const Color.fromRGBO(51, 51, 51, 1))),
-                            ],
-                          ),
+                          Obx(() => priceRow(
+                              '商品金额',
+                              logic
+                                  .handlePrice(state.productTotalPrice.value))),
+                          priceRow(
+                              '促销折扣',
+                              logic.handlePrice(state.discountPrice,
+                                  isDiscount: true)),
+                          priceRow(
+                              '新人折扣',
+                              logic.handlePrice(state.newDiscountPrice,
+                                  isDiscount: true)),
+                          priceRow(
+                              '运费',
+                              logic.handlePrice(state.deliveryPrice,
+                                  isDiscount: true)),
                           Row(
                             children: [
                               const Spacer(),
-                              Text('合计：',
-                                  style: textSyle700(
-                                      fontSize: 14,
-                                      color: const Color.fromRGBO(0, 0, 0, 1))),
+                              Text('合计：', style: textSyle700(fontSize: 14)),
                               Obx(() => Text(
                                     logic
                                         .handlePrice(state.payTotalPrice.value),
@@ -222,72 +155,33 @@ class CheckoutPage extends StatelessWidget {
                       commonContainer(Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('首次发货',
-                                    style: textSyle700(
-                                        fontSize: 14,
-                                        color: const Color.fromRGBO(
-                                            102, 102, 102, 1))),
-                                Text(
-                                    DateFormat("yyyy-MM-dd")
-                                        .format(DateTime.now())
-                                        .toString(),
-                                    style: textSyle700(
-                                        fontSize: 14,
-                                        color: const Color.fromRGBO(
-                                            51, 51, 51, 1))),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('发货周期',
-                                    style: textSyle700(
-                                        fontSize: 14,
-                                        color: const Color.fromRGBO(
-                                            102, 102, 102, 1))),
-                                Text('四周',
-                                    style: textSyle700(
-                                        fontSize: 14,
-                                        color: const Color.fromRGBO(
-                                            51, 51, 51, 1))),
-                              ],
-                            ),
+                            priceRow(
+                                '首次发货',
+                                DateFormat("yyyy-MM-dd")
+                                    .format(DateTime.now())
+                                    .toString()),
+                            priceRow('发货周期', '四周'),
                           ])),
                       commonContainer(Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('备注',
                               style: textSyle700(
-                                  fontSize: 14,
-                                  color:
-                                      const Color.fromRGBO(102, 102, 102, 1))),
+                                  fontSize: 14, color: AppColors.text666)),
                           Text('留言建议提前协商 (250字内)',
                               style: textSyle700(
-                                  fontSize: 14,
-                                  color: const Color.fromRGBO(51, 51, 51, 1))),
+                                  fontSize: 14, color: AppColors.text333)),
                         ],
                       )),
                     ])),
               ),
             ),
-            Container(
-              decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                        color: AppColors.tabCellSeparator, width: 1.0),
-                  ),
-                  color: Colors.white),
-              padding: EdgeInsets.fromLTRB(24.w, 19.h, 24.w, 19.h),
-              child: Row(
+            fixBottomContainer(
+              Row(
                 children: [
                   Text('应付：',
-                      style: textSyle700(
-                          fontSize: 16,
-                          color: const Color.fromRGBO(51, 51, 51, 1))),
+                      style:
+                          textSyle700(fontSize: 16, color: AppColors.text333)),
                   Obx(() => Text(
                         logic.handlePrice(state.payTotalPrice.value),
                         style: const TextStyle(
@@ -323,4 +217,18 @@ Widget commonContainer(Widget child) {
         ]),
     child: child,
   );
+}
+
+Widget priceRow(String left, String right) {
+  return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(left,
+              style: textSyle700(fontSize: 14, color: AppColors.text666)),
+          Text(right,
+              style: textSyle700(fontSize: 14, color: AppColors.text333)),
+        ],
+      ));
 }

@@ -172,7 +172,7 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.only(left: 10.0),
+                margin: const EdgeInsets.only(right: 20.0),
                 child: Text(appBarTitle,
                     style: textSyle400(
                         fontSize: 18.sp,
