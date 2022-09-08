@@ -5,6 +5,7 @@ import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/global.dart';
 import 'package:rc_china_freshplan_app/pages/pet/createPet/common-widget-view.dart';
 
 import 'logic.dart';
@@ -27,7 +28,7 @@ class RecommendRecipesPage extends StatelessWidget {
                     right: 16.w, left: 16.w, top: 40.w, bottom: 16.h),
                 child: Column(children: [
                   Text(
-                    '球球的专属健康食谱',
+                    '${logic.petName}的专属健康食谱',
                     style: textSyle900(fontSize: 23),
                   ),
                   RichText(
@@ -70,10 +71,21 @@ class RecommendRecipesPage extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: logic.recipesList.length,
                       itemBuilder: (context, index) {
-                        return recipesItem(
-                            logic.recipesList[index]['assets'],
-                            logic.recipesList[index]['name'],
-                            logic.recipesList[index]['description']);
+                        final item = logic.recipesList[index];
+                        return GestureDetector(
+                          onTap: () {
+                            if (logic.selectedProduct.contains(item['value'])) {
+                              logic.selectedProduct.remove(item['value']);
+                            } else if (logic.selectedProduct.length < 2) {
+                              logic.selectedProduct.insert(0, item['value']);
+                            }
+                          },
+                          child: Obx(() => recipesItem(
+                              logic.selectedProduct.contains(item['value']),
+                              item['assets'],
+                              item['name'],
+                              item['description'])),
+                        );
                       })
                 ]),
               ),
@@ -95,41 +107,54 @@ class RecommendRecipesPage extends StatelessWidget {
   }
 }
 
-Widget recipesItem(String assets, String title, String description) {
+Widget recipesItem(
+    bool isSelected, String assets, String title, String description) {
   return Container(
     margin: const EdgeInsets.only(bottom: 24),
-    decoration: const BoxDecoration(
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-        boxShadow: [
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        border: Border.all(
+            color: isSelected
+                ? const Color.fromRGBO(150, 204, 57, 1)
+                : Colors.white),
+        boxShadow: const [
           BoxShadow(
               offset: Offset(0, 0),
-              color: Color.fromRGBO(85, 134, 1, 0.1),
+              color: Color.fromRGBO(85, 134, 1, 0.2),
               blurRadius: 4.0,
               blurStyle: BlurStyle.solid,
               spreadRadius: 0.0)
         ]),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(assets),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style:
-                  textSyle700(fontSize: 18, color: Color.fromRGBO(7, 7, 7, 1)),
-            ),
-            Text(
-              description,
-              style: textSyle700(
-                  fontSize: 13, color: Color.fromRGBO(153, 153, 153, 1)),
-            ),
-          ],
+        Container(
+          width: 210,
+          margin: const EdgeInsets.only(left: 8),
+          padding: const EdgeInsets.only(top: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: textSyle700(
+                    fontSize: 18, color: const Color.fromRGBO(7, 7, 7, 1)),
+              ),
+              Text(
+                description,
+                style: textSyle700(
+                    fontSize: 13,
+                    color: const Color.fromRGBO(153, 153, 153, 1)),
+              ),
+            ],
+          ),
         ),
-        Image.asset('assets/images/checkbox.png')
+        isSelected
+            ? Image.asset('assets/images/checkbox-selected.png')
+            : Image.asset('assets/images/checkbox.png')
       ],
     ),
   );

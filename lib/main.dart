@@ -6,9 +6,15 @@ import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'common/router/app_pages.dart';
+import 'global.dart';
 
-void main() {
+Future<void> main() async {
+  await initServices();
   runApp(const MyApp());
+}
+
+Future<void> initServices() async {
+  await Get.putAsync(() => GlobalConfigService().init());
 }
 
 class MyApp extends StatelessWidget {
