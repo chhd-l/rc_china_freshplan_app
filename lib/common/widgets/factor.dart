@@ -159,7 +159,9 @@ TextStyle textSyle400(
 }
 
 PreferredSizeWidget commonAppBar(String appBarTitle,
-    {bool needBack = true, List<Widget>? actions,Color bgColor=Colors.white }) {
+    {bool needBack = true,
+    List<Widget>? actions,
+    Color bgColor = Colors.white}) {
   return PreferredSize(
       preferredSize: const Size.fromHeight(70.0),
       child: Padding(
@@ -167,8 +169,12 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
         child: AppBar(
           backgroundColor: bgColor,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(appBarTitle, style: textSyle900(fontSize: 24.sp)),
+              Text(appBarTitle,
+                  style: textSyle400(
+                      fontSize: 18.sp,
+                      color: const Color.fromRGBO(51, 51, 51, 1))),
             ],
           ),
           leading: needBack

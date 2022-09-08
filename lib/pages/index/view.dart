@@ -57,7 +57,7 @@ class IndexPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
             child: titleButton('定制鲜粮', () {
-              Get.offAllNamed(AppRoutes.createPet);
+              Get.toNamed(AppRoutes.createPet);
             },
                 isCircle: true,
                 icon: Container(

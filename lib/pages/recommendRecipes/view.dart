@@ -87,7 +87,7 @@ class RecommendRecipesPage extends StatelessWidget {
                   color: Colors.white),
               padding: EdgeInsets.fromLTRB(24.w, 19.h, 24.w, 19.h),
               child: titleButton('立即购买', () {
-                Get.offAllNamed(AppRoutes.checkout);
+                Get.toNamed(AppRoutes.checkout);
               }),
             )
           ]),
