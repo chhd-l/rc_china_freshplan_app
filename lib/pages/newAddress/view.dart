@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 
@@ -5,7 +7,13 @@ import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 class newAddress extends StatelessWidget {
   static const String _title = 'Radio Button Example';
 
-  const newAddress({super.key});
+  const newAddress({super.key, required this.name, required this.phone, required this.details, required this.cite, required this.open});
+
+  final String name;
+  final String phone;
+  final String details;
+  final String cite;
+  final bool open;
 
 
   @override
@@ -22,7 +30,9 @@ class newAddress extends StatelessWidget {
             ),
             child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
-            child: titleButton('保存', () {},
+            child: titleButton('保存', () {
+              Navigator.of(context).pop();
+            },
                 isCircle: true,
                 fontSize: 18,
                 height: 38
@@ -117,10 +127,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
               Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(children: const [
-                Expanded(
-                    child: Text('详细地址', maxLines: 1,)
-                  ),
+              child: Row(
+                children: const [
+                Expanded(child: Text('详细地址')),
                 Expanded(flex: 3,child: TextField(
                   decoration: InputDecoration(
                     hintText: '请输入详细地址',
