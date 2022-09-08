@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/data/consumer.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Consumer? consumer = StorageUtil().getJSON("loginUser") != null
+        ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
+        : null;
+
     Widget loginSection = Container(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
       child: Row(children: [
@@ -20,18 +26,26 @@ class AccountPage extends StatelessWidget {
         ),
         Container(
           margin: const EdgeInsets.only(left: 10),
-          child: GestureDetector(
-            child: const Text(
-              '点击登录',
-              style: TextStyle(
-                fontSize: 22,
-                color: Color.fromARGB(255, 51, 51, 51),
-              ),
-            ),
-            onTap: () {
-              Get.toNamed(AppRoutes.login);
-            },
-          ),
+          child: consumer == null
+              ? GestureDetector(
+                  child: const Text(
+                    '点击登录',
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Color.fromARGB(255, 51, 51, 51),
+                    ),
+                  ),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.login);
+                  },
+                )
+              : Text(
+                  consumer.name ?? '',
+                  style: const TextStyle(
+                    fontSize: 22,
+                    color: Color.fromARGB(255, 51, 51, 51),
+                  ),
+                ),
         ),
       ]),
     );
@@ -283,7 +297,8 @@ class AccountPage extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
-      body: Container(
+      body: SingleChildScrollView(
+          child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -300,7 +315,7 @@ class AccountPage extends StatelessWidget {
           petSection,
           addressSection,
         ]),
-      ),
+      )),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
