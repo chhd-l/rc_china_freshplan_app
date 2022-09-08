@@ -20,12 +20,17 @@ class AccountPage extends StatelessWidget {
         ),
         Container(
           margin: const EdgeInsets.only(left: 10),
-          child: const Text(
-            '点击登录',
-            style: TextStyle(
-              fontSize: 22,
-              color: Color.fromARGB(255, 51, 51, 51),
+          child: GestureDetector(
+            child: const Text(
+              '点击登录',
+              style: TextStyle(
+                fontSize: 22,
+                color: Color.fromARGB(255, 51, 51, 51),
+              ),
             ),
+            onTap: () {
+              Get.toNamed(AppRoutes.login);
+            },
           ),
         ),
       ]),

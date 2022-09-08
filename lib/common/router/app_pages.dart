@@ -9,7 +9,7 @@ import 'package:rc_china_freshplan_app/pages/pet_list/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_detail/view.dart';
 
 class AppPages {
-  static const initial = AppRoutes.index;
+  static const initial = AppRoutes.account;
 
   static final routes = [
     GetPage(
