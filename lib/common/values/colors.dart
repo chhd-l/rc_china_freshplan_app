@@ -15,4 +15,7 @@ class AppColors {
 
   /// 主文本颜色
   static const Color threeText = Color.fromRGBO(109, 109, 109, 1);
+
+  /// tabCellSeparator 单元格底部分隔条 颜色
+  static const Color tabCellSeparator = Color.fromARGB(255, 230, 230, 231);
 }
