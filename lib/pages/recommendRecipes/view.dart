@@ -5,10 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/global.dart';
-import 'package:rc_china_freshplan_app/pages/pet/createPet/common-widget-view.dart';
 
 import 'logic.dart';
 
@@ -39,15 +36,15 @@ class RecommendRecipesPage extends StatelessWidget {
                         style: textSyle700(
                             fontSize: 16,
                             color: const Color.fromRGBO(51, 51, 51, 1)),
-                        children: const [
-                          TextSpan(text: '专家根据您的宠物信息推荐牛肉泥套餐'),
+                        children:  [
+                          const TextSpan(text: '专家根据您的宠物信息推荐牛肉泥套餐'),
                           TextSpan(
-                            text: '牛肉泥',
-                            style: TextStyle(
+                            text: logic.global.recipesList[logic.initIndex]['name'],
+                            style: const TextStyle(
                                 fontSize: 16,
                                 color: Color.fromRGBO(150, 204, 57, 1)),
                           ),
-                          TextSpan(text: '套餐'),
+                          const TextSpan(text: '套餐'),
                         ]),
                   ),
                   RichText(
@@ -73,7 +70,7 @@ class RecommendRecipesPage extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: logic.global.recipesList.length,
                       itemBuilder: (context, index) {
-                        final item = logic.recipesList[index];
+                        final item = logic.global.recipesList[index];
                         return GestureDetector(
                           onTap: () {
                             if (logic.selectedProduct.contains(item['value'])) {

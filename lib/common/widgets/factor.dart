@@ -171,10 +171,13 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(appBarTitle,
-                  style: textSyle400(
-                      fontSize: 18.sp,
-                      color: const Color.fromRGBO(51, 51, 51, 1))),
+              Container(
+                margin: const EdgeInsets.only(left: 10.0),
+                child: Text(appBarTitle,
+                    style: textSyle400(
+                        fontSize: 18.sp,
+                        color: const Color.fromRGBO(51, 51, 51, 1))),
+              ),
             ],
           ),
           leading: needBack

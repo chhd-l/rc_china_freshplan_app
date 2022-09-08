@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/pages/pet/createPet/common-widget-view.dart';
 
 import 'logic.dart';
+import 'state.dart';
 
 class CheckoutPage extends StatelessWidget {
   CheckoutPage({super.key});
 
   final CheckoutLogic logic = Get.put(CheckoutLogic());
+  final CheckoutState state = Get.find<CheckoutLogic>().state;
 
   @override
   Widget build(BuildContext context) {
@@ -60,64 +61,74 @@ class CheckoutPage extends StatelessWidget {
                                 fontSize: 16,
                                 color: const Color.fromRGBO(0, 0, 0, 1)),
                           ),
-                          ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: logic.orderProduct.length,
-                              itemBuilder: (context, index) {
-                                final item = logic.orderProduct[index];
-                                return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(item['assets']),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(item['name'],
-                                              style: textSyle700(
-                                                  fontSize: 14,
-                                                  color: const Color.fromRGBO(
-                                                      51, 51, 51, 1))),
-                                          Text(logic.handlePrice(item['price']),
-                                              style: textSyle700(
-                                                  fontSize: 12,
-                                                  color: const Color.fromRGBO(
-                                                      153, 153, 153, 1))),
-                                        ],
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    Padding(
+                          Obx(
+                            () => ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: state.orderProduct.length,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.asset(
+                                          state.orderProduct[index]['assets']),
+                                      Padding(
                                         padding: const EdgeInsets.only(top: 20),
-                                        child: Text('X1',
-                                            style: textSyle700(
-                                                fontSize: 10,
-                                                color: const Color.fromRGBO(
-                                                    157, 157, 157, 1)))),
-                                  ],
-                                );
-                              }),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                                state.orderProduct[index]
+                                                    ['name'],
+                                                style: textSyle700(
+                                                    fontSize: 14,
+                                                    color: const Color.fromRGBO(
+                                                        51, 51, 51, 1))),
+                                            Text(
+                                                logic.handlePrice(
+                                                    state.orderProduct[index]
+                                                        ['price']),
+                                                style: textSyle700(
+                                                    fontSize: 12,
+                                                    color: const Color.fromRGBO(
+                                                        153, 153, 153, 1))),
+                                          ],
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
+                                          child: Text('X1',
+                                              style: textSyle700(
+                                                  fontSize: 10,
+                                                  color: const Color.fromRGBO(
+                                                      157, 157, 157, 1)))),
+                                    ],
+                                  );
+                                }),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              RichText(
-                                textAlign: TextAlign.end,
-                                text: TextSpan(
-                                    style: textSyle700(
-                                        fontSize: 14,
-                                        color: const Color.fromRGBO(
-                                            102, 102, 102, 1)),
-                                    children: [
-                                      const TextSpan(text: '商品小计：'),
-                                      TextSpan(
-                                        text: logic.handlePrice(
-                                            logic.productTotalPrice.value),
-                                        style: const TextStyle(
-                                            color: Color.fromRGBO(0, 0, 0, 1)),
-                                      ),
-                                    ]),
-                              ),
+                              Obx(() => RichText(
+                                    textAlign: TextAlign.end,
+                                    text: TextSpan(
+                                        style: textSyle700(
+                                            fontSize: 14,
+                                            color: const Color.fromRGBO(
+                                                102, 102, 102, 1)),
+                                        children: [
+                                          const TextSpan(text: '商品小计：'),
+                                          TextSpan(
+                                            text: logic.handlePrice(
+                                                state.productTotalPrice.value),
+                                            style: const TextStyle(
+                                                color:
+                                                    Color.fromRGBO(0, 0, 0, 1)),
+                                          ),
+                                        ]),
+                                  )),
                             ],
                           )
                         ],
@@ -133,11 +144,13 @@ class CheckoutPage extends StatelessWidget {
                                       fontSize: 14,
                                       color: const Color.fromRGBO(
                                           102, 102, 102, 1))),
-                              Text('¥${logic.productTotalPrice.value}.00',
+                              Obx(() => Text(
+                                  logic.handlePrice(
+                                      state.productTotalPrice.value),
                                   style: textSyle700(
                                       fontSize: 14,
-                                      color:
-                                          const Color.fromRGBO(51, 51, 51, 1))),
+                                      color: const Color.fromRGBO(
+                                          51, 51, 51, 1)))),
                             ],
                           ),
                           const SizedBox(height: 16),
@@ -188,29 +201,20 @@ class CheckoutPage extends StatelessWidget {
                                           const Color.fromRGBO(51, 51, 51, 1))),
                             ],
                           ),
-                          const SizedBox(height: 16),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              RichText(
-                                textAlign: TextAlign.end,
-                                text: TextSpan(
-                                    style: textSyle700(
-                                        fontSize: 14,
-                                        color:
-                                            const Color.fromRGBO(0, 0, 0, 1)),
-                                    children: [
-                                      const TextSpan(text: '合计：'),
-                                      TextSpan(
-                                        text:
-                                            '￥${logic.productTotalPrice.value}.00',
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Color.fromRGBO(
-                                                212, 157, 40, 1)),
-                                      ),
-                                    ]),
-                              ),
+                              const Spacer(),
+                              Text('合计：',
+                                  style: textSyle700(
+                                      fontSize: 14,
+                                      color: const Color.fromRGBO(0, 0, 0, 1))),
+                              Obx(() => Text(
+                                    logic
+                                        .handlePrice(state.payTotalPrice.value),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Color.fromRGBO(212, 157, 40, 1)),
+                                  )),
                             ],
                           )
                         ],
@@ -226,7 +230,10 @@ class CheckoutPage extends StatelessWidget {
                                         fontSize: 14,
                                         color: const Color.fromRGBO(
                                             102, 102, 102, 1))),
-                                Text('2022-08-23',
+                                Text(
+                                    DateFormat("yyyy-MM-dd")
+                                        .format(DateTime.now())
+                                        .toString(),
                                     style: textSyle700(
                                         fontSize: 14,
                                         color: const Color.fromRGBO(
@@ -276,24 +283,18 @@ class CheckoutPage extends StatelessWidget {
                   color: Colors.white),
               padding: EdgeInsets.fromLTRB(24.w, 19.h, 24.w, 19.h),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                        style: textSyle700(
+                  Text('应付：',
+                      style: textSyle700(
+                          fontSize: 16,
+                          color: const Color.fromRGBO(51, 51, 51, 1))),
+                  Obx(() => Text(
+                        logic.handlePrice(state.payTotalPrice.value),
+                        style: const TextStyle(
                             fontSize: 16,
-                            color: const Color.fromRGBO(51, 51, 51, 1)),
-                        children: [
-                          const TextSpan(text: '应付：'),
-                          TextSpan(
-                            text: '￥${logic.productTotalPrice.value}.00',
-                            style: const TextStyle(
-                                fontSize: 16,
-                                color: Color.fromRGBO(212, 157, 40, 1)),
-                          ),
-                        ]),
-                  ),
+                            color: Color.fromRGBO(212, 157, 40, 1)),
+                      )),
+                  const Spacer(),
                   titleButton('支付', () {
                     Get.offAllNamed(AppRoutes.recommendRecipes);
                   }, width: 114, isCircle: true, height: 36)
