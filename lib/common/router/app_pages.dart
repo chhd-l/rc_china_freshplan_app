@@ -14,7 +14,7 @@ import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 
 class AppPages {
-  static const initial = AppRoutes.addressManage;
+  static const initial = AppRoutes.index;
 
   static final routes = [
     GetPage(

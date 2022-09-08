@@ -1,12 +1,154 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'util.dart';
+import 'tabs.dart';
 
 class PetDetailPage extends StatelessWidget {
   const PetDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TabsController c = Get.put(TabsController());
+
+    Widget bodySection = SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(15),
+            color: Colors.white,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                    child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ClipOval(
+                      child: Image.network(
+                        'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png',
+                        width: 58,
+                        height: 58,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: const Text(
+                        "球球",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: const Icon(
+                        Icons.female,
+                        size: 16,
+                        color: Color.fromARGB(255, 212, 157, 40),
+                      ),
+                    ),
+                  ],
+                )),
+                const Icon(
+                  Icons.delete_outline,
+                  size: 24,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            color: Colors.white,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  child: Obx(() => Text(
+                        '基本信息',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: c.tab.value == 1
+                              ? const Color.fromARGB(255, 11, 11, 11)
+                              : const Color.fromARGB(255, 150, 204, 57),
+                        ),
+                      )),
+                  onTap: () {
+                    c.changeTab(0);
+                  },
+                ),
+                GestureDetector(
+                  child: Obx(() => Text(
+                        '体征档案',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: c.tab.value == 0
+                              ? const Color.fromARGB(255, 11, 11, 11)
+                              : const Color.fromARGB(255, 150, 204, 57),
+                        ),
+                      )),
+                  onTap: () {
+                    c.changeTab(1);
+                  },
+                ),
+              ],
+            ),
+          ),
+          Obx(() => Container(
+                padding: const EdgeInsets.only(top: 5, bottom: 20),
+                height: c.tab.value == 1 ? 0 : null,
+                child: Column(
+                  children: [
+                    buildPetItem('宠物昵称', buildInputItem(), ''),
+                    buildPetItem('宠物生日', buildDateTimeItem(context), ''),
+                    buildPetItem('性别是', buildGenderItem(), ''),
+                    buildPetItem('品种是', buildBreedItem(), ''),
+                  ],
+                ),
+              )),
+          Obx(() => Container(
+                padding: const EdgeInsets.only(top: 5, bottom: 20),
+                height: c.tab.value == 0 ? 0 : null,
+                child: Column(
+                  children: [
+                    buildPetItem('近期体重', buildInputItem(), '(kg)'),
+                    buildPetItem('近期状态', buildPostureItem(), ''),
+                    buildPetItem('成年目标体重', buildInputItem(), '(kg)'),
+                    buildPetItem('近期健康状况', buildHealthItem(), '(可多选)'),
+                  ],
+                ),
+              )),
+        ],
+      ),
+    );
+
+    Widget footSection = Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+              child: MaterialButton(
+            color: const Color.fromARGB(255, 150, 204, 57),
+            textColor: Colors.white,
+            onPressed: () {},
+            elevation: 0,
+            height: 44,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(22)),
+            ),
+            child: const Text('保存编辑'),
+          )),
+        ],
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('档案详情'),
@@ -23,9 +165,14 @@ class PetDetailPage extends StatelessWidget {
         ),
       ),
       backgroundColor: const Color.fromARGB(255, 249, 249, 249),
-      body: Container(
-        padding: const EdgeInsets.all(15),
-        child: const Text("test pet detail page"),
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 5,
+          ),
+          Expanded(child: bodySection),
+          footSection,
+        ],
       ),
     );
   }

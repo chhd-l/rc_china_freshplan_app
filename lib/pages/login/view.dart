@@ -17,6 +17,7 @@ class LoginPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       backgroundColor: Colors.white,
       body: Container(
