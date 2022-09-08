@@ -111,7 +111,7 @@ class PetListPage extends StatelessWidget {
                     color: const Color.fromARGB(255, 150, 204, 57),
                     textColor: Colors.white,
                     onPressed: () {
-                      Get.toNamed(AppRoutes.petDetail);
+                      Get.toNamed(AppRoutes.createPet);
                     },
                     elevation: 0,
                     height: 44,
