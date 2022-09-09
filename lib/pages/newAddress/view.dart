@@ -180,11 +180,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
               Consumer? consumer =  StorageUtil().getJSON('loginUser') != null
                         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
                         : null;
-              if(consumer?.addresslist != null) {
-                consumer!.addresslist = [...?consumer.addresslist, logic.ress];
-              } else {
-                consumer!.addresslist = [logic.ress];
-              }
+              consumer!.addresslist = [logic.ress];
               Navigator.of(context).pop();
             },
                 isCircle: true,
