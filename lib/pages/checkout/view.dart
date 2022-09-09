@@ -241,8 +241,9 @@ class CheckoutPage extends StatelessWidget {
                             color: Color.fromRGBO(212, 157, 40, 1)),
                       )),
                   const Spacer(),
-                  titleButton('支付', () {},
-                      width: 114, isCircle: true, height: 36)
+                  titleButton('支付', () {
+                    logic.pay();
+                  }, width: 114, isCircle: true, height: 36)
                 ],
               ),
             )
