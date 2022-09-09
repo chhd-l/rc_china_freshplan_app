@@ -39,15 +39,6 @@ class GlobalConfigService extends GetxService {
     },
   ];
 
-  // get selectOrderProduct(){
-  //   var temp=[];
-  //   setDate(element){
-  //     if(selectProduct.contains(element['value']){temp.insert(0,element);}
-  //   };
-  //   recipesList.map((element) => setDate(element))});
-  //   return temp;
-  // }
-
   // ///getter setter
   // String get petName {
   //   return StorageUtil().getStr('petName');

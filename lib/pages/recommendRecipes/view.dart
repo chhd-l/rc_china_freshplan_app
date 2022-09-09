@@ -23,8 +23,7 @@ class RecommendRecipesPage extends StatelessWidget {
           child: Column(children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                    right: 16.w, left: 16.w, top: 40.w, bottom: 16.h),
+                padding: EdgeInsets.all(16),
                 child: Column(children: [
                   Text(
                     '${logic.petName}的专属健康食谱',
