@@ -188,7 +188,7 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
                   })
               : null,
           automaticallyImplyLeading: true,
-          elevation: 1.0,
+          elevation: 0,
           actions: actions,
         ),
       ));

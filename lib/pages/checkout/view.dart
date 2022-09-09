@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
 
 import 'logic.dart';
@@ -19,6 +19,7 @@ class CheckoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: commonAppBar('确认订单', bgColor: AppColors.bgLinearGradient1),
         body: SafeArea(
           child: Column(children: [
@@ -37,18 +38,53 @@ class CheckoutPage extends StatelessWidget {
                     ),
                     child: Column(children: [
                       const SizedBox(height: 12),
-                      commonContainer(Row(
-                        children: [
-                          Image.asset('assets/images/address.png'),
-                          const SizedBox(width: 8),
-                          Text(
-                            '添加收货地址',
-                            style: textSyle700(
-                                fontSize: 17, color: AppColors.text333),
-                          ),
-                          const Spacer(),
-                          Image.asset('assets/images/arrow-right.png'),
-                        ],
+                      commonContainer(GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.addressManage, arguments: true);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset('assets/images/address.png'),
+                            const SizedBox(width: 8),
+                            Expanded(
+                                child: logic.address != null
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                logic.address['name'],
+                                                style: textSyle700(
+                                                    fontSize: 15,
+                                                    color: const Color.fromRGBO(
+                                                        34, 34, 34, 1)),
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Text(logic.address['phone'],
+                                                  style: textSyle700(
+                                                      fontSize: 15,
+                                                      color:
+                                                          AppColors.text999)),
+                                            ],
+                                          ),
+                                          Text(
+                                            logic.address['detail'],
+                                            style: textSyle700(fontSize: 13),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        '添加收货地址',
+                                        style: textSyle700(
+                                            fontSize: 17,
+                                            color: AppColors.text333),
+                                      )),
+                            Image.asset('assets/images/arrow-right.png'),
+                          ],
+                        ),
                       )),
                       commonContainer(Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,17 +198,33 @@ class CheckoutPage extends StatelessWidget {
                                     .toString()),
                             priceRow('发货周期', '四周'),
                           ])),
-                      commonContainer(Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('备注',
-                              style: textSyle700(
-                                  fontSize: 14, color: AppColors.text666)),
-                          Text('留言建议提前协商 (250字内)',
-                              style: textSyle700(
-                                  fontSize: 14, color: AppColors.text333)),
-                        ],
-                      )),
+                      commonContainer(
+                          padding: const EdgeInsets.only(right: 16, left: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('备注',
+                                  style: textSyle700(
+                                      fontSize: 14, color: AppColors.text666)),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.centerRight,
+                                  child: textFiled(
+                                      controller: logic.remarkController,
+                                      fillColor: Colors.white,
+                                      hintStyle: const TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromRGBO(204, 204, 204, 1)),
+                                      hintText: '留言建议提前协商 (250字内)',
+                                      borderWidth: 0,
+                                      borderRadius: 0,
+                                      textAlign: TextAlign.end),
+                                ),
+                              ),
+                            ],
+                          )),
                     ])),
               ),
             ),
@@ -189,9 +241,8 @@ class CheckoutPage extends StatelessWidget {
                             color: Color.fromRGBO(212, 157, 40, 1)),
                       )),
                   const Spacer(),
-                  titleButton('支付', () {
-                    Get.offAllNamed(AppRoutes.recommendRecipes);
-                  }, width: 114, isCircle: true, height: 36)
+                  titleButton('支付', () {},
+                      width: 114, isCircle: true, height: 36)
                 ],
               ),
             )
@@ -200,9 +251,9 @@ class CheckoutPage extends StatelessWidget {
   }
 }
 
-Widget commonContainer(Widget child) {
+Widget commonContainer(Widget child, {EdgeInsetsGeometry? padding}) {
   return Container(
-    padding: const EdgeInsets.all(16),
+    padding: padding ?? const EdgeInsets.all(16),
     margin: const EdgeInsets.only(bottom: 15),
     decoration: const BoxDecoration(
         color: Colors.white,

@@ -80,6 +80,7 @@ class CreatePetNextPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 26, bottom: 32),
                     child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: logic.healthList.length,
                         itemBuilder: (context, index) {
@@ -88,14 +89,19 @@ class CreatePetNextPage extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 15),
                             child: GestureDetector(
                                 onTap: () {
-                                  state.recentHealth.value = item['value'];
+                                  if (state.recentHealth
+                                      .contains(item['value'])) {
+                                    state.recentHealth.remove(item['value']);
+                                  } else {
+                                    state.recentHealth.insert(0, item['value']);
+                                  }
                                 },
                                 child: Obx(() => Container(
                                       height: 50,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                          color: state.recentHealth.value ==
-                                                  item['value']
+                                          color: state.recentHealth
+                                                  .contains(item['value'])
                                               ? AppColors.tint
                                               : const Color.fromRGBO(
                                                   246, 246, 246, 1),
@@ -105,8 +111,8 @@ class CreatePetNextPage extends StatelessWidget {
                                       child: Text(item['name'],
                                           style: textSyle700(
                                               fontSize: 15,
-                                              color: state.recentHealth.value ==
-                                                      item['value']
+                                              color: state.recentHealth
+                                                      .contains(item['value'])
                                                   ? Colors.white
                                                   : AppColors.primaryText)),
                                     ))),
@@ -135,4 +141,3 @@ class CreatePetNextPage extends StatelessWidget {
         ));
   }
 }
-
