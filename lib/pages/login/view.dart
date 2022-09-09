@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   Consumer consumer = Consumer(
       name: '测试用户',
       nickName: '测试用户',
+      addresslist: [],
       storeId: '39b6444b-683b-4915-8b75-5d8403f40a02');
   String _password = '';
 
