@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'util.dart';
 import 'tabs.dart';
+import 'pet.dart';
 
 class PetDetailPage extends StatelessWidget {
   const PetDetailPage({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class PetDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TabsController c = Get.put(TabsController());
+    final PetController petCtl = Get.put(PetController());
 
     Widget bodySection = SingleChildScrollView(
       child: Column(
@@ -34,13 +36,13 @@ class PetDetailPage extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
-                      child: const Text(
-                        "球球",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
+                      child: Obx(() => Text(
+                            petCtl.name.value,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
+                          )),
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
@@ -103,9 +105,68 @@ class PetDetailPage extends StatelessWidget {
                 height: c.tab.value == 1 ? 0 : null,
                 child: Column(
                   children: [
-                    buildPetItem('宠物昵称', buildInputItem(), ''),
-                    buildPetItem('宠物生日', buildDateTimeItem(context), ''),
-                    buildPetItem('性别是', buildGenderItem(), ''),
+                    buildPetItem(
+                        '宠物昵称', buildInputItem(petCtl.nameController), ''),
+                    buildPetItem(
+                        '宠物生日',
+                        buildDateTimeItem(
+                            context,
+                            Obx(() => Text(
+                                  petCtl.birthday.value,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                  ),
+                                )), (d) {
+                          petCtl.changeBirthDay(d);
+                        }),
+                        ''),
+                    buildPetItem(
+                        '性别是',
+                        buildGenderItem(
+                            Obx(() => Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 60, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: petCtl.gender.value == 'FEMALE'
+                                        ? Colors.white
+                                        : const Color.fromARGB(
+                                            255, 150, 204, 57),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '小鲜肉',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: petCtl.gender.value == 'FEMALE'
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                )),
+                            Obx(() => Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 60, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: petCtl.gender.value == 'MALE'
+                                        ? Colors.white
+                                        : const Color.fromARGB(
+                                            255, 150, 204, 57),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '小公主',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: petCtl.gender.value == 'MALE'
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                )), (String gender) {
+                          petCtl.changeGender(gender);
+                        }),
+                        ''),
                     buildPetItem('品种是', buildBreedItem(), ''),
                   ],
                 ),
@@ -115,9 +176,11 @@ class PetDetailPage extends StatelessWidget {
                 height: c.tab.value == 0 ? 0 : null,
                 child: Column(
                   children: [
-                    buildPetItem('近期体重', buildInputItem(), '(kg)'),
+                    buildPetItem(
+                        '近期体重', buildInputItem(petCtl.nameController), '(kg)'),
                     buildPetItem('近期状态', buildPostureItem(), ''),
-                    buildPetItem('成年目标体重', buildInputItem(), '(kg)'),
+                    buildPetItem('成年目标体重',
+                        buildInputItem(petCtl.nameController), '(kg)'),
                     buildPetItem('近期健康状况', buildHealthItem(), '(可多选)'),
                   ],
                 ),

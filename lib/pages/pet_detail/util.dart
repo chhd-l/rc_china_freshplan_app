@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 Widget buildPetItem(String title, Widget item, String? desc) {
   return Container(
@@ -45,30 +47,7 @@ Widget buildPetItem(String title, Widget item, String? desc) {
   );
 }
 
-Widget buildInputItem() {
-  return Container(
-    margin: const EdgeInsets.only(top: 5),
-    padding: const EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Row(
-      children: const [
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget buildDateTimeItem(BuildContext context) {
+Widget buildInputItem(TextEditingController c) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -80,17 +59,74 @@ Widget buildDateTimeItem(BuildContext context) {
       children: [
         Expanded(
           child: TextField(
+            controller: c,
             decoration: const InputDecoration(
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
             ),
-            readOnly: true,
-            onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1980, 1, 1),
-                  lastDate: DateTime.now());
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildDateTimeItem(
+    BuildContext context, Widget child, Function handleChangeDate) {
+  return Container(
+    margin: const EdgeInsets.only(top: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            child: child,
+            onTap: () {
+              Get.bottomSheet(Container(
+                height: 200,
+                color: Colors.white,
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    OverflowBar(
+                      alignment: MainAxisAlignment.spaceBetween,
+                      spacing: 10,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('取消',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 153, 153, 153))),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('确定',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 150, 204, 57))),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                        child: CupertinoDatePicker(
+                      onDateTimeChanged: (dateTime) {
+                        handleChangeDate(dateTime);
+                      },
+                      initialDateTime: DateTime.now(),
+                      minuteInterval: 1,
+                      mode: CupertinoDatePickerMode.date,
+                      dateOrder: DatePickerDateOrder.ymd,
+                    )),
+                  ],
+                ),
+              ));
             },
           ),
         ),
@@ -99,7 +135,8 @@ Widget buildDateTimeItem(BuildContext context) {
   );
 }
 
-Widget buildGenderItem() {
+Widget buildGenderItem(
+    Widget male, Widget femail, Function handleChangeGender) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
     child: Row(
@@ -108,33 +145,17 @@ Widget buildGenderItem() {
       crossAxisAlignment: CrossAxisAlignment.center,
       verticalDirection: VerticalDirection.down,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Text(
-            '小鲜肉',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.black,
-            ),
-          ),
+        GestureDetector(
+          child: male,
+          onTap: () {
+            handleChangeGender('MALE');
+          },
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Text(
-            '小公主',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.black,
-            ),
-          ),
+        GestureDetector(
+          child: femail,
+          onTap: () {
+            handleChangeGender('FEMALE');
+          },
         ),
       ],
     ),

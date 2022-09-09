@@ -24,7 +24,8 @@ class AccountPage extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        Container(
+        Expanded(
+            child: Container(
           margin: const EdgeInsets.only(left: 10),
           child: consumer == null
               ? GestureDetector(
@@ -46,6 +47,19 @@ class AccountPage extends StatelessWidget {
                     color: Color.fromARGB(255, 51, 51, 51),
                   ),
                 ),
+        )),
+        GestureDetector(
+          child: Text(
+            consumer != null ? '退出' : '',
+            style: const TextStyle(
+              fontSize: 14,
+              color: Color.fromARGB(255, 153, 153, 153),
+            ),
+          ),
+          onTap: () {
+            StorageUtil().remove('loginUser');
+            Get.toNamed(AppRoutes.login);
+          },
         ),
       ]),
     );
