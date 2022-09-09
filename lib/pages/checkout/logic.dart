@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 
@@ -7,6 +8,12 @@ class CheckoutLogic extends GetxController {
   final state = CheckoutState();
 
   final global = Get.put(GlobalConfigService());
+
+  TextEditingController remarkController = TextEditingController();
+
+  final address = Get.arguments == null
+      ? {'name': '左琴', 'phone': '13101227768', 'detail': '重庆渝中区华盛路1号德勤大楼'}
+      : Get.arguments['selectAddress'];
 
   @override
   void onReady() {

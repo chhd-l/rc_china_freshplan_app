@@ -26,7 +26,9 @@ Widget textFiled(
     VoidCallback? onEditingComplete,
     VoidCallback? onTap,
     TextStyle? hintStyle,
-    int? maxLines = 1}) {
+    int? maxLines = 1,
+    Color? fillColor,
+    TextAlign? textAlign = TextAlign.start}) {
   final OutlineInputBorder border = OutlineInputBorder(
     borderRadius: BorderRadius.all(
       Radius.circular(borderRadius),
@@ -45,6 +47,7 @@ Widget textFiled(
       keyboardType: keyboardType,
       controller: controller,
       focusNode: focusNode,
+      textAlign: textAlign ?? TextAlign.start,
       inputFormatters: [LengthLimitingTextInputFormatter(lengthLimit)],
       decoration: InputDecoration(
         counterText: "",
@@ -75,7 +78,7 @@ Widget textFiled(
         ),
         errorBorder: border,
         focusedErrorBorder: border,
-        fillColor: const Color.fromRGBO(246, 246, 246, 1),
+        fillColor: fillColor ?? const Color.fromRGBO(246, 246, 246, 1),
         filled: true,
         hintStyle: hintStyle ?? TextStyle(fontSize: 16.sp),
       ),
