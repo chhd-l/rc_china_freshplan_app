@@ -17,6 +17,8 @@ class PetController extends GetxController {
   var recentHealth = [].obs;
 
   var nameController = TextEditingController();
+  var recentWeightController = TextEditingController();
+  var targetWeightController = TextEditingController();
 
   void initData(Pet pet) {
     name.value = pet.name!;
@@ -40,12 +42,42 @@ class PetController extends GetxController {
     gender.value = sex;
   }
 
+  void changeBreed(int breed) {
+    breedName.value = '金毛';
+  }
+
+  void changeRencentPosture(String posture) {
+    recentPosture.value = posture;
+  }
+
+  void addRencentHealth(String health) {
+    if (health == 'NONE') {
+      recentHealth.value = ['NONE'];
+    } else if (recentHealth.contains(health)) {
+      recentHealth.remove("NONE");
+      recentHealth.remove(health);
+    } else {
+      recentHealth.remove("NONE");
+      recentHealth.add(health);
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
 
     nameController.addListener(() {
       name.value = nameController.text;
+    });
+
+    recentWeightController.addListener(() {
+      double? v = double.tryParse(recentWeightController.text);
+      recentWeight.value = v ?? 0.0;
+    });
+
+    targetWeightController.addListener(() {
+      double? v = double.tryParse(targetWeightController.text);
+      targetWeight.value = v ?? 0.0;
     });
   }
 }

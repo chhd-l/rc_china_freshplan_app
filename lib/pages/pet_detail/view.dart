@@ -167,7 +167,19 @@ class PetDetailPage extends StatelessWidget {
                           petCtl.changeGender(gender);
                         }),
                         ''),
-                    buildPetItem('品种是', buildBreedItem(), ''),
+                    buildPetItem(
+                        '品种是',
+                        buildBreedItem(
+                            Obx(() => Text(
+                                  petCtl.breedName.value,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                  ),
+                                )), (int breed) {
+                          petCtl.changeBreed(breed);
+                        }),
+                        ''),
                   ],
                 ),
               )),
@@ -177,11 +189,267 @@ class PetDetailPage extends StatelessWidget {
                 child: Column(
                   children: [
                     buildPetItem(
-                        '近期体重', buildInputItem(petCtl.nameController), '(kg)'),
-                    buildPetItem('近期状态', buildPostureItem(), ''),
-                    buildPetItem('成年目标体重',
-                        buildInputItem(petCtl.nameController), '(kg)'),
-                    buildPetItem('近期健康状况', buildHealthItem(), '(可多选)'),
+                        '近期体重',
+                        buildInputItem(petCtl.recentWeightController,
+                            inputType: TextInputType.number),
+                        '(kg)'),
+                    buildPetItem(
+                        '近期状态',
+                        buildPostureItem(
+                            Obx(() => Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: petCtl.recentPosture.value ==
+                                            'EMACIATED'
+                                        ? const Color.fromARGB(
+                                            255, 150, 204, 57)
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/pet-thin.png',
+                                        width: 62,
+                                        height: 52,
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          '瘦弱',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            Obx(() => Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        petCtl.recentPosture.value == 'STANDARD'
+                                            ? const Color.fromARGB(
+                                                255, 150, 204, 57)
+                                            : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/pet-std.png',
+                                        width: 62,
+                                        height: 52,
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          '标准',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            Obx(() => Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        petCtl.recentPosture.value == 'OBESITY'
+                                            ? const Color.fromARGB(
+                                                255, 150, 204, 57)
+                                            : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/pet-fat.png',
+                                        width: 62,
+                                        height: 52,
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          '超重',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )), (String posture) {
+                          petCtl.changeRencentPosture(posture);
+                        }),
+                        ''),
+                    buildPetItem(
+                        '成年目标体重',
+                        buildInputItem(petCtl.targetWeightController,
+                            inputType: TextInputType.number),
+                        '(kg)'),
+                    buildPetItem(
+                        '近期健康状况',
+                        buildHealthItem(
+                            Obx(() => Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  decoration: BoxDecoration(
+                                    color: petCtl.recentHealth.value
+                                            .contains("PICKY_EATER")
+                                        ? const Color.fromARGB(
+                                            255, 150, 204, 57)
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '对食物很挑剔',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: petCtl.recentHealth.value
+                                                  .contains("PICKY_EATER")
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            Obx(() => Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  decoration: BoxDecoration(
+                                    color: petCtl.recentHealth.value.contains(
+                                            "FOOD_ALLERGIES_OR_STOMACH_SENSITIVITIES")
+                                        ? const Color.fromARGB(
+                                            255, 150, 204, 57)
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '食物过敏或胃敏感',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: petCtl.recentHealth.value.contains(
+                                                  "FOOD_ALLERGIES_OR_STOMACH_SENSITIVITIES")
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            Obx(() => Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  decoration: BoxDecoration(
+                                    color: petCtl.recentHealth.value
+                                            .contains("DULL_OR_FLAKY_FUR")
+                                        ? const Color.fromARGB(
+                                            255, 150, 204, 57)
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '无光泽或片状被毛',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: petCtl.recentHealth.value
+                                                  .contains("DULL_OR_FLAKY_FUR")
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            Obx(() => Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  decoration: BoxDecoration(
+                                    color: petCtl.recentHealth.value
+                                            .contains("ARTHRITIS_OR_JOINT_PAIN")
+                                        ? const Color.fromARGB(
+                                            255, 150, 204, 57)
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '关节炎或关节痛',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: petCtl.recentHealth.value
+                                                  .contains(
+                                                      "ARTHRITIS_OR_JOINT_PAIN")
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            Obx(() => Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  decoration: BoxDecoration(
+                                    color: petCtl.recentHealth.value
+                                            .contains("NONE")
+                                        ? const Color.fromARGB(
+                                            255, 150, 204, 57)
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '以上都没有',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: petCtl.recentHealth.value
+                                                  .contains("NONE")
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )), (String health) {
+                          petCtl.addRencentHealth(health);
+                        }),
+                        '(可多选)'),
                   ],
                 ),
               )),
