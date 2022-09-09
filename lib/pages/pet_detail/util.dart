@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 Widget buildPetItem(String title, Widget item, String? desc) {
   return Container(
@@ -45,30 +47,8 @@ Widget buildPetItem(String title, Widget item, String? desc) {
   );
 }
 
-Widget buildInputItem() {
-  return Container(
-    margin: const EdgeInsets.only(top: 5),
-    padding: const EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Row(
-      children: const [
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget buildDateTimeItem(BuildContext context) {
+Widget buildInputItem(TextEditingController c,
+    {TextInputType inputType = TextInputType.text}) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -80,17 +60,75 @@ Widget buildDateTimeItem(BuildContext context) {
       children: [
         Expanded(
           child: TextField(
+            controller: c,
+            keyboardType: inputType,
             decoration: const InputDecoration(
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
             ),
-            readOnly: true,
-            onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1980, 1, 1),
-                  lastDate: DateTime.now());
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildDateTimeItem(
+    BuildContext context, Widget child, Function handleChangeDate) {
+  return Container(
+    margin: const EdgeInsets.only(top: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            child: child,
+            onTap: () {
+              Get.bottomSheet(Container(
+                height: 200,
+                color: Colors.white,
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    OverflowBar(
+                      alignment: MainAxisAlignment.spaceBetween,
+                      spacing: 10,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('取消',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 153, 153, 153))),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('确定',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 150, 204, 57))),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                        child: CupertinoDatePicker(
+                      onDateTimeChanged: (dateTime) {
+                        handleChangeDate(dateTime);
+                      },
+                      initialDateTime: DateTime.now(),
+                      minuteInterval: 1,
+                      mode: CupertinoDatePickerMode.date,
+                      dateOrder: DatePickerDateOrder.ymd,
+                    )),
+                  ],
+                ),
+              ));
             },
           ),
         ),
@@ -99,7 +137,8 @@ Widget buildDateTimeItem(BuildContext context) {
   );
 }
 
-Widget buildGenderItem() {
+Widget buildGenderItem(
+    Widget male, Widget femail, Function handleChangeGender) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
     child: Row(
@@ -108,43 +147,27 @@ Widget buildGenderItem() {
       crossAxisAlignment: CrossAxisAlignment.center,
       verticalDirection: VerticalDirection.down,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Text(
-            '小鲜肉',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.black,
-            ),
-          ),
+        GestureDetector(
+          child: male,
+          onTap: () {
+            handleChangeGender('MALE');
+          },
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Text(
-            '小公主',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.black,
-            ),
-          ),
+        GestureDetector(
+          child: femail,
+          onTap: () {
+            handleChangeGender('FEMALE');
+          },
         ),
       ],
     ),
   );
 }
 
-Widget buildBreedItem() {
+Widget buildBreedItem(Widget child, Function handleSelectBreed) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
-    padding: const EdgeInsets.symmetric(horizontal: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(8),
@@ -152,22 +175,65 @@ Widget buildBreedItem() {
     child: Row(
       children: [
         Expanded(
-          child: DropdownButtonHideUnderline(
-              child: DropdownButton(
-                  iconSize: 0,
-                  items: const [
-                    DropdownMenuItem(value: '1', child: Text('item1')),
-                    DropdownMenuItem(value: '2', child: Text('item2')),
-                    DropdownMenuItem(value: '3', child: Text('item3')),
+          child: GestureDetector(
+            child: child,
+            onTap: () {
+              Get.bottomSheet(Container(
+                height: 200,
+                color: Colors.white,
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    OverflowBar(
+                      alignment: MainAxisAlignment.spaceBetween,
+                      spacing: 10,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('取消',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 153, 153, 153))),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('确定',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 150, 204, 57))),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                        child: CupertinoPicker(
+                      magnification: 1.22,
+                      squeeze: 1.2,
+                      useMagnifier: true,
+                      itemExtent: 32.0,
+                      onSelectedItemChanged: (int selectedItem) {
+                        handleSelectBreed(selectedItem);
+                      },
+                      children: List<Widget>.generate(2, (int index) {
+                        return const Center(
+                          child: Text('拉布拉多犬'),
+                        );
+                      }),
+                    )),
                   ],
-                  onChanged: (t) {})),
+                ),
+              ));
+            },
+          ),
         ),
       ],
     ),
   );
 }
 
-Widget buildPostureItem() {
+Widget buildPostureItem(
+    Widget thin, Widget standard, Widget fat, Function handleChangePosture) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
     decoration: BoxDecoration(
@@ -177,208 +243,66 @@ Widget buildPostureItem() {
     child: Row(
       children: [
         Expanded(
-            child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/pet-thin.png',
-                width: 62,
-                height: 52,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  '瘦弱',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            child: GestureDetector(
+          child: thin,
+          onTap: () {
+            handleChangePosture("EMACIATED");
+          },
         )),
         Expanded(
-            child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/pet-std.png',
-                width: 62,
-                height: 52,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  '标准',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            child: GestureDetector(
+          child: standard,
+          onTap: () {
+            handleChangePosture("STANDARD");
+          },
         )),
         Expanded(
-            child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/pet-fat.png',
-                width: 62,
-                height: 52,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  '超重',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            child: GestureDetector(
+          child: fat,
+          onTap: () {
+            handleChangePosture("OBESITY");
+          },
         )),
       ],
     ),
   );
 }
 
-Widget buildHealthItem() {
+Widget buildHealthItem(Widget health1, Widget health2, Widget health3,
+    Widget health4, Widget health5, Function handleAddHealth) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
     child: Column(
       children: [
         GestureDetector(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  '对食物很挑剔',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          child: health1,
+          onTap: () {
+            handleAddHealth("PICKY_EATER");
+          },
         ),
         GestureDetector(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  '食物过敏或胃敏感',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          child: health2,
+          onTap: () {
+            handleAddHealth("FOOD_ALLERGIES_OR_STOMACH_SENSITIVITIES");
+          },
         ),
         GestureDetector(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  '无光泽或片状被毛',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          child: health3,
+          onTap: () {
+            handleAddHealth("DULL_OR_FLAKY_FUR");
+          },
         ),
         GestureDetector(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  '关节炎或关节痛',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          child: health4,
+          onTap: () {
+            handleAddHealth("ARTHRITIS_OR_JOINT_PAIN");
+          },
         ),
         GestureDetector(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 10),
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  '以上都没有',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          child: health5,
+          onTap: () {
+            handleAddHealth("NONE");
+          },
         ),
       ],
     ),

@@ -3,14 +3,16 @@ class Consumer {
   String? nickName;
   String? mobile;
   String? storeId;
+  List? addresslist;
 
-  Consumer({this.name, this.nickName, this.mobile, this.storeId});
+  Consumer({this.name, this.nickName, this.mobile, this.storeId, this.addresslist});
 
   Consumer.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     nickName = json['nickName'];
     mobile = json['mobile'];
     storeId = json['storeId'];
+    addresslist = json['addresslist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,7 @@ class Consumer {
     data['nickName'] = this.nickName;
     data['mobile'] = this.mobile;
     data['storeId'] = this.storeId;
+    data['addresslist'] = this.addresslist;
     return data;
   }
 }

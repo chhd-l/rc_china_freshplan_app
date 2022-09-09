@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/pages/newAddress/view.dart';
 /// This Widget is the main application widget.
@@ -27,12 +26,12 @@ class AddRessManage extends StatelessWidget {
                     Navigator.push(context, 
                       MaterialPageRoute(
                         builder: (BuildContext ress) {
-                          return const newAddress(
-                            name: '我的',
-                            details: '重庆市沙坪坝区 重庆某某某街道学',
-                            open: false,
-                            phone:'18723489954',
-                            cite: '重庆市 重庆市 沙坪坝区',
+                          return const NewAddress(
+                              name: '',
+                              details: '',
+                              open: false,
+                              phone:'',
+                              cite: '',
                             );
                         }),
                     );
@@ -136,12 +135,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               Navigator.push(context, 
                                 MaterialPageRoute(
                                   builder: (BuildContext ress) {
-                                    return newAddress(
-                                      name: '',
-                                      details: '',
-                                      open: ressList[i],
-                                      phone:'',
-                                      cite: '',
+                                    return NewAddress(
+                                        name: '我的',
+                                        details: '重庆市沙坪坝区 重庆某某某街道学',
+                                        open: ressList[i],
+                                        phone:'18723489954',
+                                        cite: '重庆市 重庆市 沙坪坝区',
                                       );
                                   }),
                               );
