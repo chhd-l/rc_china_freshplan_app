@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/global.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final global = Get.put(GlobalConfigService());
 
   Consumer consumer = Consumer(
       name: '测试用户',
@@ -86,10 +88,19 @@ class _LoginPageState extends State<LoginPage> {
                       if (!reg.hasMatch(value!)) {
                         return '请输入正确的手机号码';
                       }
+                      if (global.userList.indexWhere((element) =>
+                              element['mobile'].toString() == value) <
+                          0) {
+                        return '手机号不正确';
+                      }
                       return null;
                     },
                     onSaved: (value) {
+                      var user = global.userList.firstWhere(
+                          (element) => element['mobile'].toString() == value);
                       consumer.mobile = value ?? '';
+                      consumer.name = user['name'].toString();
+                      consumer.nickName = user['name'].toString();
                     },
                   ),
                   const SizedBox(
@@ -116,6 +127,11 @@ class _LoginPageState extends State<LoginPage> {
                     validator: (value) {
                       if (value == '') {
                         return '请输入密码';
+                      }
+                      if (value != '1qaz2wsx' &&
+                          value != 'Qweruiop@123' &&
+                          value != 'Qweruiop@12345') {
+                        return '密码不正确';
                       }
                       return null;
                     },

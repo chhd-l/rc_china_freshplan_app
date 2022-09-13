@@ -26,12 +26,23 @@ class PetController extends GetxController {
     type.value = pet.type!;
     breedCode.value = pet.breedCode!;
     breedName.value = pet.breedName!;
-    image.value = pet.image!;
+    image.value = pet.image ?? '';
     birthday.value = pet.birthday!;
     recentWeight.value = pet.recentWeight!;
     recentPosture.value = pet.recentPosture!;
     targetWeight.value = pet.targetWeight!;
     recentHealth.value = pet.recentHealth!;
+
+    nameController =
+        TextEditingController.fromValue(TextEditingValue(text: pet.name ?? ''));
+    recentWeightController = TextEditingController.fromValue(
+        TextEditingValue(text: pet.recentWeight.toString()));
+    targetWeightController = TextEditingController.fromValue(
+        TextEditingValue(text: pet.targetWeight.toString()));
+  }
+
+  void changeName(String text) {
+    name.value = text;
   }
 
   void changeBirthDay(DateTime d) {
@@ -62,22 +73,13 @@ class PetController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    super.onInit();
+  void changeRecentWeight(String text) {
+    double? v = double.tryParse(text);
+    recentWeight.value = v ?? 0.0;
+  }
 
-    nameController.addListener(() {
-      name.value = nameController.text;
-    });
-
-    recentWeightController.addListener(() {
-      double? v = double.tryParse(recentWeightController.text);
-      recentWeight.value = v ?? 0.0;
-    });
-
-    targetWeightController.addListener(() {
-      double? v = double.tryParse(targetWeightController.text);
-      targetWeight.value = v ?? 0.0;
-    });
+  void changeTargetWeight(String text) {
+    double? v = double.tryParse(text);
+    targetWeight.value = v ?? 0.0;
   }
 }

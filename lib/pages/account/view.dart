@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
+import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/data/pet.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -12,6 +14,24 @@ class AccountPage extends StatelessWidget {
     Consumer? consumer = StorageUtil().getJSON("loginUser") != null
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
+    if (consumer != null) {
+      PetUtil.init();
+      // PetUtil.addPet(Pet(
+      //     id: 'xxxx-fdsfa-fdsaf-fdaf',
+      //     name: 'test',
+      //     image:
+      //         'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png',
+      //     gender: 'MALE',
+      //     type: 'CAT',
+      //     birthday: '2022-09-01',
+      //     isSterilized: false,
+      //     breedCode: '1001',
+      //     breedName: '拉布拉多',
+      //     recentWeight: 1.1,
+      //     targetWeight: 3.2,
+      //     recentPosture: 'STANDARD',
+      //     recentHealth: ['NONE']));
+    }
 
     Widget loginSection = Container(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -149,6 +169,110 @@ class AccountPage extends StatelessWidget {
       ),
     );
 
+    Widget buildEmpltyPetListRegion() {
+      return Row(
+        children: [
+          GestureDetector(
+            child: Container(
+              margin: const EdgeInsets.only(right: 10),
+              width: 58,
+              height: 58,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(29),
+                color: const Color.fromARGB(255, 249, 249, 249),
+                border: Border.all(
+                  color: const Color.fromARGB(255, 219, 219, 219),
+                  width: 1,
+                  style: BorderStyle.solid,
+                ),
+              ),
+              child: const Icon(
+                Icons.add,
+                size: 30,
+                color: Colors.black,
+              ),
+            ),
+            onTap: () {
+              Get.toNamed(AppRoutes.createPet);
+            },
+          ),
+          GestureDetector(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 3),
+                  child: const Text(
+                    '添加爱宠',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const Text(
+                  '给它定制专属食物',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 153, 153, 153),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            onTap: () {
+              Get.toNamed(AppRoutes.createPet);
+            },
+          ),
+        ],
+      );
+    }
+
+    Widget buildPetListRegion() {
+      var petList = PetUtil.petList;
+      return SizedBox(
+        height: 80,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: petList.length,
+          itemBuilder: (context, index) {
+            var pet = petList[index];
+            return Container(
+              margin: const EdgeInsets.only(right: 30),
+              height: 80,
+              child: Column(
+                children: [
+                  ClipOval(
+                    child: Image.network(
+                      (pet.image == null || pet.image == '')
+                          ? (pet.type == 'CAT'
+                              ? 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png'
+                              : 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/dog-default.png')
+                          : pet.image ?? '',
+                      width: 58,
+                      height: 58,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Expanded(
+                      child: Text(
+                    pet.name ?? '',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Color.fromARGB(255, 57, 57, 57),
+                    ),
+                  )),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+    }
+
     Widget petSection = Container(
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
@@ -201,62 +325,9 @@ class AccountPage extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            child: Row(
-              children: [
-                GestureDetector(
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    width: 58,
-                    height: 58,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(29),
-                      color: const Color.fromARGB(255, 249, 249, 249),
-                      border: Border.all(
-                        color: const Color.fromARGB(255, 219, 219, 219),
-                        width: 1,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      size: 30,
-                      color: Colors.black,
-                    ),
-                  ),
-                  onTap: () {
-                    Get.toNamed(AppRoutes.createPet);
-                  },
-                ),
-                GestureDetector(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 3),
-                        child: const Text(
-                          '添加爱宠',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const Text(
-                        '给它定制专属食物',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 153, 153, 153),
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Get.toNamed(AppRoutes.createPet);
-                  },
-                ),
-              ],
-            ),
+            child: PetUtil.petList.isEmpty
+                ? buildEmpltyPetListRegion()
+                : buildPetListRegion(),
           )
         ],
       ),

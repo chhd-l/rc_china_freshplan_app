@@ -48,7 +48,7 @@ Widget buildPetItem(String title, Widget item, String? desc) {
 }
 
 Widget buildInputItem(TextEditingController c,
-    {TextInputType inputType = TextInputType.text}) {
+    {TextInputType inputType = TextInputType.text, Function? handleChange}) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -66,6 +66,11 @@ Widget buildInputItem(TextEditingController c,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
             ),
+            onChanged: (value) {
+              if (handleChange != null) {
+                handleChange(value);
+              }
+            },
           ),
         ),
       ],
