@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,9 +61,25 @@ class CreatePetPage extends StatelessWidget {
                           image: DecorationImage(
                               image: AssetImage(
                                   'assets/images/select-pet-avatar.png'))),
-                      child: Obx(() => Image.asset(state.avatar.value != ''
-                          ? state.avatar.value
-                          : 'assets/images/pet-gray.png')),
+                      child: ClipOval(
+                          child: SizedBox(
+                        height: 64,
+                        width: 64,
+                        child: Obx(() => CachedNetworkImage(
+                              imageUrl: state.avatar.value != ''
+                                  ? state.avatar.value
+                                  : 'assets/images/pet-gray.png',
+                              placeholder: (context, url) => Image.asset(
+                                'assets/images/pet-gray.png',
+                                fit: BoxFit.cover,
+                              ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                'assets/images/pet-gray.png',
+                                fit: BoxFit.cover,
+                              ),
+                              fit: BoxFit.cover,
+                            )),
+                      )),
                     ),
                   ),
                   const SizedBox(height: 50),
@@ -170,4 +187,41 @@ class CreatePetPage extends StatelessWidget {
           ]),
         ));
   }
+}
+
+Widget headInfo(String imagePath, VoidCallback action) {
+  return Stack(
+    children: [
+      SizedBox(width: 69.w, height: 64.w),
+      Positioned(
+        left: 8.w,
+        child: Image.asset('assets/images/pet_icon_bg.png'),
+      ),
+      Positioned(
+        right: 5.w,
+        child: GestureDetector(
+          onTap: action,
+          child: ClipOval(
+            child: SizedBox(
+                height: 64, width: 64, child: headInfoImage(imagePath)),
+          ),
+        ),
+      )
+    ],
+  );
+}
+
+Widget headInfoImage(String imagePath) {
+  if (imagePath.isEmpty) return Image.asset('assets/images/pet-gray.png');
+  return CachedNetworkImage(
+      imageUrl: imagePath,
+      placeholder: (context, url) => Image.asset(
+            'assets/images/pet-gray.png',
+            fit: BoxFit.cover,
+          ),
+      errorWidget: (context, url, error) => Image.asset(
+            'assets/images/pet-gray.png',
+            fit: BoxFit.cover,
+          ),
+      fit: BoxFit.cover);
 }

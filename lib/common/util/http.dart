@@ -81,7 +81,9 @@ class HttpUtil {
       // }
       return handler.next(options);
     }, onResponse: (response, handler) {
-      if (response.data['code'] != 200) {
+      print(response);
+      if (response.data['code'] != 200||response.statusCode!=201) {
+        print('error....');
         if (response.data['code'] == 410 &&
             Get.currentRoute != AppRoutes.login) {
           Get.offAllNamed(AppRoutes.login);
@@ -95,9 +97,10 @@ class HttpUtil {
             error: ErrorEntity(
                 code: response.data['code'], message: response.data['msg'])));
       } else {
+        print('success....');
+        print(response);
         handler.next(Res.Response(
-            requestOptions: response.requestOptions,
-            data: response.data['data']));
+            requestOptions: response.requestOptions, data: response));
       }
     }));
   }
@@ -107,6 +110,8 @@ class HttpUtil {
    */
   // 错误信息
   ErrorEntity createErrorEntity(DioError error) {
+    print('444444');
+    print(error);
     if (error.error is ErrorEntity) return error.error;
     switch (error.type) {
       case DioErrorType.cancel:

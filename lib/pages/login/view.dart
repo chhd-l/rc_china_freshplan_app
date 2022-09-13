@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/global.dart';
@@ -20,7 +21,6 @@ class _LoginPageState extends State<LoginPage> {
   Consumer consumer = Consumer(
       name: '测试用户',
       nickName: '测试用户',
-      addresslist: [],
       storeId: '39b6444b-683b-4915-8b75-5d8403f40a02');
   String _password = '';
 
@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       StorageUtil().setJSON('loginUser', consumer.toJson());
+      EventBus().sendBroadcast('user-login');
       Get.toNamed(AppRoutes.account);
     }
     //Get.toNamed(AppRoutes.account);
