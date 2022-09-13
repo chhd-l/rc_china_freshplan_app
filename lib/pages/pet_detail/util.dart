@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 Widget buildPetItem(String title, Widget item, String? desc) {
@@ -61,6 +62,40 @@ Widget buildInputItem(TextEditingController c,
         Expanded(
           child: TextField(
             controller: c,
+            keyboardType: inputType,
+            decoration: const InputDecoration(
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+            ),
+            onChanged: (value) {
+              if (handleChange != null) {
+                handleChange(value);
+              }
+            },
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildInputNumberItem(TextEditingController c,
+    {TextInputType inputType = TextInputType.text, Function? handleChange}) {
+  return Container(
+    margin: const EdgeInsets.only(top: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: c,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp("[0-9.]")),
+            ],
             keyboardType: inputType,
             decoration: const InputDecoration(
               enabledBorder: InputBorder.none,
