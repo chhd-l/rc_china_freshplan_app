@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'logic.dart';
 import 'package:get/get.dart';
-import 'package:rc_china_freshplan_app/data/consumer.dart';
-import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
+import 'package:rc_china_freshplan_app/data/address.dart';
+import 'logic.dart';
+import 'package:rc_china_freshplan_app/common/util/addRess-util.dart';
 
-var _site = false;
-final CreatePetLogic logic = Get.put(CreatePetLogic());
+final CreateAddRessLogic logic = Get.put(CreateAddRessLogic());
 class NewAddress extends StatefulWidget {
   const NewAddress({
       Key? key,
@@ -28,32 +27,46 @@ class NewAddress extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<NewAddress> {
-    //name
-    TextEditingController unameController = TextEditingController();
-    //phone
-    TextEditingController uphoneController = TextEditingController();
-    //city
-    TextEditingController ucityController = TextEditingController();
-    //detail
-    TextEditingController udetailController = TextEditingController();
- _MyStatefulWidgetState(){
-    //调用.addListener重写其中的方法
-    unameController.addListener(() {
-      logic.ress['receiverName'] = unameController.text;
-    });
-    //调用.addListener重写其中的方法
-    uphoneController.addListener(() {
-      logic.ress['phone'] = unameController.text;
-    });
-    //调用.addListener重写其中的方法
-    ucityController.addListener(() {
-      logic.ress['city'] = unameController.text;
-    });
-    //调用.addListener重写其中的方法
-    udetailController.addListener(() {
-      logic.ress['province'] = unameController.text;
-    });
- }
+//     //name
+//     TextEditingController unameController = TextEditingController();
+//     //phone
+//     TextEditingController uphoneController = TextEditingController();
+//     //city
+//     TextEditingController ucityController = TextEditingController();
+//     //detail
+//     TextEditingController udetailController = TextEditingController();
+//  _MyStatefulWidgetState(){
+//     //调用.addListener重写其中的方法
+//     unameController.addListener(() {
+//       logic.onChangeName(unameController.text);
+//     });
+//     //调用.addListener重写其中的方法
+//     uphoneController.addListener(() {
+//       logic.onChangeName(unameController.text);
+//     });
+//     //调用.addListener重写其中的方法
+//     ucityController.addListener(() {
+//       logic.onChangeName(unameController.text);
+//     });
+//     //调用.addListener重写其中的方法
+//     udetailController.addListener(() {
+//       logic.onChangeName(unameController.text);
+//     });
+//  }
+  
+  void _handlePressSave() {
+    AddRessUtil.addRes(AddRess(
+      receiverName: logic.receiverName.value,
+      phone: logic.phone.value,
+      province: logic.province.value,
+      city: logic.city.value,
+      region: logic.region.value,
+      detail: logic.detail.value,
+      isDefault: logic.isDefault.value,
+    ));
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -84,7 +97,9 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                 child: Row(children: [
                   const Expanded(child: Text('收货人')),
                   Expanded(flex: 3,child: TextField(
-                    controller: unameController,
+                    onChanged: ((value) => {
+                      logic.onChangeName(value)
+                    }),
                     decoration: const InputDecoration(
                       hintText: '请输入姓名',
                       hintStyle: TextStyle(
@@ -101,7 +116,9 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                 child: Row(children: [
                   const Expanded(child: Text('联系电话')),
                   Expanded(flex: 3,child: TextField(
-                    controller: uphoneController,
+                    onChanged: ((value) => {
+                      logic.onChangephone(value)
+                    }),
                     decoration: const InputDecoration(
                       hintText: '请输入联系电话',
                       hintStyle: TextStyle(
@@ -118,7 +135,9 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                 child: Row(children: [
                   const Expanded(child: Text('所在地区')),
                   Expanded(flex: 3,child: TextField(
-                    controller: ucityController,
+                    onChanged: ((value) => {
+                      logic.onChangeprovince(value)
+                    }),
                     decoration: const InputDecoration(
                       hintText: '省，市，区',
                       hintStyle: TextStyle(
@@ -136,7 +155,9 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                   children: [
                   const Expanded(child: Text('详细地址')),
                   Expanded(flex: 3,child: TextField(
-                    controller: udetailController,
+                    onChanged: ((value) => {
+                      logic.onChangedetail(value)
+                    }),
                     decoration: const InputDecoration(
                       hintText: '请输入详细地址',
                       hintStyle: TextStyle(
@@ -154,15 +175,12 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     const Text('默认地址'),
-                    Switch(
-                      value: _site, 
+                    Obx(() => Switch(
+                      value: logic.isDefault.value, 
                       onChanged: (value){
-                        setState(() {
-                            _site = value;
-                            // logic.ress['isDefault'] = value;
-                        });
+                        logic.onChangeisDefault(value);
                       }
-                    )
+                    ))
                   ])
                 ),
               ])
@@ -177,11 +195,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
             child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
             child: titleButton('保存', () {
-              Consumer? consumer =  StorageUtil().getJSON('loginUser') != null
-                        ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
-                        : null;
-              consumer!.addresslist = [logic.ress];
-              Navigator.of(context).pop();
+              _handlePressSave();
             },
                 isCircle: true,
                 fontSize: 18,
