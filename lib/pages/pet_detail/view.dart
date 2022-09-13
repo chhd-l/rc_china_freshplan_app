@@ -266,7 +266,7 @@ class PetDetailPage extends StatelessWidget {
                   children: [
                     buildPetItem(
                         '近期体重',
-                        buildInputItem(petCtl.recentWeightController,
+                        buildInputNumberItem(petCtl.recentWeightController,
                             inputType: TextInputType.number,
                             handleChange: (value) {
                           petCtl.changeRecentWeight(value);
@@ -379,7 +379,7 @@ class PetDetailPage extends StatelessWidget {
                         ''),
                     buildPetItem(
                         '成年目标体重',
-                        buildInputItem(petCtl.targetWeightController,
+                        buildInputNumberItem(petCtl.targetWeightController,
                             inputType: TextInputType.number,
                             handleChange: (value) {
                           petCtl.changeTargetWeight(value);
