@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/pages/newAddress/view.dart';
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/data/consumer.dart';
+import 'package:rc_china_freshplan_app/common/util/addRess-util.dart';
 
 class AddRessManage extends StatelessWidget {
   const AddRessManage({super.key});
@@ -57,11 +60,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    Consumer? consumer = StorageUtil().getJSON("loginUser") != null
+        ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
+        : null;
+    if (consumer != null) {
+      AddRessUtil.init();
+    }
+
+    var addRessList = AddRessUtil.addRessList;
+
     return Scaffold(
       backgroundColor:  const Color.fromARGB(255, 249, 249, 249),
       body:  ListView.builder(
           shrinkWrap: true,
-          itemCount: ressList.length,
+          itemCount: addRessList.length,
           itemBuilder: (BuildContext ctx, int i) {
           return Container(
               decoration: const BoxDecoration(

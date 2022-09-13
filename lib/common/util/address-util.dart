@@ -3,7 +3,7 @@ import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 
 class AddRessUtil {
-  static List<AddRess> addRess = [];
+  static List<AddRess> addRessList = [];
   static late Consumer? consumer;
 
   static void init() {
@@ -11,14 +11,43 @@ class AddRessUtil {
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
     if (consumer != null) {
-      addRess = StorageUtil().getJSON('${consumer?.addresslist}_addRess');
+      var petListInStorage =
+          StorageUtil().getJSON('${consumer?.mobile}_petList');
+      if (petListInStorage != null) {
+        List<dynamic> list = List.from(petListInStorage);
+        addRessList = List<AddRess>.from(list.map((e) => AddRess.fromJson(e)));
+      }
     }
   }
 
   static void addRes(AddRess pet) {
-    addRess.add(pet);
-    StorageUtil().setJSON('${consumer?.addresslist}_addRess', addRess);
+    addRessList.add(pet);
+    StorageUtil().setJSON('${consumer?.addresslist}_addRess', addRessList);
   }
 
-  static void updatePet(AddRess pet) {}
+  static void updateAddRess(AddRess pet) {
+    int idx = 0;
+    addRessList.asMap().entries.forEach((element) {
+      if (element.value.receiverName == pet.receiverName) {
+        idx = element.key;
+      }
+    });
+    addRessList.replaceRange(idx, idx + 1, [pet]);
+    StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
+  }
+
+  static void removeAddRess(AddRess pet) {
+    int idx = 0;
+    addRessList.asMap().entries.forEach((element) {
+      if (element.value.receiverName == pet.receiverName) {
+        idx = element.key;
+      }
+    });
+    addRessList.replaceRange(idx, idx + 1, []);
+    StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
+  }
+
+  static void removeAllAddRess() {
+    StorageUtil().remove('${consumer?.mobile}_addRess');
+  }
 }

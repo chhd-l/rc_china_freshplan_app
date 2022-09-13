@@ -77,6 +77,7 @@ class AccountPage extends StatelessWidget {
           ),
           onTap: () {
             StorageUtil().remove('loginUser');
+            PetUtil.logout();
             Get.toNamed(AppRoutes.login);
           },
         ),

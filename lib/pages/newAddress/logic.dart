@@ -10,19 +10,34 @@ import 'package:get/get.dart';
 //   RxBool isDefault=false.obs;
 // }
 
-class CreatePetLogic extends GetxController {
+class CreateAddRessLogic extends GetxController {
 
-  var ress = {
-    'receiverName': '',
-    'phone': '',
-    'province': '',
-    'city': '',
-    'region': '',
-    'detail': '',
-    'isDefault': false,
+  var receiverName = ''.obs;
+  var phone = ''.obs;
+  var province = ''.obs;
+  var city = ''.obs;
+  var region = ''.obs;
+  var detail = ''.obs;
+  var isDefault = false.obs;
+
+  void onChangeName (String text) => {
+    receiverName.value = text
   };
 
-  void onRess(val) {
-    ress = val;
-  }
+  void onChangephone (String text) => {
+    phone.value = text
+  };
+
+  void onChangeprovince (String text) => {
+    province.value = text
+  };
+
+  void onChangedetail (String text) => {
+    detail.value = text
+  };
+
+  void onChangeisDefault (bool text) => {
+    isDefault.value = text
+  };
+
 }
