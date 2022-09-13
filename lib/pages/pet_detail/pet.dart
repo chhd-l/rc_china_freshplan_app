@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/state_manager.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rc_china_freshplan_app/common/util/http.dart';
+import 'package:dio/src/multipart_file.dart' as DIOMUL;
+import 'package:dio/src/form_data.dart' as DIOFORM;
 
 class PetController extends GetxController {
   var name = "".obs;
@@ -81,5 +86,24 @@ class PetController extends GetxController {
   void changeTargetWeight(String text) {
     double? v = double.tryParse(text);
     targetWeight.value = v ?? 0.0;
+  }
+
+  void uploadPetImage(XFile image) async {
+    String path = image.path;
+    var name = path.substring(path.lastIndexOf("/") + 1, path.length);
+
+    DIOFORM.FormData formdata = DIOFORM.FormData.fromMap(
+        {"file": await DIOMUL.MultipartFile.fromFile(path, filename: name)});
+
+    EasyLoading.show(status: 'loading...');
+    HttpUtil()
+        .post("https://fcdev.d2cgo.com/upload", params: formdata)
+        .onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      if (value == null) return;
+      print(value);
+    });
   }
 }

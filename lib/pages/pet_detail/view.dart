@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
@@ -6,6 +7,7 @@ import 'tabs.dart';
 import 'pet.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PetDetailPage extends StatelessWidget {
   const PetDetailPage({Key? key}) : super(key: key);
@@ -38,6 +40,42 @@ class PetDetailPage extends StatelessWidget {
       Get.toNamed(AppRoutes.petList);
     }
 
+    void _handleUploadImage() async {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(
+          imageQuality: 80, maxWidth: 540, source: ImageSource.gallery);
+      if (pickedFile != null) {
+        petCtl.uploadPetImage(pickedFile);
+      }
+    }
+
+    void _handleDelete() {
+      showCupertinoDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title: const Text('提示'),
+              content: const Text('确定要删除这个宠物吗？'),
+              actions: [
+                CupertinoDialogAction(
+                  child: const Text('确定'),
+                  onPressed: () {
+                    PetUtil.removePet(pet);
+                    Get.toNamed(AppRoutes.petList);
+                  },
+                ),
+                CupertinoDialogAction(
+                  child: const Text('取消'),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+              ],
+              insetAnimationDuration: const Duration(seconds: 2),
+            );
+          });
+    }
+
     Widget bodySection = SingleChildScrollView(
       child: Column(
         children: [
@@ -51,13 +89,23 @@ class PetDetailPage extends StatelessWidget {
                     child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ClipOval(
-                      child: Image.network(
-                        'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png',
-                        width: 58,
-                        height: 58,
-                        fit: BoxFit.cover,
-                      ),
+                    GestureDetector(
+                      child: ClipOval(
+                          child: Obx(
+                        () => Image.network(
+                          petCtl.image.value != ''
+                              ? petCtl.image.value
+                              : petCtl.type.value == 'CAT'
+                                  ? 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png'
+                                  : 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/dog-default.png',
+                          width: 58,
+                          height: 58,
+                          fit: BoxFit.cover,
+                        ),
+                      )),
+                      onTap: () {
+                        _handleUploadImage();
+                      },
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
@@ -81,11 +129,15 @@ class PetDetailPage extends StatelessWidget {
                     ),
                   ],
                 )),
-                const Icon(
-                  Icons.delete_outline,
-                  size: 24,
-                  color: Colors.black,
-                ),
+                GestureDetector(
+                    child: const Icon(
+                      Icons.delete_outline,
+                      size: 24,
+                      color: Colors.black,
+                    ),
+                    onTap: () {
+                      _handleDelete();
+                    }),
               ],
             ),
           ),

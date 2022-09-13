@@ -16,21 +16,6 @@ class AccountPage extends StatelessWidget {
         : null;
     if (consumer != null) {
       PetUtil.init();
-      // PetUtil.addPet(Pet(
-      //     id: 'xxxx-fdsfa-fdsaf-fdaf',
-      //     name: 'test',
-      //     image:
-      //         'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png',
-      //     gender: 'MALE',
-      //     type: 'CAT',
-      //     birthday: '2022-09-01',
-      //     isSterilized: false,
-      //     breedCode: '1001',
-      //     breedName: '拉布拉多',
-      //     recentWeight: 1.1,
-      //     targetWeight: 3.2,
-      //     recentPosture: 'STANDARD',
-      //     recentHealth: ['NONE']));
     }
 
     Widget loginSection = Container(
