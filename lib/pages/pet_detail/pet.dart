@@ -58,8 +58,9 @@ class PetController extends GetxController {
     gender.value = sex;
   }
 
-  void changeBreed(int breed) {
-    breedName.value = '金毛';
+  void changeBreed(String name, String code) {
+    breedName.value = name;
+    breedCode.value = code;
   }
 
   void changeRencentPosture(String posture) {

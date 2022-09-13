@@ -35,6 +35,8 @@ class PetUtil {
               type: '',
               gender: '',
               birthday: '',
+              breedCode: '',
+              breedName: '',
               recentHealth: [],
               targetWeight: 0.0,
               recentWeight: 0.0,

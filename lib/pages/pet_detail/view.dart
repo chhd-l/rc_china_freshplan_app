@@ -8,6 +8,7 @@ import 'pet.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rc_china_freshplan_app/global.dart';
 
 class PetDetailPage extends StatelessWidget {
   const PetDetailPage({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class PetDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final TabsController c = Get.put(TabsController());
     final PetController petCtl = Get.put(PetController());
+    final global = Get.put(GlobalConfigService());
     var args = Get.arguments;
     var pet = PetUtil.getPet(args.toString());
     petCtl.initData(pet);
@@ -260,8 +262,12 @@ class PetDetailPage extends StatelessWidget {
                                     color: Colors.black,
                                     fontSize: 15,
                                   ),
-                                )), (int breed) {
-                          petCtl.changeBreed(breed);
+                                )),
+                            petCtl.type.value == 'CAT'
+                                ? global.catBreedList
+                                : global.dogBreedList,
+                            (String name, String code) {
+                          petCtl.changeBreed(name, code);
                         }),
                         ''),
                   ],
