@@ -16,6 +16,20 @@ class AccountPage extends StatelessWidget {
         : null;
     if (consumer != null) {
       PetUtil.init();
+      // PetUtil.addPet(Pet(
+      //     id: 'jfds-xfds-fds3r-fdsaf',
+      //     name: 'ttes',
+      //     image: '',
+      //     type: 'CAT',
+      //     gender: 'FEMALE',
+      //     birthday: '2022-09-10',
+      //     breedCode: '10012',
+      //     breedName: '小猫',
+      //     isSterilized: false,
+      //     recentWeight: 0.0,
+      //     targetWeight: 0.0,
+      //     recentPosture: 'STANDARD',
+      //     recentHealth: ['NONE']));
     }
 
     Widget loginSection = Container(
