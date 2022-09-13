@@ -7,14 +7,17 @@ import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
 class AddRessManage extends StatelessWidget {
-  const AddRessManage({super.key});
+  var isFromCheckout = false;
+  AddRessManage({super.key}) {
+    isFromCheckout = Get.arguments ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: commonAppBar('地址管理'),
-        body: const MyStatefulWidget(key: null,),
+        body: MyStatefulWidget(isFromCheckout),
         bottomNavigationBar:  Container(
             padding: const EdgeInsets.only(bottom:12.0),
             decoration: const BoxDecoration(
@@ -36,7 +39,10 @@ class AddRessManage extends StatelessWidget {
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+  var isCheckout = false;
+  MyStatefulWidget(bool isFromCheckout, {super.key}) {
+    isCheckout = isFromCheckout;
+  }
 
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
@@ -65,7 +71,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           shrinkWrap: true,
           itemCount: addRessList.length,
           itemBuilder: (BuildContext ctx, int i) {
-          return Container(
+          return GestureDetector(
+              onTap: () {
+                if (widget.isCheckout) {
+                  Get.offNamed(AppRoutes.checkout, arguments: addRessList[i]);
+                }
+              },
+              child:Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -176,7 +188,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
               ],
             ),
-            );
+            ));
           },
         ),
     );

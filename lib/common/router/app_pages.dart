@@ -58,7 +58,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.addressManage,
-      page: () => const AddRessManage(),
+      page: () => AddRessManage(),
     ),
     GetPage(
       name: AppRoutes.newAddress,
