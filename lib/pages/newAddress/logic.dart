@@ -39,15 +39,16 @@ class CreateAddRessLogic extends GetxController {
     isDefault.value = text
   };
 
-  void initData(AddRess address) {
+  void initData(args) {
     Future.delayed(const Duration(milliseconds: 10)).then((e) {
-      receiverName.value = address.receiverName!;
-      phone.value = address.phone!;
-      province.value = address.province!;
-      city.value = address.city!;
-      region.value = address.region!;
-      detail.value = address.detail!;
-      isDefault.value = address.isDefault!;
+      var addRess = AddRessUtil.getAddRess(args);
+      receiverName.value = addRess.receiverName!;
+      phone.value = addRess.phone!;
+      province.value = addRess.province!;
+      city.value = addRess.city!;
+      region.value = addRess.region!;
+      detail.value = addRess.detail!;
+      isDefault.value = addRess.isDefault!;
     });
   }
 

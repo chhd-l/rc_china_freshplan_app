@@ -13,9 +13,6 @@ class NewAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     final CreateAddRessLogic logic = Get.put(CreateAddRessLogic());
     var args = Get.arguments ?? '-1';
-    var addRess = AddRessUtil.getAddRess(args.toString());
-    print(addRess.receiverName);
-    logic.initData(addRess);
 
     TextEditingController contNameroller = TextEditingController(
       text: logic.receiverName.value,

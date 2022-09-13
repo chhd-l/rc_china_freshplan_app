@@ -30,8 +30,7 @@ class AddRessUtil {
   }
 
   static AddRess getAddRess(String id) {
-    print(id);
-  var init = addRessList.singleWhere((element) => element.id == id,
+    var init = addRessList.singleWhere((element) => element.id == id,
       orElse: () => AddRess(
           id: '-1',
           receiverName: '',
@@ -42,18 +41,27 @@ class AddRessUtil {
           isDefault: false,
           province: '',
       ));
-    print(init.receiverName);
     return init;
   }
 
   static void updateAddRess(AddRess pet) {
-    int idx = pet.id as int;
+    int idx = 0;
+    addRessList.asMap().entries.forEach((element) {
+      if (element.value.id == pet.id) {
+        idx = element.key;
+      }
+    });
     addRessList.replaceRange(idx, idx + 1, [pet]);
     StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
   }
 
   static void removeAddRess(AddRess pet) {
-    int idx = pet.id as int;
+    int idx = 0;
+    addRessList.asMap().entries.forEach((element) {
+      if (element.value.id == pet.id) {
+        idx = element.key;
+      }
+    });
     addRessList.replaceRange(idx, idx + 1, []);
     StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
   }
