@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
-import 'package:rc_china_freshplan_app/global.dart';
 
 import 'common-widget-view.dart';
 import 'logic.dart';
@@ -89,18 +87,20 @@ class CreatePetNextPage extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 15),
                             child: GestureDetector(
                                 onTap: () {
-                                  if (state.recentHealth
+                                  if (state.recentHealth.value
                                       .contains(item['value'])) {
-                                    state.recentHealth.remove(item['value']);
+                                    state.recentHealth.value
+                                        .remove(item['value']);
                                   } else {
-                                    state.recentHealth.insert(0, item['value']);
+                                    state.recentHealth.value
+                                        .insert(0, item['value']);
                                   }
                                 },
                                 child: Obx(() => Container(
                                       height: 50,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
-                                          color: state.recentHealth
+                                          color: state.recentHealth.value
                                                   .contains(item['value'])
                                               ? AppColors.tint
                                               : const Color.fromRGBO(
@@ -111,7 +111,7 @@ class CreatePetNextPage extends StatelessWidget {
                                       child: Text(item['name'],
                                           style: textSyle700(
                                               fontSize: 15,
-                                              color: state.recentHealth
+                                              color: state.recentHealth.value
                                                       .contains(item['value'])
                                                   ? Colors.white
                                                   : AppColors.primaryText)),
@@ -130,9 +130,7 @@ class CreatePetNextPage extends StatelessWidget {
                       width: 145,
                       bgColor: const Color.fromRGBO(217, 217, 217, 1)),
                   titleButton('推荐食谱', () {
-                    Get.put(GlobalConfigService()).petName.value =
-                        state.name.value;
-                    Get.toNamed(AppRoutes.recommendRecipes);
+                    logic.recommendedRecipes();
                   }, width: 145)
                 ],
               ),

@@ -14,12 +14,12 @@ import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 
 class AppPages {
-  static const initial = AppRoutes.addressManage;
+  static const initial = AppRoutes.index;
 
   static final routes = [
     GetPage(
       name: AppRoutes.index,
-      page: () => const IndexPage(),
+      page: () => IndexPage(),
     ),
     GetPage(
       name: AppRoutes.createPet,
@@ -59,7 +59,13 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.newAddress,
-      page: () => const NewAddress(name: '',details: '',open: false,phone:'',cite: '',),
+      page: () => const NewAddress(
+        name: '',
+        details: '',
+        open: false,
+        phone: '',
+        cite: '',
+      ),
     ),
   ];
 }

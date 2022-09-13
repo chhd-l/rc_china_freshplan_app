@@ -70,7 +70,7 @@ class CheckoutLogic extends GetxController {
         'alipay_sdk=alipay-sdk-java-3.0.52.ALL&app_id=2021003146613222&biz_content=%7B%22out_trade_no%22%3A%22O20220909152002568%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%22Fresh%20Plan%22%2C%22timeout_express%22%3A%2230m%22%7D&charset=UTF-8&format=json&method=alipay.trade.app.pay&sign=ekaow04ZZpRvaR2wpwN1rlGSEVCCdqSmaQiiXfQ5kZMqN1fi/rEE9kLB4/bVDWADKaA3xqwgLCN6hZyYj1LsSBmU3EeB3gFsI1Q2WQqHvasSbi7Ka2GiJ70lkwqINavr7AtETr9EO8rSwWNNcWaR2kw4LyTx/1bjzgDVphTL6ZqaSghtNbA7BsyxGa4d1wp6ZN8MKB2q07vDuvUTwcI7tCihlmAg3GmbVtMYxDxdVF0Y9UhfMbbeQ10byh86xkmFz5P8O7568s4qgx9Ojzr5uU4w8pQJiQVVDNnO3vajqwyULmnEnzMSLC6ZeFhgHMaeSJFlCnjwCQ7YrMxR1NA==&sign_type=RSA2&timestamp=2022-09-09+15%3A20%3A02&version=1.0';
     var result = await SyFlutterAlipay.pay(payInfo,
         urlScheme: 'paydemo', //前面配置的urlScheme
-        isSandbox: false //是否是沙箱环境，只对android有效
+        isSandbox: true //是否是沙箱环境，只对android有效
         );
     print('11111');
     print(result);
