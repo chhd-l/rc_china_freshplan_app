@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       EventBus().sendBroadcast('user-login');
       PetUtil.init();
       AddRessUtil.init();
-      Get.toNamed(AppRoutes.account);
+      Get.offNamed(AppRoutes.account);
     }
     //Get.toNamed(AppRoutes.account);
   }
