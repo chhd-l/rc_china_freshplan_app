@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'common/util/pet-util.dart';
 import 'common/util/storage.dart';
+import 'constants.dart';
 
 /// 全局配置
 class GlobalConfigService extends GetxService {
@@ -45,6 +47,9 @@ class GlobalConfigService extends GetxService {
     {'name': '我也笑了', 'mobile': '18983359062'}
   ];
 
+  final List catBreedList = Constants.catPetList;
+  final List dogBreedList = Constants.dogBreedList;
+
   // ///getter setter
   // String get petName {
   //   return StorageUtil().getStr('petName');
@@ -59,6 +64,7 @@ class GlobalConfigService extends GetxService {
     WidgetsFlutterBinding.ensureInitialized();
     // 工具初始
     await StorageUtil.init();
+    await PetUtil.init();
 
     return this;
   }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
@@ -79,8 +80,9 @@ Widget petTypeBox(bool isSelected, String petType, VoidCallback onPressed) {
             padding: const EdgeInsets.only(bottom: 12),
             child: Image.asset(
               'assets/images/$petType.png',
-              fit: BoxFit.fitHeight,
-              height: 40,
+              fit:BoxFit.contain,
+              height: petType == 'dog' ? 20 : 40,
+              width:60,
             ),
           ),
         ),
@@ -188,4 +190,37 @@ Widget statusBox(
           ],
         ),
       ));
+}
+
+Widget petAvatarPick(VoidCallback onPress, String petAvatar) {
+  return GestureDetector(
+    onTap: onPress,
+    child: Container(
+      width: 89,
+      height: 89,
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/select-pet-avatar.png'))),
+      child: ClipOval(
+          child: SizedBox(
+        height: 64,
+        width: 64,
+        child: petAvatar != ''
+            ? CachedNetworkImage(
+                imageUrl:
+                    petAvatar != '' ? petAvatar : 'assets/images/pet-gray.png',
+                placeholder: (context, url) => Image.asset(
+                  'assets/images/pet-gray.png',
+                  fit: BoxFit.cover,
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  'assets/images/pet-gray.png',
+                  fit: BoxFit.cover,
+                ),
+                fit: BoxFit.cover,
+              )
+            : Image.asset('assets/images/pet-gray.png'),
+      )),
+    ),
+  );
 }

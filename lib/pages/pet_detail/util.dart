@@ -169,7 +169,7 @@ Widget buildGenderItem(
   );
 }
 
-Widget buildBreedItem(Widget child, Function handleSelectBreed) {
+Widget buildBreedItem(Widget child, List options, Function handleSelectBreed) {
   return Container(
     margin: const EdgeInsets.only(top: 5),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -218,11 +218,14 @@ Widget buildBreedItem(Widget child, Function handleSelectBreed) {
                       useMagnifier: true,
                       itemExtent: 32.0,
                       onSelectedItemChanged: (int selectedItem) {
-                        handleSelectBreed(selectedItem);
+                        var selected = options[selectedItem];
+                        handleSelectBreed(selected['name'].toString(),
+                            selected['code'].toString());
                       },
-                      children: List<Widget>.generate(2, (int index) {
-                        return const Center(
-                          child: Text('拉布拉多犬'),
+                      children:
+                          List<Widget>.generate(options.length, (int index) {
+                        return Center(
+                          child: Text(options[index]['name'].toString()),
                         );
                       }),
                     )),

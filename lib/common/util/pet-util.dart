@@ -7,7 +7,7 @@ class PetUtil {
   static List<Pet> petList = [];
   static late Consumer? consumer;
 
-  static void init() {
+  static Future<void> init() async {
     consumer = StorageUtil().getJSON("loginUser") != null
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
@@ -27,7 +27,21 @@ class PetUtil {
   }
 
   static Pet getPet(String id) {
-    return petList.firstWhere((element) => element.id == id);
+    return petList.firstWhere((element) => element.id == id,
+        orElse: () => Pet(
+              id: '-1',
+              name: '',
+              image: '',
+              type: '',
+              gender: '',
+              birthday: '',
+              breedCode: '',
+              breedName: '',
+              recentHealth: [],
+              targetWeight: 0.0,
+              recentWeight: 0.0,
+              recentPosture: '',
+            ));
   }
 
   static void updatePet(Pet pet) {

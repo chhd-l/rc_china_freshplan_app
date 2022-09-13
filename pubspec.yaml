@@ -46,6 +46,9 @@ dependencies:
   flutter_screenutil: ^5.5.3+2
   shared_preferences: ^2.0.5
 
+  #加载网络图片
+  cached_network_image: ^3.2.1
+
   #支付宝
   sy_flutter_alipay: ^0.2.1
 

@@ -1,40 +1,56 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/src/multipart_file.dart' as DIOMUL;
 import 'package:dio/src/form_data.dart' as DIOFORM;
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/http.dart';
+import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/values/api_path.dart';
+import 'package:rc_china_freshplan_app/data/pet.dart';
+import 'package:rc_china_freshplan_app/global.dart';
 
 import 'state.dart';
 
 class CreatePetLogic extends GetxController {
   final state = CreatePetState();
 
+  final global = Get.put(GlobalConfigService());
+
   TextEditingController petNameController = TextEditingController();
   TextEditingController recentWeightController = TextEditingController();
   TextEditingController targetWeightController = TextEditingController();
 
   final List healthList = [
-    {'name': '对食物很挑剔', 'value': '对食物很挑剔'},
-    {'name': '食物过敏或胃敏感', 'value': '食物过敏或胃敏感'},
-    {'name': '无光泽或片状被毛', 'value': '无光泽或片状被毛'},
-    {'name': '关节炎或关节痛', 'value': '关节炎或关节痛'},
-    {'name': '以上都没有', 'value': '以上都没有'},
+    {'name': '对食物很挑剔', 'value': 'PICKY_EATER'},
+    {'name': '食物过敏或胃敏感', 'value': 'FOOD_ALLERGIES_OR_STOMACH_SENSITIVITIES'},
+    {'name': '无光泽或片状被毛', 'value': 'DULL_OR_FLAKY_FUR'},
+    {'name': '关节炎或关节痛', 'value': 'ARTHRITIS_OR_JOINT_PAIN'},
+    {'name': '以上都没有', 'value': 'NONE'},
   ];
 
   @override
   void onInit() {
     super.onInit();
 
+    recentWeightController.text = '0.0';
+    targetWeightController.text = '0.0';
+
     petNameController.addListener(() {
       state.name.value = petNameController.text;
     });
 
     recentWeightController.addListener(() {
-      state.recentWeight.value = double.parse(recentWeightController.text);
+      state.recentWeight.value =
+          double.parse(recentWeightController.text.toString());
     });
 
     targetWeightController.addListener(() {
-      state.targetWeight.value = double.parse(targetWeightController.text);
+      state.targetWeight.value =
+          double.parse(targetWeightController.text.toString());
     });
   }
 
@@ -57,24 +73,68 @@ class CreatePetLogic extends GetxController {
   _upLoadImage(XFile image) async {
     String path = image.path;
     var name = path.substring(path.lastIndexOf("/") + 1, path.length);
-
-    state.avatar.value = path;
-
     DIOFORM.FormData formdata = DIOFORM.FormData.fromMap(
         {"file": await DIOMUL.MultipartFile.fromFile(path, filename: name)});
 
-    // EasyLoading.show(status: 'loading...');
-    // HttpUtil()
-    //     .post(FILE_UPLOAD, params: formdata)
-    //     .onError((ErrorEntity error, stackTrace) {
-    //   EasyLoading.showError(error.message!);
-    // }).then((value) {
-    //   EasyLoading.dismiss();
-    //   if (value == null) return;
-    //   state.petPlan.avatar = value;
-    //   state.headImagePath.value = value;
-    //   Get.put(GlobalConfigService()).save();
-    // bus.sendBroadcast('pet_avatar_update');
-    // });
+    EasyLoading.show(status: 'loading...');
+    HttpUtil()
+        .post(upload, params: formdata)
+        .onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      if (value == null) return;
+      state.avatar.value = json.decode(value.toString())["url"];
+    });
+  }
+
+  void recommendedRecipes() {
+    Get.put(GlobalConfigService()).petName.value = state.name.value;
+    Pet pet = Pet(
+      id: '1',
+      name: state.name.value,
+      gender: state.gender.value,
+      type: state.type.value,
+      breedCode: state.breedCode.value,
+      breedName: state.breedName.value,
+      image: state.avatar.value,
+      isSterilized: false,
+      birthday: state.birthday.value,
+      recentWeight: state.recentWeight.value,
+      recentPosture: state.recentPosture.value,
+      targetWeight: state.targetWeight.value,
+      recentHealth: state.recentHealth.value,
+    );
+    print(pet.toJson());
+    PetUtil.addPet(pet);
+    Get.toNamed(AppRoutes.recommendRecipes);
+  }
+
+  void changeType(value) {
+    state.type.value = value;
+    state.breedList.value =
+        value == 'DOG' ? global.dogBreedList : global.catBreedList;
+  }
+
+  void changeRecentHealth(int index) {
+    print(111);
+    final item = healthList[index];
+    if (item['value'] == 'NONE' && !state.recentHealth.value.contains('NONE')) {
+      state.recentHealth.update((val) {
+        val?.removeRange(0, state.recentHealth.value.length);
+        val?.insert(0, item['value']);
+      });
+    } else if (state.recentHealth.value.contains(item['value'])) {
+      state.recentHealth.update((val) {
+        val?.remove(item['value']);
+      });
+    } else {
+      state.recentHealth.update((val) {
+        if (state.recentHealth.value.contains('NONE')) {
+          val?.remove('NONE');
+        }
+        val?.insert(0, item['value']);
+      });
+    }
   }
 }

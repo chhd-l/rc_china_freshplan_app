@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
@@ -7,8 +5,12 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
+import 'logic.dart';
+
 class IndexPage extends StatelessWidget {
-  const IndexPage({Key? key}) : super(key: key);
+  IndexPage({Key? key}) : super(key: key);
+
+  final IndexLogic logic = Get.put(IndexLogic());
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,7 @@ class IndexPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
               child: titleButton('定制鲜粮', () {
-                Get.toNamed(AppRoutes.createPet);
+                logic.customizedFreshFood();
               },
                   isCircle: true,
                   icon: Container(

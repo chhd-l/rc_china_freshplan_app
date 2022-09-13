@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/global.dart';
@@ -27,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       StorageUtil().setJSON('loginUser', consumer.toJson());
+      EventBus().sendBroadcast('user-login');
       Get.toNamed(AppRoutes.account);
     }
     //Get.toNamed(AppRoutes.account);
