@@ -44,26 +44,13 @@ class AddRessUtil {
   }
 
   static void updateAddRess(AddRess pet) {
-    int idx = 0;
-    addRessList.asMap().entries.forEach((element) {
-      if (element.value.receiverName == pet.receiverName) {
-        print(element.key);
-        print(idx);
-        idx = element.key;
-      }
-    });
-    print(idx);
+    int idx = pet.id as int;
     addRessList.replaceRange(idx, idx + 1, [pet]);
     StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
   }
 
   static void removeAddRess(AddRess pet) {
-    int idx = 0;
-    addRessList.asMap().entries.forEach((element) {
-      if (element.value.id == pet.id) {
-        idx = element.key;
-      }
-    });
+    int idx = pet.id as int;
     addRessList.replaceRange(idx, idx + 1, []);
     StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
   }

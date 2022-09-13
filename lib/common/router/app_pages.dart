@@ -17,7 +17,7 @@ import 'package:rc_china_freshplan_app/common/util/storage.dart';
 class AppPages {
   static String initial = StorageUtil().getJSON('loginUser') == null
       ? AppRoutes.login
-      : AppRoutes.index;
+      : AppRoutes.addressManage;
 
   static final routes = [
     GetPage(
@@ -58,7 +58,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.addressManage,
-      page: () => AddRessManage(),
+      page: () => const AddRessManage(),
     ),
     GetPage(
       name: AppRoutes.newAddress,
