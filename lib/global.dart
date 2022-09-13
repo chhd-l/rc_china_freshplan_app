@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'common/util/pet-util.dart';
 import 'common/util/storage.dart';
 import 'constants.dart';
 
@@ -63,6 +64,7 @@ class GlobalConfigService extends GetxService {
     WidgetsFlutterBinding.ensureInitialized();
     // 工具初始
     await StorageUtil.init();
+    await PetUtil.init();
 
     return this;
   }

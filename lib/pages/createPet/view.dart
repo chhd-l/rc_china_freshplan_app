@@ -110,6 +110,8 @@ class CreatePetPage extends StatelessWidget {
                               onSelectedItemChanged: (int selectedItem) {
                                 state.breedName.value =
                                     state.breedList[selectedItem]['name'];
+                                state.breedCode.value =
+                                state.breedList[selectedItem]['code'];
                               },
                               children: List<Widget>.generate(
                                   state.breedList.length, (int index) {
