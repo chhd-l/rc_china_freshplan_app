@@ -56,7 +56,7 @@ class CheckoutPage extends StatelessWidget {
                                           Row(
                                             children: [
                                               Text(
-                                                logic.address['name'],
+                                                logic.address['receiverName'],
                                                 style: textSyle700(
                                                     fontSize: 15,
                                                     color: const Color.fromRGBO(
@@ -71,7 +71,10 @@ class CheckoutPage extends StatelessWidget {
                                             ],
                                           ),
                                           Text(
-                                            logic.address['detail'],
+                                            logic.address['province'] +
+                                                logic.address['city'] +
+                                                logic.address['region'] +
+                                                logic.address['detail'],
                                             style: textSyle700(fontSize: 13),
                                           ),
                                         ],
