@@ -18,16 +18,18 @@ import 'state.dart';
 class CreatePetLogic extends GetxController {
   final state = CreatePetState();
 
+  final global = Get.put(GlobalConfigService());
+
   TextEditingController petNameController = TextEditingController();
   TextEditingController recentWeightController = TextEditingController();
   TextEditingController targetWeightController = TextEditingController();
 
   final List healthList = [
-    {'name': '对食物很挑剔', 'value': '对食物很挑剔'},
-    {'name': '食物过敏或胃敏感', 'value': '食物过敏或胃敏感'},
-    {'name': '无光泽或片状被毛', 'value': '无光泽或片状被毛'},
-    {'name': '关节炎或关节痛', 'value': '关节炎或关节痛'},
-    {'name': '以上都没有', 'value': '以上都没有'},
+    {'name': '对食物很挑剔', 'value': 'PICKY_EATER'},
+    {'name': '食物过敏或胃敏感', 'value': 'FOOD_ALLERGIES_OR_STOMACH_SENSITIVITIES'},
+    {'name': '无光泽或片状被毛', 'value': 'DULL_OR_FLAKY_FUR'},
+    {'name': '关节炎或关节痛', 'value': 'ARTHRITIS_OR_JOINT_PAIN'},
+    {'name': '以上都没有', 'value': ' NONE'},
   ];
 
   @override
@@ -39,11 +41,13 @@ class CreatePetLogic extends GetxController {
     });
 
     recentWeightController.addListener(() {
-      state.recentWeight.value = double.parse(recentWeightController.text.toString());
+      state.recentWeight.value =
+          double.parse(recentWeightController.text.toString());
     });
 
     targetWeightController.addListener(() {
-      state.targetWeight.value = double.parse(targetWeightController.text.toString());
+      state.targetWeight.value =
+          double.parse(targetWeightController.text.toString());
     });
   }
 
@@ -66,9 +70,6 @@ class CreatePetLogic extends GetxController {
   _upLoadImage(XFile image) async {
     String path = image.path;
     var name = path.substring(path.lastIndexOf("/") + 1, path.length);
-
-    // state.avatar.value = path;
-
     DIOFORM.FormData formdata = DIOFORM.FormData.fromMap(
         {"file": await DIOMUL.MultipartFile.fromFile(path, filename: name)});
 
@@ -76,16 +77,11 @@ class CreatePetLogic extends GetxController {
     HttpUtil()
         .post(upload, params: formdata)
         .onError((ErrorEntity error, stackTrace) {
-      print('333333');
-          print(error.message);
       EasyLoading.showError(error.message!);
     }).then((value) {
       EasyLoading.dismiss();
-      print('11111');
-      print(value);
       if (value == null) return;
       state.avatar.value = json.decode(value.toString())["url"];
-      print(state.avatar.value);
     });
   }
 
@@ -107,7 +103,25 @@ class CreatePetLogic extends GetxController {
       recentHealth: state.recentHealth.value,
     );
     PetUtil.addPet(pet);
-
     Get.toNamed(AppRoutes.recommendRecipes);
+  }
+
+  void changeType(value) {
+    state.type.value = value;
+    state.breedList.value =
+        value == 'DOG' ? global.dogBreedList : global.catBreedList;
+  }
+
+  void changeRecentHealth(int index) {
+    print(111);
+    final item = healthList[index];
+    if (item['value'] == 'NONE' &&
+        !state.recentHealth.value.contains(item['value'])) {
+      state.recentHealth.value = ['NONE'];
+    } else if (state.recentHealth.value.contains(item['value'])) {
+      state.recentHealth.value.remove(item['value']);
+    } else {
+      state.recentHealth.value.insert(0, item['value']);
+    }
   }
 }

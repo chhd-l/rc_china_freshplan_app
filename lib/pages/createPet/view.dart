@@ -9,6 +9,7 @@ import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
 import 'package:intl/intl.dart';
+import 'package:rc_china_freshplan_app/global.dart';
 
 import 'common-widget-view.dart';
 import 'logic.dart';
@@ -50,38 +51,9 @@ class CreatePetPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                     right: 16.w, left: 16.w, top: 40.w, bottom: 16.h),
                 child: Column(children: [
-                  GestureDetector(
-                    onTap: () {
-                      logic.tapHeadIcon();
-                    },
-                    child: Container(
-                      width: 89,
-                      height: 89,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/select-pet-avatar.png'))),
-                      child: ClipOval(
-                          child: SizedBox(
-                        height: 64,
-                        width: 64,
-                        child: Obx(() => CachedNetworkImage(
-                              imageUrl: state.avatar.value != ''
-                                  ? state.avatar.value
-                                  : 'assets/images/pet-gray.png',
-                              placeholder: (context, url) => Image.asset(
-                                'assets/images/pet-gray.png',
-                                fit: BoxFit.cover,
-                              ),
-                              errorWidget: (context, url, error) => Image.asset(
-                                'assets/images/pet-gray.png',
-                                fit: BoxFit.cover,
-                              ),
-                              fit: BoxFit.cover,
-                            )),
-                      )),
-                    ),
-                  ),
+                  Obx(() => petAvatarPick(() {
+                        logic.tapHeadIcon();
+                      }, state.avatar.value)),
                   const SizedBox(height: 50),
                   commonTitle('您的爱宠是', description: '爱宠的健康之旅，从这里开始。'),
                   const SizedBox(height: 52),
@@ -89,12 +61,12 @@ class CreatePetPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Obx(() =>
-                          petTypeBox(state.type.value == 'cat', 'cat', () {
-                            state.type.value = 'cat';
+                          petTypeBox(state.type.value == 'CAT', 'cat', () {
+                            logic.changeType('CAT');
                           })),
                       Obx(() =>
-                          petTypeBox(state.type.value == 'dog', 'dog', () {
-                            state.type.value = 'dog';
+                          petTypeBox(state.type.value == 'DOG', 'dog', () {
+                            logic.changeType('DOG');
                           })),
                     ],
                   ),
@@ -113,12 +85,12 @@ class CreatePetPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Obx(() =>
-                            genderBox(state.gender.value == 'male', '小鲜肉', () {
-                              state.gender.value = 'male';
+                            genderBox(state.gender.value == 'MALE', '小鲜肉', () {
+                              state.gender.value = 'MALE';
                             })),
                         Obx(() => genderBox(
-                                state.gender.value == 'female', '小公主', () {
-                              state.gender.value = 'female';
+                                state.gender.value == 'FEMALE', '小公主', () {
+                              state.gender.value = 'FEMALE';
                             })),
                       ],
                     ),
@@ -136,11 +108,13 @@ class CreatePetPage extends StatelessWidget {
                               useMagnifier: true,
                               itemExtent: 32.0,
                               onSelectedItemChanged: (int selectedItem) {
-                                state.breedName.value = '拉布拉多犬';
+                                state.breedName.value =
+                                    state.breedList[selectedItem]['name'];
                               },
-                              children: List<Widget>.generate(2, (int index) {
-                                return const Center(
-                                  child: Text('拉布拉多犬'),
+                              children: List<Widget>.generate(
+                                  state.breedList.length, (int index) {
+                                return Center(
+                                  child: Text(state.breedList[index]["name"]),
                                 );
                               }),
                             ),

@@ -11,4 +11,6 @@ class CreatePetState {
   RxString recentPosture = ''.obs;
   RxDouble targetWeight = 0.0.obs;
   Rx<List<String>> recentHealth = Rx<List<String>>([]);
+
+  RxList breedList=[].obs;
 }

@@ -44,24 +44,24 @@ class CreatePetNextPage extends StatelessWidget {
                       children: [
                         Obx(() => Expanded(
                                 child: statusBox(
-                                    state.recentPosture.value == 'thin',
+                                    state.recentPosture.value == 'EMACIATED',
                                     'thin',
                                     '瘦弱', () {
-                              state.recentPosture.value = 'thin';
+                              state.recentPosture.value = 'EMACIATED';
                             }))),
                         Obx(() => Expanded(
                                 child: statusBox(
-                                    state.recentPosture.value == 'standard',
+                                    state.recentPosture.value == 'STANDARD',
                                     'standard',
                                     '标准', () {
-                              state.recentPosture.value = 'standard';
+                              state.recentPosture.value = 'STANDARD';
                             }))),
                         Obx(() => Expanded(
                                 child: statusBox(
-                                    state.recentPosture.value == 'overweight',
+                                    state.recentPosture.value == 'OBESITY',
                                     'overweight',
                                     '超重', () {
-                              state.recentPosture.value = 'overweight';
+                              state.recentPosture.value = 'OBESITY';
                             }))),
                       ],
                     ),
@@ -82,37 +82,34 @@ class CreatePetNextPage extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: logic.healthList.length,
                         itemBuilder: (context, index) {
-                          final item = logic.healthList[index];
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 15),
                             child: GestureDetector(
                                 onTap: () {
-                                  if (state.recentHealth.value
-                                      .contains(item['value'])) {
-                                    state.recentHealth.value
-                                        .remove(item['value']);
-                                  } else {
-                                    state.recentHealth.value
-                                        .insert(0, item['value']);
-                                  }
+                                  logic.changeRecentHealth(index);
                                 },
                                 child: Obx(() => Container(
                                       height: 50,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           color: state.recentHealth.value
-                                                  .contains(item['value'])
+                                                  .contains(
+                                                      logic.healthList[index]
+                                                          ['value'])
                                               ? AppColors.tint
                                               : const Color.fromRGBO(
                                                   246, 246, 246, 1),
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(15),
                                           )),
-                                      child: Text(item['name'],
+                                      child: Text(
+                                          logic.healthList[index]['name'],
                                           style: textSyle700(
                                               fontSize: 15,
                                               color: state.recentHealth.value
-                                                      .contains(item['value'])
+                                                      .contains(logic
+                                                              .healthList[index]
+                                                          ['value'])
                                                   ? Colors.white
                                                   : AppColors.primaryText)),
                                     ))),
