@@ -6,6 +6,7 @@ import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/global.dart';
+import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -29,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       _formKey.currentState!.save();
       StorageUtil().setJSON('loginUser', consumer.toJson());
       EventBus().sendBroadcast('user-login');
+      PetUtil.init();
       Get.toNamed(AppRoutes.account);
     }
     //Get.toNamed(AppRoutes.account);
