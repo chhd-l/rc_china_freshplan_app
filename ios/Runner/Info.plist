@@ -47,9 +47,5 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>AccessPhotoLibrary</string>
-	<key>NSCameraUsageDescription</key>
-	<string>AccessCamera</string>
 </dict>
 </plist>
