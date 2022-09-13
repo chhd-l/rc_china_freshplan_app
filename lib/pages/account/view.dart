@@ -4,6 +4,7 @@ import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/address-util.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 
 class AccountPage extends StatelessWidget {
@@ -78,6 +79,7 @@ class AccountPage extends StatelessWidget {
           onTap: () {
             StorageUtil().remove('loginUser');
             PetUtil.logout();
+            AddRessUtil.logout();
             Get.toNamed(AppRoutes.login);
           },
         ),

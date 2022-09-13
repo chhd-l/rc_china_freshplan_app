@@ -20,6 +20,10 @@ class AddRessUtil {
     }
   }
 
+  static void logout() {
+    addRessList.clear();
+  }
+
   static void addRes(AddRess pet) {
     addRessList.add(pet);
     StorageUtil().setJSON('${consumer?.addresslist}_addRess', addRessList);
@@ -48,6 +52,7 @@ class AddRessUtil {
   }
 
   static void removeAllAddRess() {
+    addRessList.clear();
     StorageUtil().remove('${consumer?.mobile}_addRess');
   }
 }

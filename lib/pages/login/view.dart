@@ -7,6 +7,7 @@ import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/address-util.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -31,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       StorageUtil().setJSON('loginUser', consumer.toJson());
       EventBus().sendBroadcast('user-login');
       PetUtil.init();
+      AddRessUtil.init();
       Get.toNamed(AppRoutes.account);
     }
     //Get.toNamed(AppRoutes.account);

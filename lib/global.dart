@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'common/util/storage.dart';
 import 'common/util/pet-util.dart';
+import 'common/util/address-util.dart';
 import 'constants.dart';
 
 /// 全局配置
@@ -65,6 +66,7 @@ class GlobalConfigService extends GetxService {
     // 工具初始
     await StorageUtil.init();
     PetUtil.init();
+    AddRessUtil.init();
 
     return this;
   }
