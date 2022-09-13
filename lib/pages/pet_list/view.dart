@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/data/pet.dart';
+import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 
 class PetListPage extends StatelessWidget {
   const PetListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<Pet> petList = PetUtil.petList;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('宠物列表'),
@@ -29,11 +33,13 @@ class PetListPage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-                child: ListView(
-              children: [
-                GestureDetector(
+                child: ListView.builder(
+              itemCount: petList.length,
+              itemBuilder: (context, index) {
+                Pet pet = petList[index];
+                return GestureDetector(
                   child: Container(
-                    margin: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -43,7 +49,11 @@ class PetListPage extends StatelessWidget {
                       children: [
                         ClipOval(
                           child: Image.network(
-                            'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png',
+                            (pet.image == null || pet.image == '')
+                                ? (pet.type == 'CAT'
+                                    ? 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png'
+                                    : 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/dog-default.png')
+                                : pet.image ?? '',
                             width: 58,
                             height: 58,
                             fit: BoxFit.cover,
@@ -59,25 +69,28 @@ class PetListPage extends StatelessWidget {
                                   children: [
                                     Container(
                                       margin: const EdgeInsets.only(right: 5),
-                                      child: const Text(
-                                        '球球',
-                                        style: TextStyle(
+                                      child: Text(
+                                        pet.name ?? '',
+                                        style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
-                                    const Icon(
-                                      Icons.female,
+                                    Icon(
+                                      pet.type == 'FEMALE'
+                                          ? Icons.female
+                                          : Icons.male,
                                       size: 12,
-                                      color: Color.fromARGB(255, 212, 157, 40),
+                                      color: const Color.fromARGB(
+                                          255, 212, 157, 40),
                                     ),
                                   ],
                                 ),
-                                const Text(
-                                  '英国短毛猫 1岁1个月',
-                                  style: TextStyle(
+                                Text(
+                                  pet.name ?? '',
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       color:
                                           Color.fromARGB(255, 153, 153, 153)),
@@ -95,10 +108,10 @@ class PetListPage extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Get.toNamed(AppRoutes.petDetail);
+                    Get.toNamed(AppRoutes.petDetail, arguments: pet.id);
                   },
-                ),
-              ],
+                );
+              },
             )),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),

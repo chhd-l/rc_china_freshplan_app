@@ -12,9 +12,12 @@ import 'package:rc_china_freshplan_app/pages/createPet/view.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/create-pet_next_view.dart';
 import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
 
 class AppPages {
-  static const initial = AppRoutes.addressManage;
+  static String initial = StorageUtil().getJSON('loginUser') == null
+      ? AppRoutes.login
+      : AppRoutes.index;
 
   static final routes = [
     GetPage(
@@ -59,7 +62,13 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.newAddress,
-      page: () => const NewAddress(name: '',details: '',open: false,phone:'',cite: '',),
+      page: () => const NewAddress(
+        name: '',
+        details: '',
+        open: false,
+        phone: '',
+        cite: '',
+      ),
     ),
   ];
 }
