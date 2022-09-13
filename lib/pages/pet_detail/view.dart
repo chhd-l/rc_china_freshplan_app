@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'util.dart';
 import 'tabs.dart';
 import 'pet.dart';
+import 'package:rc_china_freshplan_app/data/pet.dart';
+import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PetDetailPage extends StatelessWidget {
   const PetDetailPage({Key? key}) : super(key: key);
@@ -12,6 +16,65 @@ class PetDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final TabsController c = Get.put(TabsController());
     final PetController petCtl = Get.put(PetController());
+    var args = Get.arguments;
+    var pet = PetUtil.getPet(args.toString());
+    petCtl.initData(pet);
+
+    void _handlePressSave() {
+      PetUtil.updatePet(Pet(
+        id: pet.id,
+        name: petCtl.name.value,
+        image: petCtl.image.value,
+        type: petCtl.type.value,
+        gender: petCtl.gender.value,
+        isSterilized: false,
+        birthday: petCtl.birthday.value,
+        breedCode: petCtl.breedCode.value,
+        breedName: petCtl.breedName.value,
+        targetWeight: petCtl.targetWeight.value,
+        recentWeight: petCtl.recentWeight.value,
+        recentHealth:
+            List<String>.from(petCtl.recentHealth.map((e) => e.toString())),
+        recentPosture: petCtl.recentPosture.value,
+      ));
+      Get.toNamed(AppRoutes.petList);
+    }
+
+    void _handleUploadImage() async {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(
+          imageQuality: 80, maxWidth: 540, source: ImageSource.gallery);
+      if (pickedFile != null) {
+        petCtl.uploadPetImage(pickedFile);
+      }
+    }
+
+    void _handleDelete() {
+      showCupertinoDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title: const Text('提示'),
+              content: const Text('确定要删除这个宠物吗？'),
+              actions: [
+                CupertinoDialogAction(
+                  child: const Text('确定'),
+                  onPressed: () {
+                    PetUtil.removePet(pet);
+                    Get.toNamed(AppRoutes.petList);
+                  },
+                ),
+                CupertinoDialogAction(
+                  child: const Text('取消'),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+              ],
+              insetAnimationDuration: const Duration(seconds: 2),
+            );
+          });
+    }
 
     Widget bodySection = SingleChildScrollView(
       child: Column(
@@ -26,13 +89,23 @@ class PetDetailPage extends StatelessWidget {
                     child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ClipOval(
-                      child: Image.network(
-                        'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png',
-                        width: 58,
-                        height: 58,
-                        fit: BoxFit.cover,
-                      ),
+                    GestureDetector(
+                      child: ClipOval(
+                          child: Obx(
+                        () => Image.network(
+                          petCtl.image.value != ''
+                              ? petCtl.image.value
+                              : petCtl.type.value == 'CAT'
+                                  ? 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png'
+                                  : 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/dog-default.png',
+                          width: 58,
+                          height: 58,
+                          fit: BoxFit.cover,
+                        ),
+                      )),
+                      onTap: () {
+                        _handleUploadImage();
+                      },
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
@@ -46,19 +119,25 @@ class PetDetailPage extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
-                      child: const Icon(
-                        Icons.female,
-                        size: 16,
-                        color: Color.fromARGB(255, 212, 157, 40),
-                      ),
+                      child: Obx(() => Icon(
+                            petCtl.type.value == 'MALE'
+                                ? Icons.male
+                                : Icons.female,
+                            size: 16,
+                            color: const Color.fromARGB(255, 212, 157, 40),
+                          )),
                     ),
                   ],
                 )),
-                const Icon(
-                  Icons.delete_outline,
-                  size: 24,
-                  color: Colors.black,
-                ),
+                GestureDetector(
+                    child: const Icon(
+                      Icons.delete_outline,
+                      size: 24,
+                      color: Colors.black,
+                    ),
+                    onTap: () {
+                      _handleDelete();
+                    }),
               ],
             ),
           ),
@@ -106,7 +185,12 @@ class PetDetailPage extends StatelessWidget {
                 child: Column(
                   children: [
                     buildPetItem(
-                        '宠物昵称', buildInputItem(petCtl.nameController), ''),
+                        '宠物昵称',
+                        buildInputItem(petCtl.nameController,
+                            handleChange: (value) {
+                          petCtl.changeName(value);
+                        }),
+                        ''),
                     buildPetItem(
                         '宠物生日',
                         buildDateTimeItem(
@@ -191,7 +275,10 @@ class PetDetailPage extends StatelessWidget {
                     buildPetItem(
                         '近期体重',
                         buildInputItem(petCtl.recentWeightController,
-                            inputType: TextInputType.number),
+                            inputType: TextInputType.number,
+                            handleChange: (value) {
+                          petCtl.changeRecentWeight(value);
+                        }),
                         '(kg)'),
                     buildPetItem(
                         '近期状态',
@@ -301,7 +388,10 @@ class PetDetailPage extends StatelessWidget {
                     buildPetItem(
                         '成年目标体重',
                         buildInputItem(petCtl.targetWeightController,
-                            inputType: TextInputType.number),
+                            inputType: TextInputType.number,
+                            handleChange: (value) {
+                          petCtl.changeTargetWeight(value);
+                        }),
                         '(kg)'),
                     buildPetItem(
                         '近期健康状况',
@@ -468,7 +558,9 @@ class PetDetailPage extends StatelessWidget {
               child: MaterialButton(
             color: const Color.fromARGB(255, 150, 204, 57),
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              _handlePressSave();
+            },
             elevation: 0,
             height: 44,
             shape: const RoundedRectangleBorder(

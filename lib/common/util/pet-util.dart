@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
-import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'storage.dart';
 
 class PetUtil {
   static List<Pet> petList = [];
@@ -11,7 +12,12 @@ class PetUtil {
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
     if (consumer != null) {
-      petList = StorageUtil().getJSON('${consumer?.mobile}_petList');
+      var petListInStorage =
+          StorageUtil().getJSON('${consumer?.mobile}_petList');
+      if (petListInStorage != null) {
+        List<dynamic> list = List.from(petListInStorage);
+        petList = List<Pet>.from(list.map((e) => Pet.fromJson(e)));
+      }
     }
   }
 
@@ -24,5 +30,29 @@ class PetUtil {
     return petList.firstWhere((element) => element.id == id);
   }
 
-  static void updatePet(Pet pet) {}
+  static void updatePet(Pet pet) {
+    int idx = 0;
+    petList.asMap().entries.forEach((element) {
+      if (element.value.id == pet.id) {
+        idx = element.key;
+      }
+    });
+    petList.replaceRange(idx, idx + 1, [pet]);
+    StorageUtil().setJSON('${consumer?.mobile}_petList', petList);
+  }
+
+  static void removePet(Pet pet) {
+    int idx = 0;
+    petList.asMap().entries.forEach((element) {
+      if (element.value.id == pet.id) {
+        idx = element.key;
+      }
+    });
+    petList.replaceRange(idx, idx + 1, []);
+    StorageUtil().setJSON('${consumer?.mobile}_petList', petList);
+  }
+
+  static void removeAllPet() {
+    StorageUtil().remove('${consumer?.mobile}_petList');
+  }
 }
