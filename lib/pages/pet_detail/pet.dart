@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/state_manager.dart';
@@ -7,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
 import 'package:dio/src/multipart_file.dart' as DIOMUL;
 import 'package:dio/src/form_data.dart' as DIOFORM;
+import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 
 class PetController extends GetxController {
   var name = "".obs;
@@ -58,8 +60,9 @@ class PetController extends GetxController {
     gender.value = sex;
   }
 
-  void changeBreed(int breed) {
-    breedName.value = '金毛';
+  void changeBreed(String name, String code) {
+    breedName.value = name;
+    breedCode.value = code;
   }
 
   void changeRencentPosture(String posture) {
@@ -88,22 +91,29 @@ class PetController extends GetxController {
     targetWeight.value = v ?? 0.0;
   }
 
-  void uploadPetImage(XFile image) async {
-    String path = image.path;
+  void uploadPetImage(XFile file) async {
+    String path = file.path;
     var name = path.substring(path.lastIndexOf("/") + 1, path.length);
+
+    // state.avatar.value = path;
 
     DIOFORM.FormData formdata = DIOFORM.FormData.fromMap(
         {"file": await DIOMUL.MultipartFile.fromFile(path, filename: name)});
 
     EasyLoading.show(status: 'loading...');
     HttpUtil()
-        .post("https://fcdev.d2cgo.com/upload", params: formdata)
+        .post(upload, params: formdata)
         .onError((ErrorEntity error, stackTrace) {
+      print('333333');
+      print(error.message);
       EasyLoading.showError(error.message!);
     }).then((value) {
       EasyLoading.dismiss();
-      if (value == null) return;
+      print('11111');
       print(value);
+      if (value == null) return;
+      image.value = json.decode(value.toString())["url"];
+      print(image.value);
     });
   }
 }
