@@ -125,7 +125,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           children: [
                             Radio(
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              value: addRessList[i].isDefault,
+                              value: addRessList[i].isDefault as bool,
                               groupValue: true,
                               onChanged: (value) {
                                 setState(() {
