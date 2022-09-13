@@ -1,22 +1,37 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'logic.dart';
 import 'package:rc_china_freshplan_app/common/util/address-util.dart';
 
-final CreateAddRessLogic logic = Get.put(CreateAddRessLogic());
-class NewAddress extends StatefulWidget {
+class NewAddress extends StatelessWidget {
   const NewAddress({Key? key}) : super(key: key);
-  
-  @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
-}
 
-class _MyStatefulWidgetState extends State<NewAddress> {
   @override
+
   Widget build(BuildContext context) {
-    var args = Get.arguments ?? -1;
-    print(args);
+    final CreateAddRessLogic logic = Get.put(CreateAddRessLogic());
+    var args = Get.arguments ?? '-1';
+    var addRess = AddRessUtil.getAddRess(args.toString());
+    print(addRess.receiverName);
+    logic.initData(addRess);
+
+    TextEditingController contNameroller = TextEditingController(
+      text: logic.receiverName.value,
+    );
+  
+    TextEditingController contPhoneroller = TextEditingController(
+      text: logic.phone.value,
+    );
+  
+    TextEditingController contCityroller = TextEditingController(
+      text: logic.province.value,
+    );
+
+    TextEditingController contDateliroller = TextEditingController(
+      text: logic.detail.value,
+    );
 
     return MaterialApp(
       home: Scaffold(
@@ -46,6 +61,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                 child: Row(children: [
                   const Expanded(child: Text('收货人')),
                   Expanded(flex: 3,child: TextField(
+                    controller: contNameroller,
                     onChanged: ((value) => {
                       logic.onChangeName(value)
                     }),
@@ -65,6 +81,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                 child: Row(children: [
                   const Expanded(child: Text('联系电话')),
                   Expanded(flex: 3,child: TextField(
+                    controller: contPhoneroller,
                     onChanged: ((value) => {
                       logic.onChangephone(value)
                     }),
@@ -85,6 +102,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                 child: Row(children: [
                   const Expanded(child: Text('所在地区')),
                   Expanded(flex: 3,child: TextField(
+                    controller: contCityroller,
                     onChanged: ((value) => {
                       logic.onChangeprovince(value)
                     }),
@@ -105,6 +123,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                   children: [
                   const Expanded(child: Text('详细地址')),
                   Expanded(flex: 3,child: TextField(
+                    controller: contDateliroller,
                     onChanged: ((value) => {
                       logic.onChangedetail(value)
                     }),
@@ -125,7 +144,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     const Text('默认地址'),
-                    Obx(() => Switch(
+                    Obx(() => CupertinoSwitch(
                       value: logic.isDefault.value, 
                       onChanged: (value){
                         logic.onChangeisDefault(value);

@@ -1,5 +1,5 @@
 class AddRess {
-  int? id;
+  String? id;
   String? receiverName;
   String? phone;
   String? province;

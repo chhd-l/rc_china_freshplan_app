@@ -6,7 +6,7 @@ import '../../common/util/addRess-util.dart';
 
 class CreateAddRessLogic extends GetxController {
 
-  var id = 0.obs;
+  var id = DateTime.now().microsecondsSinceEpoch.toString().obs;
   var receiverName = ''.obs;
   var phone = ''.obs;
   var province = ''.obs;
@@ -14,19 +14,8 @@ class CreateAddRessLogic extends GetxController {
   var region = ''.obs;
   var detail = ''.obs;
   var isDefault = false.obs;
-
-  void initData(AddRess address) {
-    id.value = address.id!;
-    receiverName.value = address.receiverName!;
-    phone.value = address.phone!;
-    province.value = address.province!;
-    city.value = address.city!;
-    region.value = address.region!;
-    detail.value = address.detail!;
-    isDefault.value = address.isDefault!;
-  }
-
-  void onChangeID (int text) => {
+  
+  void onChangeID (String text) => {
     id.value = text
   };
 
@@ -50,10 +39,22 @@ class CreateAddRessLogic extends GetxController {
     isDefault.value = text
   };
 
-  void recommendedRecipes(updid) {
+  void initData(AddRess address) {
+    Future.delayed(const Duration(milliseconds: 10)).then((e) {
+      receiverName.value = address.receiverName!;
+      phone.value = address.phone!;
+      province.value = address.province!;
+      city.value = address.city!;
+      region.value = address.region!;
+      detail.value = address.detail!;
+      isDefault.value = address.isDefault!;
+    });
+  }
+
+  void recommendedRecipes(String updid) {
     AddRess addRess = AddRess(
       receiverName: receiverName.value,
-      id: updid != -1 ? updid : id.value,
+      id: updid != '-1' ? updid : id.value,
       phone: phone.value,
       province: province.value,
       city: city.value,
@@ -61,8 +62,7 @@ class CreateAddRessLogic extends GetxController {
       detail: detail.value,
       isDefault: isDefault.value,
     );
-    id.value = id.value + 1;
-    updid != -1 ? AddRessUtil.updateAddRess(addRess) : AddRessUtil.addRes(addRess);
+    updid != '-1' ? AddRessUtil.updateAddRess(addRess) : AddRessUtil.addRes(addRess);
     Get.toNamed(AppRoutes.addressManage);
   }
 

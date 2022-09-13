@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/pages/newAddress/view.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/addRess-util.dart';
@@ -24,12 +23,7 @@ class AddRessManage extends StatelessWidget {
             child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
             child: titleButton('新增地址', () {
-                    Navigator.push(context, 
-                      MaterialPageRoute(
-                        builder: (BuildContext ress) {
-                          return const NewAddress();
-                        }),
-                    );
+                    Get.toNamed(AppRoutes.newAddress);
                   },
                   isCircle: true,
                   fontSize: 18,
@@ -63,6 +57,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
 
     var addRessList = AddRessUtil.addRessList;
+    print(addRessList.length != 0 ? addRessList[0].id : 0);
 
     return Scaffold(
       backgroundColor:  const Color.fromARGB(255, 249, 249, 249),
@@ -129,8 +124,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               groupValue: true,
                               onChanged: (value) {
                                 setState(() {
-                                  ressList.reversed;
+                                  addRessList[i].isDefault = true;
                                 });
+                                print(value);
+                                print(addRessList[i].isDefault);
                               },
                             ),
                             const Text('默认地址', style: TextStyle(

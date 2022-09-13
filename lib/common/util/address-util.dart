@@ -29,10 +29,11 @@ class AddRessUtil {
     StorageUtil().setJSON('${consumer?.addresslist}_addRess', addRessList);
   }
 
-  static AddRess getPet(String id) {
-  return addRessList.firstWhere((element) => element.id == id,
+  static AddRess getAddRess(String id) {
+    print(id);
+  var init = addRessList.singleWhere((element) => element.id == id,
       orElse: () => AddRess(
-          id: 0,
+          id: '-1',
           receiverName: '',
           phone: '',
           region: '',
@@ -41,6 +42,8 @@ class AddRessUtil {
           isDefault: false,
           province: '',
       ));
+    print(init.receiverName);
+    return init;
   }
 
   static void updateAddRess(AddRess pet) {
