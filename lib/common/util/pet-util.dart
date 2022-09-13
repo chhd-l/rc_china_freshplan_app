@@ -7,7 +7,7 @@ class PetUtil {
   static List<Pet> petList = [];
   static late Consumer? consumer;
 
-  static void init() {
+  static Future<void> init() async {
     consumer = StorageUtil().getJSON("loginUser") != null
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;

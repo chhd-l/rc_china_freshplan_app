@@ -29,12 +29,15 @@ class CreatePetLogic extends GetxController {
     {'name': '食物过敏或胃敏感', 'value': 'FOOD_ALLERGIES_OR_STOMACH_SENSITIVITIES'},
     {'name': '无光泽或片状被毛', 'value': 'DULL_OR_FLAKY_FUR'},
     {'name': '关节炎或关节痛', 'value': 'ARTHRITIS_OR_JOINT_PAIN'},
-    {'name': '以上都没有', 'value': ' NONE'},
+    {'name': '以上都没有', 'value': 'NONE'},
   ];
 
   @override
   void onInit() {
     super.onInit();
+
+    recentWeightController.text = '0.0';
+    targetWeightController.text = '0.0';
 
     petNameController.addListener(() {
       state.name.value = petNameController.text;
@@ -92,7 +95,7 @@ class CreatePetLogic extends GetxController {
       name: state.name.value,
       gender: state.gender.value,
       type: state.type.value,
-      breedCode: state.breedName.value,
+      breedCode: state.breedCode.value,
       breedName: state.breedName.value,
       image: state.avatar.value,
       isSterilized: false,
@@ -102,6 +105,7 @@ class CreatePetLogic extends GetxController {
       targetWeight: state.targetWeight.value,
       recentHealth: state.recentHealth.value,
     );
+    print(pet.toJson());
     PetUtil.addPet(pet);
     Get.toNamed(AppRoutes.recommendRecipes);
   }
@@ -115,13 +119,22 @@ class CreatePetLogic extends GetxController {
   void changeRecentHealth(int index) {
     print(111);
     final item = healthList[index];
-    if (item['value'] == 'NONE' &&
-        !state.recentHealth.value.contains(item['value'])) {
-      state.recentHealth.value = ['NONE'];
+    if (item['value'] == 'NONE' && !state.recentHealth.value.contains('NONE')) {
+      state.recentHealth.update((val) {
+        val?.removeRange(0, state.recentHealth.value.length);
+        val?.insert(0, item['value']);
+      });
     } else if (state.recentHealth.value.contains(item['value'])) {
-      state.recentHealth.value.remove(item['value']);
+      state.recentHealth.update((val) {
+        val?.remove(item['value']);
+      });
     } else {
-      state.recentHealth.value.insert(0, item['value']);
+      state.recentHealth.update((val) {
+        if (state.recentHealth.value.contains('NONE')) {
+          val?.remove('NONE');
+        }
+        val?.insert(0, item['value']);
+      });
     }
   }
 }

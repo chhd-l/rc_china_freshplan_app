@@ -5,6 +5,7 @@ class CreatePetState {
   RxString type = ''.obs;
   RxString name = ''.obs;
   RxString gender = ''.obs;
+  RxString breedCode=''.obs;
   RxString breedName = ''.obs;
   RxString birthday = ''.obs;
   RxDouble recentWeight = 0.0.obs;
