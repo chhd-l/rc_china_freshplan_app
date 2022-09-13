@@ -15,9 +15,7 @@ class CheckoutLogic extends GetxController {
 
   TextEditingController remarkController = TextEditingController();
 
-  final address = Get.arguments == null
-      ? {'name': '左琴', 'phone': '13101227768', 'detail': '重庆渝中区华盛路1号德勤大楼'}
-      : Get.arguments['selectAddress'];
+  final address = Get.arguments;
 
   @override
   void onReady() {

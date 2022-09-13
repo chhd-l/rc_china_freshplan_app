@@ -9,6 +9,7 @@ import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rc_china_freshplan_app/global.dart';
+import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
 
 class PetDetailPage extends StatelessWidget {
   const PetDetailPage({Key? key}) : super(key: key);
@@ -91,24 +92,9 @@ class PetDetailPage extends StatelessWidget {
                     child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    GestureDetector(
-                      child: ClipOval(
-                          child: Obx(
-                        () => Image.network(
-                          petCtl.image.value != ''
-                              ? petCtl.image.value
-                              : petCtl.type.value == 'CAT'
-                                  ? 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/cat-default.png'
-                                  : 'https://dtcdata.oss-cn-shanghai.aliyuncs.com/asset/image/dog-default.png',
-                          width: 58,
-                          height: 58,
-                          fit: BoxFit.cover,
-                        ),
-                      )),
-                      onTap: () {
-                        _handleUploadImage();
-                      },
-                    ),
+                    Obx(() => petAvatarPick(() {
+                          _handleUploadImage();
+                        }, petCtl.image.value)),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
                       child: Obx(() => Text(
@@ -280,7 +266,7 @@ class PetDetailPage extends StatelessWidget {
                   children: [
                     buildPetItem(
                         '近期体重',
-                        buildInputItem(petCtl.recentWeightController,
+                        buildInputNumberItem(petCtl.recentWeightController,
                             inputType: TextInputType.number,
                             handleChange: (value) {
                           petCtl.changeRecentWeight(value);
@@ -393,7 +379,7 @@ class PetDetailPage extends StatelessWidget {
                         ''),
                     buildPetItem(
                         '成年目标体重',
-                        buildInputItem(petCtl.targetWeightController,
+                        buildInputNumberItem(petCtl.targetWeightController,
                             inputType: TextInputType.number,
                             handleChange: (value) {
                           petCtl.changeTargetWeight(value);

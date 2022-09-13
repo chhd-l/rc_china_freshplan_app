@@ -21,6 +21,10 @@ class PetUtil {
     }
   }
 
+  static void logout() {
+    petList.clear();
+  }
+
   static void addPet(Pet pet) {
     petList.add(pet);
     StorageUtil().setJSON('${consumer?.mobile}_petList', petList);
@@ -67,6 +71,7 @@ class PetUtil {
   }
 
   static void removeAllPet() {
+    petList.clear();
     StorageUtil().remove('${consumer?.mobile}_petList');
   }
 }
