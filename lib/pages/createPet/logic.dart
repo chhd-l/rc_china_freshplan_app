@@ -91,7 +91,7 @@ class CreatePetLogic extends GetxController {
   void recommendedRecipes() {
     Get.put(GlobalConfigService()).petName.value = state.name.value;
     Pet pet = Pet(
-      id: DateTime.now().toString(),
+      id: DateTime.now().microsecondsSinceEpoch.toString(),
       name: state.name.value,
       gender: state.gender.value,
       type: state.type.value,
