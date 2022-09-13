@@ -27,7 +27,19 @@ class PetUtil {
   }
 
   static Pet getPet(String id) {
-    return petList.firstWhere((element) => element.id == id);
+    return petList.firstWhere((element) => element.id == id,
+        orElse: () => Pet(
+              id: '-1',
+              name: '',
+              image: '',
+              type: '',
+              gender: '',
+              birthday: '',
+              recentHealth: [],
+              targetWeight: 0.0,
+              recentWeight: 0.0,
+              recentPosture: '',
+            ));
   }
 
   static void updatePet(Pet pet) {

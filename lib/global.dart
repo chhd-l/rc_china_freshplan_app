@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'common/util/storage.dart';
+import 'constants.dart';
 
 /// 全局配置
 class GlobalConfigService extends GetxService {
@@ -44,6 +45,9 @@ class GlobalConfigService extends GetxService {
     {'name': '好球猫', 'mobile': '19942321506'},
     {'name': '我也笑了', 'mobile': '18983359062'}
   ];
+
+  final List catBreedList = Constants.catPetList;
+  final List dogBreedList = Constants.dogBreedList;
 
   // ///getter setter
   // String get petName {
