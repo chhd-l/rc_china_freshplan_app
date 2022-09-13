@@ -80,7 +80,7 @@ class AccountPage extends StatelessWidget {
             StorageUtil().remove('loginUser');
             PetUtil.logout();
             AddRessUtil.logout();
-            Get.toNamed(AppRoutes.login);
+            Get.offAllNamed(AppRoutes.login);
           },
         ),
       ]),

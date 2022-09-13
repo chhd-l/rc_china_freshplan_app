@@ -45,7 +45,8 @@ class GlobalConfigService extends GetxService {
   final List userList = [
     {'name': '好球', 'mobile': '15095806060'},
     {'name': '好球猫', 'mobile': '19942321506'},
-    {'name': '我也笑了', 'mobile': '18983359062'}
+    {'name': '我也笑了', 'mobile': '18983359062'},
+    {'name': 'Timyee', 'mobile': '13590415629'}
   ];
 
   final List catBreedList = Constants.catPetList;
