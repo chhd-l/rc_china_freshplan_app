@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/pages/newAddress/view.dart';
-/// This Widget is the main application widget.
-const ress = 'xxxx';
-class AddRessManage extends StatelessWidget {
 
+class AddRessManage extends StatelessWidget {
   const AddRessManage({super.key});
 
   @override
