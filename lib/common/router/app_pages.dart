@@ -62,13 +62,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.newAddress,
-      page: () => const NewAddress(
-        name: '',
-        details: '',
-        open: false,
-        phone: '',
-        cite: '',
-      ),
+      page: () => const NewAddress(),
     ),
   ];
 }

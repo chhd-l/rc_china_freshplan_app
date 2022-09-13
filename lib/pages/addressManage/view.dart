@@ -4,6 +4,8 @@ import 'package:rc_china_freshplan_app/pages/newAddress/view.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/addRess-util.dart';
+import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
 class AddRessManage extends StatelessWidget {
   const AddRessManage({super.key});
@@ -13,9 +15,7 @@ class AddRessManage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: commonAppBar('地址管理'),
-        body: const Center(
-          child: MyStatefulWidget(key: null,),
-        ),
+        body: const MyStatefulWidget(key: null,),
         bottomNavigationBar:  Container(
             padding: const EdgeInsets.only(bottom:12.0),
             decoration: const BoxDecoration(
@@ -27,13 +27,7 @@ class AddRessManage extends StatelessWidget {
                     Navigator.push(context, 
                       MaterialPageRoute(
                         builder: (BuildContext ress) {
-                          return const NewAddress(
-                              name: '',
-                              details: '',
-                              open: false,
-                              phone:'',
-                              cite: '',
-                            );
+                          return const NewAddress();
                         }),
                     );
                   },
@@ -93,24 +87,33 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: Column(
               children:  [
                 Row(
-                  children: const [
+                  children: [
                     Expanded( 
-                      child: Text('我的', style: TextStyle(
+                      child: Text(addRessList[i].receiverName as String, style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               )),
                     ),
                     Expanded(
-                      child: Text('18723489954', textAlign: TextAlign.right, style: TextStyle(
+                      child: Text(addRessList[i].phone as String, textAlign: TextAlign.right, style: const TextStyle(
                                color: Color.fromARGB(255, 153, 153, 153),
                              ),),
                     ),
                   ],
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 12.0, bottom: 12.0),
-                  child: const Text('重庆市 重庆市 沙坪坝区 重庆市沙坪坝区 重庆某某某街道学')
-                ),
+                Row(
+                  children: [
+                    Expanded( 
+                      child: Container(
+                      margin: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 0, right: 0),
+                      padding: const EdgeInsets.all(0),
+                      child: Text(
+                        '${addRessList[i].province as String} ${addRessList[i].city as String} ${addRessList[i].region as String} ${addRessList[i].detail as String} ', 
+                        textAlign: TextAlign.left,
+                      )
+                    ),                
+                  ),
+                ]),
                 Row(
                   children: [
                     Expanded(
@@ -122,7 +125,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           children: [
                             Radio(
                               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              value: ressList[i],
+                              value: addRessList[i].isDefault,
                               groupValue: true,
                               onChanged: (value) {
                                 setState(() {
@@ -143,18 +146,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context, 
-                                MaterialPageRoute(
-                                  builder: (BuildContext ress) {
-                                    return NewAddress(
-                                        name: '我的',
-                                        details: '重庆市沙坪坝区 重庆某某某街道学',
-                                        open: ressList[i],
-                                        phone:'18723489954',
-                                        cite: '重庆市 重庆市 沙坪坝区',
-                                      );
-                                  }),
-                              );
+                              Get.toNamed(AppRoutes.newAddress, arguments: addRessList[i].id);
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 8.0),
@@ -167,6 +159,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             )
                           ),
                           GestureDetector(
+                            onTap: (() {
+                              AddRessUtil.removeAddRess(addRessList[i]);
+                              setState(() {
+                                addRessList = AddRessUtil.addRessList;
+                              });
+                            }),
                             child: Image.asset(
                               'assets/images/ressDelete.png',
                               width: 27,

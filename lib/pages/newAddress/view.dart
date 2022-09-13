@@ -1,74 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/data/address.dart';
 import 'logic.dart';
-import 'package:rc_china_freshplan_app/common/util/addRess-util.dart';
+import 'package:rc_china_freshplan_app/common/util/address-util.dart';
 
 final CreateAddRessLogic logic = Get.put(CreateAddRessLogic());
 class NewAddress extends StatefulWidget {
-  const NewAddress({
-      Key? key,
-      required this.name, 
-      required this.phone, 
-      required this.details, 
-      required this.cite, 
-      required this.open
-    }) : super(key: key);
-
-    final String name;
-    final String phone;
-    final String details;
-    final String cite;
-    final bool open;
+  const NewAddress({Key? key}) : super(key: key);
   
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
 }
 
 class _MyStatefulWidgetState extends State<NewAddress> {
-//     //name
-//     TextEditingController unameController = TextEditingController();
-//     //phone
-//     TextEditingController uphoneController = TextEditingController();
-//     //city
-//     TextEditingController ucityController = TextEditingController();
-//     //detail
-//     TextEditingController udetailController = TextEditingController();
-//  _MyStatefulWidgetState(){
-//     //调用.addListener重写其中的方法
-//     unameController.addListener(() {
-//       logic.onChangeName(unameController.text);
-//     });
-//     //调用.addListener重写其中的方法
-//     uphoneController.addListener(() {
-//       logic.onChangeName(unameController.text);
-//     });
-//     //调用.addListener重写其中的方法
-//     ucityController.addListener(() {
-//       logic.onChangeName(unameController.text);
-//     });
-//     //调用.addListener重写其中的方法
-//     udetailController.addListener(() {
-//       logic.onChangeName(unameController.text);
-//     });
-//  }
-  
-  void _handlePressSave() {
-    AddRessUtil.addRes(AddRess(
-      receiverName: logic.receiverName.value,
-      phone: logic.phone.value,
-      province: logic.province.value,
-      city: logic.city.value,
-      region: logic.region.value,
-      detail: logic.detail.value,
-      isDefault: logic.isDefault.value,
-    ));
-    Navigator.of(context).pop();
-  }
-
   @override
   Widget build(BuildContext context) {
+    var args = Get.arguments ?? -1;
+    print(args);
+
     return MaterialApp(
       home: Scaffold(
         appBar: commonAppBar('新增地址'),
@@ -119,6 +68,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
                     onChanged: ((value) => {
                       logic.onChangephone(value)
                     }),
+                    keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       hintText: '请输入联系电话',
                       hintStyle: TextStyle(
@@ -195,7 +145,7 @@ class _MyStatefulWidgetState extends State<NewAddress> {
             child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
             child: titleButton('保存', () {
-              _handlePressSave();
+              logic.recommendedRecipes(args);
             },
                 isCircle: true,
                 fontSize: 18,

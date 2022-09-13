@@ -25,13 +25,30 @@ class AddRessUtil {
     StorageUtil().setJSON('${consumer?.addresslist}_addRess', addRessList);
   }
 
+  static AddRess getPet(String id) {
+  return addRessList.firstWhere((element) => element.id == id,
+      orElse: () => AddRess(
+          id: 0,
+          receiverName: '',
+          phone: '',
+          region: '',
+          city: '',
+          detail: '',
+          isDefault: false,
+          province: '',
+      ));
+  }
+
   static void updateAddRess(AddRess pet) {
     int idx = 0;
     addRessList.asMap().entries.forEach((element) {
       if (element.value.receiverName == pet.receiverName) {
+        print(element.key);
+        print(idx);
         idx = element.key;
       }
     });
+    print(idx);
     addRessList.replaceRange(idx, idx + 1, [pet]);
     StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
   }
@@ -39,7 +56,7 @@ class AddRessUtil {
   static void removeAddRess(AddRess pet) {
     int idx = 0;
     addRessList.asMap().entries.forEach((element) {
-      if (element.value.receiverName == pet.receiverName) {
+      if (element.value.id == pet.id) {
         idx = element.key;
       }
     });
