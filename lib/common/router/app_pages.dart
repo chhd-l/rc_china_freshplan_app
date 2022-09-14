@@ -12,6 +12,7 @@ import 'package:rc_china_freshplan_app/pages/createPet/view.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/create-pet_next_view.dart';
 import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
+import 'package:rc_china_freshplan_app/pages/orderList/view.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 
 class AppPages {
@@ -63,6 +64,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.newAddress,
       page: () => const NewAddress(),
+    ),
+    GetPage(
+      name: AppRoutes.orderList,
+      page: () => const OrderList(),
     ),
   ];
 }

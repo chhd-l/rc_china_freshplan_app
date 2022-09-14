@@ -10,4 +10,5 @@ abstract class AppRoutes {
   static const createPetNext = '/create-pet-next';
   static const recommendRecipes = '/recommend-recipes';
   static const checkout = '/checkout';
+  static const orderList = '/orderList';
 }

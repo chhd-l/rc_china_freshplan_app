@@ -38,11 +38,11 @@ class AddRessManage extends StatelessWidget {
           child: Padding(
           padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
           child: titleButton('新增地址', () {
-                  Get.toNamed(AppRoutes.newAddress, arguments: '-1');
-                },
-                isCircle: true,
-                fontSize: 18,
-                height: 38,
+              Get.toNamed(AppRoutes.newAddress, arguments: '-1');
+            },
+            isCircle: true,
+            fontSize: 18,
+            height: 38,
         ),
       ),                      )  
     );
@@ -149,8 +149,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 setState(() {
                                   addRessList[i].isDefault = true;
                                 });
-                                print(value);
-                                print(addRessList[i].isDefault);
                               },
                             ),
                             const Text('默认地址', style: TextStyle(
