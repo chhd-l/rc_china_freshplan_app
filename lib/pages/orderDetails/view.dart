@@ -18,7 +18,7 @@ class OrderDetails extends StatelessWidget {
               Icons.arrow_back_ios,
             ),
             onTap: () {
-              Get.toNamed(AppRoutes.account);
+              Get.toNamed(AppRoutes.orderList);
             },
           ),
         ),

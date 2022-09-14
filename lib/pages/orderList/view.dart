@@ -230,7 +230,7 @@ class OrderList extends StatelessWidget {
                                   borderRadius: BorderRadius.all(Radius.circular(20))
                                 ),
                                 color: const Color.fromARGB(255, 150, 204, 57),
-                                textColor: Colors.white,
+                                textColor: const Color(0xFF96CC39),
                                 child: const Text('付款'),
                                 onPressed: () {},
                               ),
