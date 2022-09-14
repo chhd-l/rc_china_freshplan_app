@@ -11,8 +11,8 @@ class AddRessManage extends StatelessWidget {
   var isFromCheckout = false;
   var callback;
   AddRessManage({super.key}) {
-    isFromCheckout = Get.arguments["isFromCheckout"] ?? false;
-    callback=Get.arguments["callback"];
+    isFromCheckout = Get.arguments!=null?Get.arguments["isFromCheckout"] : false;
+    callback=Get.arguments!=null?Get.arguments["callback"]:null;
   }
 
   @override
