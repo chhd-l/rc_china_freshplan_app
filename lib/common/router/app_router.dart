@@ -11,4 +11,5 @@ abstract class AppRoutes {
   static const recommendRecipes = '/recommend-recipes';
   static const checkout = '/checkout';
   static const orderList = '/orderList';
+  static const orderDetails = '/orderDetails';
 }
