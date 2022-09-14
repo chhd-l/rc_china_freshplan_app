@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import './logic.dart';
 
 class OrderList extends StatelessWidget {
   const OrderList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+  returnType (String type) {
+    if (type == 'UNPAID') {
+      return '待付款';
+    } else if (type == 'TO_SHIP') {
+      return '待发货';
+    } else if (type == 'SHIPPED') {
+      return '待收货';
+    } else {
+      return 'xx';
+    }
+  }
+  
+  final CreateOrderRessLogic logic = Get.put(CreateOrderRessLogic());
+  var orderLists = logic.arr;
+  
     return Scaffold(
         appBar: AppBar(
           title: const Text('订单列表', selectionColor: Colors.black,),
@@ -22,7 +39,8 @@ class OrderList extends StatelessWidget {
             },
           ),
         ),
-        body: Container(
+        body: SingleChildScrollView(
+          child: Container(
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 249, 249, 249),
           ),
@@ -30,6 +48,7 @@ class OrderList extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.only(bottom: 3),
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
@@ -43,7 +62,6 @@ class OrderList extends StatelessWidget {
                   contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
                   hintText: '搜索订单',
                   prefixIcon: const Icon(Icons.search),
-                  // contentPadding: EdgeInsets.all(10),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide.none),
@@ -52,60 +70,115 @@ class OrderList extends StatelessWidget {
                 )
               ))
             ),
-            Row(
+            Obx(() => Row(
               children: [
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                        bottom: BorderSide(color: Color(0xFF96CC39), width: 2),
+                  child: GestureDetector(
+                    onTap: (() {
+                      logic.onChangeTagType('ALL');
+                    }),
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: logic.tagType.value == 'ALL' ? const BorderSide(color: Color(0xFF96CC39), width: 2) : BorderSide.none,
+                        ),
+                      ),
+                      child: Text(
+                        '全部',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: logic.tagType.value == 'ALL' ? const Color(0xFF96CC39) : Colors.black,
+                          fontWeight: logic.tagType.value == 'ALL' ? FontWeight.bold : FontWeight.normal,
+                          fontSize: 15
+                        )
                       ),
                     ),
-                    child: const Text(
-                      '全部',
+                  )
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (() {
+                      logic.onChangeTagType('UNPAID');
+                    }),
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: logic.tagType.value == 'UNPAID' ? const BorderSide(color: Color(0xFF96CC39), width: 2) : BorderSide.none,
+                        ),
+                      ),
+                      child: Text(
+                        '待付款', 
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: logic.tagType.value == 'UNPAID' ? const Color(0xFF96CC39) : Colors.black,
+                          fontWeight: logic.tagType.value == 'UNPAID' ? FontWeight.bold : FontWeight.normal,
+                          fontSize: 15
+                        )
+                      ),
+                    ),
+                  )
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (() {
+                      logic.onChangeTagType('TO_SHIP');
+                    }),
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: logic.tagType.value == 'TO_SHIP' ? const BorderSide(color: Color(0xFF96CC39), width: 2) : BorderSide.none,
+                        ),
+                      ),
+                      child: Text(
+                        '待发货', 
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: logic.tagType.value == 'TO_SHIP' ? const Color(0xFF96CC39) : Colors.black,
+                          fontWeight: logic.tagType.value == 'TO_SHIP' ? FontWeight.bold : FontWeight.normal,
+                          fontSize: 15
+                        )
+                      ),
+                    ),
+                  )
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (() {
+                      logic.onChangeTagType('SHIPPED');
+                    }),
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: logic.tagType.value == 'SHIPPED' ? const BorderSide(color: Color(0xFF96CC39), width: 2) : BorderSide.none,
+                        ),
+                      ),
+                      child: Text('待收货',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF96CC39)
-                      )
+                        style: TextStyle(
+                          color: logic.tagType.value == 'SHIPPED' ? const Color(0xFF96CC39) : Colors.black,
+                          fontWeight: logic.tagType.value == 'SHIPPED' ? FontWeight.bold : FontWeight.normal,
+                          fontSize: 15
+                        )
+                      ),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: const Text('待付款', textAlign: TextAlign.center,),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: const Text('待发货', textAlign: TextAlign.center,),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: const Text('待收货', textAlign: TextAlign.center,),
-                  ),
+                  )
                 ),
               ],
-            ),
+            )),
             Container(
               padding: const EdgeInsets.only(top: 18, left: 12, right: 12),
-              child:  ListView.builder(
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 1,
+                itemCount: orderLists.length,
                 itemBuilder: (BuildContext ctx, int i) {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 18),
@@ -125,18 +198,18 @@ class OrderList extends StatelessWidget {
                     child: Column(
                       children: [
                         Row(
-                          children: const [
+                          children: [
                             Expanded(
-                              child: Text('待付款', style: TextStyle(
+                              child: Text(returnType(orderLists[i]['orderState']['orderState']), style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               )),
                             ),
                             Expanded(
                               flex: 3,
                               child: Text(
-                                '创建时间:2022-06-21 12:13:34', 
+                                '创建时间:${orderLists[i]['orderState']['createdAt']}', 
                                 textAlign: TextAlign.right,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(0xFF666666),
                                   fontSize: 12,
                                 )
@@ -146,36 +219,25 @@ class OrderList extends StatelessWidget {
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 12),
-                          child: Row(
-                            children: [
-                              Container(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: orderLists[i]['lineItem'].length,
+                            itemBuilder: (BuildContext ctxs, int index) {
+                              return Container(
                                 margin: const EdgeInsets.only(right: 12),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFf1f1f1),
                                   borderRadius: BorderRadius.circular(3.0),
                                 ),
                                 child: Image.asset(
-                                  'assets/images/牛肉泥.png',
+                                  orderLists[i]['lineItem'][index]['pic'],
                                   width: 70,
                                   height: 70,
                                   fit: BoxFit.cover,
                                 ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 12),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFf1f1f1),
-                                  borderRadius: BorderRadius.circular(3.0),
-                                ),
-                                child: Image.asset(
-                                  'assets/images/火鸡料理.png',
-                                  width: 70,
-                                  height: 70,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            ],
-                          ),
+                              );
+                            }
+                          )
                         ),
                         Container(
                           margin: const EdgeInsets.only(bottom: 10),
@@ -226,10 +288,9 @@ class OrderList extends StatelessWidget {
                               margin: const EdgeInsets.only(left: 10),
                               child: MaterialButton(
                                 shape: const RoundedRectangleBorder(
-                                  side: BorderSide.none,
+                                  side: BorderSide(color: Color(0xFF96CC39),width: 1,style: BorderStyle.solid),
                                   borderRadius: BorderRadius.all(Radius.circular(20))
                                 ),
-                                color: const Color.fromARGB(255, 150, 204, 57),
                                 textColor: const Color(0xFF96CC39),
                                 child: const Text('付款'),
                                 onPressed: () {},
@@ -245,6 +306,7 @@ class OrderList extends StatelessWidget {
             )
           ],
         ))
+      )
     );
   }
 }

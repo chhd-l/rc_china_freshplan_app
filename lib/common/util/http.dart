@@ -3,8 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart' as Res;
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:dio/adapter.dart';
+import 'storage.dart';
 
 import '../../global.dart';
 
@@ -187,11 +189,10 @@ class HttpUtil {
   /// 读取本地配置
   Options getLocalOptions() {
     late Options options;
-    String? token =
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0MzFlMWM3LWIxMmItNDJhYi05ODk3LWQxOGVmMWUyZWVlMSIsIm5hbWUiOm51bGwsImdlbmRlciI6IjAiLCJhdmF0YXJVcmwiOiJodHRwczovL3Rmcy5hbGlwYXlvYmplY3RzLmNvbS9pbWFnZXMvcGFydG5lci9UMWRLUmVYYWRvWFhYWFhYWFgiLCJuaWNrTmFtZSI6IlRpbXllZSIsImVtYWlsIjpudWxsLCJwaG9uZSI6IjEzNTkwNDE1NjI5IiwibGV2ZWwiOiLmlrDmiYvpk7LlsY7lrpgiLCJwb2ludHMiOjAsImRlZmF1bHRDb25zdW1lckFkZHJlc3NJZCI6bnVsbCwibGFzdExvZ2luVGltZSI6IjIwMjItMDgtMzFUMDk6MzM6MjUrMDg6MDAiLCJzdG9yZUlkIjoiMzliNjQ0NGItNjgzYi00OTE1LThiNzUtNWQ4NDAzZjQwYTAyIiwiaWF0IjoxNjYzMTQ3NzU0LCJleHAiOjE2NjMxNTQ5NTR9.f7Bz0GI3Wo7pddURgDkie8E-oeupUZPODEuxe-9RuNg';
-    if (token != null) {
+    String token = StorageUtil().getStr('accessToken');
+    if (token != '') {
       options = Options(headers: {
-        'Authorization': token,
+        'Authorization': 'Bearer $token',
       });
     } else {
       options = Options();
