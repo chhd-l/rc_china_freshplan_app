@@ -14,26 +14,37 @@ class AddRessManage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: commonAppBar('地址管理'),
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('地址管理', selectionColor: Colors.black,),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: GestureDetector(
+            child: const Icon(
+              Icons.arrow_back_ios,
+            ),
+            onTap: () {
+              Get.toNamed(AppRoutes.account);
+            },
+          ),
+        ),
         body: MyStatefulWidget(isFromCheckout),
         bottomNavigationBar:  Container(
-            padding: const EdgeInsets.only(bottom:12.0),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-            ),
-            child: Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
-            child: titleButton('新增地址', () {
-                    Get.toNamed(AppRoutes.newAddress, arguments: '-1');
-                  },
-                  isCircle: true,
-                  fontSize: 18,
-                  height: 38,
+          padding: const EdgeInsets.only(bottom:12.0),
+          decoration: const BoxDecoration(
+              color: Colors.white,
           ),
-        ),                      )  
-      ),
+          child: Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
+          child: titleButton('新增地址', () {
+                  Get.toNamed(AppRoutes.newAddress, arguments: '-1');
+                },
+                isCircle: true,
+                fontSize: 18,
+                height: 38,
+        ),
+      ),                      )  
     );
   }
 }
