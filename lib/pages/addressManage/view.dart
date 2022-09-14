@@ -17,26 +17,37 @@ class AddRessManage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: commonAppBar('地址管理'),
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('地址管理', selectionColor: Colors.black,),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: GestureDetector(
+            child: const Icon(
+              Icons.arrow_back_ios,
+            ),
+            onTap: () {
+              Get.toNamed(AppRoutes.account);
+            },
+          ),
+        ),
         body: MyStatefulWidget(isFromCheckout,callback),
         bottomNavigationBar:  Container(
-            padding: const EdgeInsets.only(bottom:12.0),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-            ),
-            child: Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
-            child: titleButton('新增地址', () {
-                    Get.toNamed(AppRoutes.newAddress, arguments: '-1');
-                  },
-                  isCircle: true,
-                  fontSize: 18,
-                  height: 38,
+          padding: const EdgeInsets.only(bottom:12.0),
+          decoration: const BoxDecoration(
+              color: Colors.white,
           ),
-        ),                      )
-      ),
+          child: Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
+          child: titleButton('新增地址', () {
+                  Get.toNamed(AppRoutes.newAddress, arguments: '-1');
+                },
+                isCircle: true,
+                fontSize: 18,
+                height: 38,
+        ),
+      ),                      )
     );
   }
 }
@@ -117,15 +128,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
                 Row(
                   children: [
-                    Expanded(
+                    Expanded( 
                       child: Container(
                       margin: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 0, right: 0),
                       padding: const EdgeInsets.all(0),
                       child: Text(
-                        '${addRessList[i].province as String} ${addRessList[i].city as String} ${addRessList[i].region as String} ${addRessList[i].detail as String} ',
+                        '${addRessList[i].province as String} ${addRessList[i].city as String} ${addRessList[i].region as String} ${addRessList[i].detail as String} ', 
                         textAlign: TextAlign.left,
                       )
-                    ),
+                    ),                
                   ),
                 ]),
                 Row(
@@ -133,7 +144,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () => {
-
+                          
                         },
                         child: Row(
                           children: [
@@ -152,7 +163,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             const Text('默认地址', style: TextStyle(
                               color: Color.fromARGB(255, 153, 153, 153),
                             )),
-                          ]
+                          ] 
                         ),
                       ),
                     ),

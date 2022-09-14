@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'logic.dart';
-import 'package:rc_china_freshplan_app/common/util/address-util.dart';
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
 class NewAddress extends StatelessWidget {
   const NewAddress({Key? key}) : super(key: key);
@@ -30,9 +30,21 @@ class NewAddress extends StatelessWidget {
       contDateliroller.text = logic.detail.value;
     });
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: commonAppBar('新增地址'),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("${args != '-1' ? '修改' : '新增'}地址", selectionColor: Colors.black,),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: GestureDetector(
+            child: const Icon(
+              Icons.arrow_back_ios,
+            ),
+            onTap: () {
+              Get.toNamed(AppRoutes.addressManage);
+            },
+          ),
+        ),
         body: Container(
           padding: const EdgeInsets.all(12),
           color:const Color.fromARGB(255, 249, 249, 249),
@@ -168,8 +180,7 @@ class NewAddress extends StatelessWidget {
                 height: 38
           ),
         ),                      
-        )  
-      ),
+      )  
     );
   }
 }
