@@ -25,8 +25,6 @@ class AddRessUtil {
   }
 
   static void addRes(AddRess pet) {
-    print('petid');
-    print(pet.id);
     addRessList.add(pet);
     StorageUtil().setJSON('${consumer?.addresslist}_addRess', addRessList);
   }

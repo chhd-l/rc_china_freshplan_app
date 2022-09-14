@@ -51,8 +51,6 @@ class CreateAddRessLogic extends GetxController {
   }
 
   void recommendedRecipes(String updid) {
-    print('updid');
-    print(updid);
     AddRess addRess = AddRess(
       receiverName: receiverName.value,
       id: updid != '-1' ? updid : id.value,

@@ -79,7 +79,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
 
     var addRessList = AddRessUtil.addRessList;
-    print(addRessList.length != 0 ? addRessList[0].id : 0);
 
     return Scaffold(
       backgroundColor:  const Color.fromARGB(255, 249, 249, 249),
