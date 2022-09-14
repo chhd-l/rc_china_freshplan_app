@@ -34,7 +34,8 @@ class CreatePetNextPage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 26, bottom: 32),
                     child: textFiled(
                         controller: logic.recentWeightController,
-                        keyboardType: TextInputType.number),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true)),
                   ),
                   commonTitle('${logic.petNameController.text}近期状态'),
                   Padding(
@@ -72,7 +73,8 @@ class CreatePetNextPage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 26, bottom: 32),
                     child: textFiled(
                         controller: logic.targetWeightController,
-                        keyboardType: TextInputType.number),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true)),
                   ),
                   commonTitle('${logic.petNameController.text}近期的健康情况'),
                   Padding(

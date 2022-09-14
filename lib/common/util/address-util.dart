@@ -5,7 +5,7 @@ import 'package:rc_china_freshplan_app/common/util/storage.dart';
 class AddRessUtil {
   static List<AddRess> addRessList = [];
   static late Consumer? consumer;
-  
+
   static Future<void> init() async {
     consumer = StorageUtil().getJSON("loginUser") != null
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
@@ -25,7 +25,9 @@ class AddRessUtil {
   }
 
   static void addRes(AddRess pet) {
+    print('2222222');
     addRessList.add(pet);
+    print(addRessList.length);
     StorageUtil().setJSON('${consumer?.addresslist}_addRess', addRessList);
   }
 
