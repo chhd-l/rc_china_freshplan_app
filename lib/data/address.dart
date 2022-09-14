@@ -8,15 +8,16 @@ class AddRess {
   String? detail;
   bool? isDefault;
 
-  AddRess(
-      {this.id,
+  AddRess({
+    this.id,
       this.receiverName,
       this.phone,
       this.province,
       this.city,
       this.region,
       this.detail,
-      this.isDefault});
+      this.isDefault
+    });
 
   AddRess.fromJson(Map<String, dynamic> json) {
     receiverName = json['receiverName'];

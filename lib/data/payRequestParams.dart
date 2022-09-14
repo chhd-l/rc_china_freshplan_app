@@ -1,5 +1,5 @@
 const getPayInfoParams={
-  "query": "\nmutation subscriptionCreateAndPay (\$input: SubscriptionInput!, \$payWayId:String!){\n    subscriptionCreateAndPay(input: \$input,payWayId:\$payWayId) {\n        subscription {\n            id\n            no\n        }\n        paymentStartResult {\n            isSuccess\n            payment {\n                amount\n                currency\n                consumerAccountOpenId\n                consumerId\n                details{\n                    code\n                    id\n                    paymentId\n                    value\n                }\n                id\n                paymentFinishTime\n                paymentStartTime\n                payWayCode\n                payWayId\n                payWayOrderId\n                payWayPrePayId\n                status\n                orderId\n                orderNo\n            }\n            wxPaymentRequest {\n                nonceStr\n                package\n                paySign\n                signType\n                timeStamp\n            }\n            aliPaymentRequest {\n                payWayOrderId\n            }\n        }\n    }\n  }\n",
+  "query": "\nmutation subscriptionCreateAndPay (\$input: SubscriptionInput!, \$payWayId:String!){\n    subscriptionCreateAndPay(input: \$input,payWayId:\$payWayId) {\n        subscription {\n            id\n            no\n        }\n        paymentStartResult {\n            isSuccess\n            payment {\n                amount\n                currency\n                consumerAccountOpenId\n                consumerId\n                details{\n                    code\n                    id\n                    paymentId\n                    value\n                }\n                id\n                paymentFinishTime\n                paymentStartTime\n                payWayCode\n                payWayId\n                payWayOrderId\n                payWayPrePayId\n                status\n                orderId\n                orderNo\n            }\n            wxPaymentRequest {\n                nonceStr\n                package\n                paySign\n                signType\n                timeStamp\n            }\n            aliPaymentRequest {\n                payWayOrderId\n                orderStr\n            }\n        }\n    }\n  }\n",
   "variables": {
     "input": {
       "description": "description",
@@ -136,7 +136,7 @@ const getPayInfoParams={
       "firstDeliveryTime": "2022-09-09T00:00:00.000Z",
       "totalDeliveryTimes": 6
     },
-    "payWayId": "e47dfb0f-1d3f-11ed-8ae8-00163e02a658",
+    "payWayId": "e47dfb0f-1d3f-11ed-8ae8-00163e02a659",
     "storeId": "39b6444b-683b-4915-8b75-5d8403f40a02",
     "operator": "Timyee"
   }

@@ -5,6 +5,7 @@ import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
+import 'package:rc_china_freshplan_app/pages/checkout/checkout-widget-view.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
 
 import 'logic.dart';
@@ -38,131 +39,16 @@ class CheckoutPage extends StatelessWidget {
                     ),
                     child: Column(children: [
                       const SizedBox(height: 12),
-                      commonContainer(GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.addressManage, arguments: {
-                            "isFromCheckout": true,
-                            "callback": (address) {
-                              state.address.value = address;
-                            }
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.asset('assets/images/address.png'),
-                            const SizedBox(width: 8),
-                            Obx(() => Expanded(
-                                child: state.address.value.receiverName != null
-                                    ? Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                state.address.value
-                                                    .receiverName!,
-                                                style: textSyle700(
-                                                    fontSize: 15,
-                                                    color: const Color.fromRGBO(
-                                                        34, 34, 34, 1)),
-                                              ),
-                                              const SizedBox(width: 8),
-                                              Text(state.address.value.phone!,
-                                                  style: textSyle700(
-                                                      fontSize: 15,
-                                                      color:
-                                                          AppColors.text999)),
-                                            ],
-                                          ),
-                                          Text(
-                                            state.address.value.province! +
-                                                state.address.value.city! +
-                                                state.address.value.region! +
-                                                state.address.value.detail!,
-                                            style: textSyle700(fontSize: 13),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        '添加收货地址',
-                                        style: textSyle700(
-                                            fontSize: 17,
-                                            color: AppColors.text333),
-                                      ))),
-                            Image.asset('assets/images/arrow-right.png'),
-                          ],
-                        ),
-                      )),
-                      commonContainer(Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('订单商品', style: textSyle700(fontSize: 16)),
-                          Obx(
-                            () => ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: state.orderProduct.length,
-                                itemBuilder: (context, index) {
-                                  final item = state.orderProduct[index];
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Image.asset(item['assets']),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 20),
-                                        child: Column(
-                                          children: [
-                                            Text(item['name'],
-                                                style: textSyle700(
-                                                    fontSize: 14,
-                                                    color: AppColors.text333)),
-                                            Text(
-                                                logic
-                                                    .handlePrice(item['price']),
-                                                style: textSyle700(
-                                                    fontSize: 12,
-                                                    color: AppColors.text999)),
-                                          ],
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 20),
-                                          child: Text('X1',
-                                              style: textSyle700(
-                                                  fontSize: 10,
-                                                  color: AppColors.text999))),
-                                    ],
-                                  );
-                                }),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Obx(() => RichText(
-                                    textAlign: TextAlign.end,
-                                    text: TextSpan(
-                                        style: textSyle700(
-                                            fontSize: 14,
-                                            color: AppColors.text666),
-                                        children: [
-                                          const TextSpan(text: '商品小计：'),
-                                          TextSpan(
-                                            text: logic.handlePrice(
-                                                state.productTotalPrice.value),
-                                            style: const TextStyle(
-                                                color: AppColors.primaryText),
-                                          ),
-                                        ]),
-                                  )),
-                            ],
-                          )
-                        ],
-                      )),
+                      Obx(() => addressContainer(() {
+                            Get.toNamed(AppRoutes.addressManage, arguments: {
+                              "isFromCheckout": true,
+                              "callback": (address) {
+                                state.address.value = address;
+                              }
+                            });
+                          }, state.address.value)),
+                      Obx(() => orderProductContainer(
+                          state.orderProduct, state.productTotalPrice.value)),
                       commonContainer(Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -259,37 +145,4 @@ class CheckoutPage extends StatelessWidget {
           ]),
         ));
   }
-}
-
-Widget commonContainer(Widget child, {EdgeInsetsGeometry? padding}) {
-  return Container(
-    padding: padding ?? const EdgeInsets.all(16),
-    margin: const EdgeInsets.only(bottom: 15),
-    decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        boxShadow: [
-          BoxShadow(
-              offset: Offset(0, 0),
-              color: Color.fromRGBO(191, 191, 191, 0.1),
-              blurRadius: 2.0,
-              blurStyle: BlurStyle.solid,
-              spreadRadius: 0.0)
-        ]),
-    child: child,
-  );
-}
-
-Widget priceRow(String left, String right) {
-  return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(left,
-              style: textSyle700(fontSize: 14, color: AppColors.text666)),
-          Text(right,
-              style: textSyle700(fontSize: 14, color: AppColors.text333)),
-        ],
-      ));
 }
