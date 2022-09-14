@@ -21,7 +21,7 @@ class PetController extends GetxController {
   var recentWeight = 0.0.obs;
   var recentPosture = "".obs;
   var targetWeight = 0.0.obs;
-  var recentHealth = [].obs;
+  var recentHealth = Rx<List<String>>([]);
 
   var nameController = TextEditingController();
   var recentWeightController = TextEditingController();
@@ -40,12 +40,28 @@ class PetController extends GetxController {
     targetWeight.value = pet.targetWeight!;
     recentHealth.value = pet.recentHealth!;
 
-    nameController =
-        TextEditingController.fromValue(TextEditingValue(text: pet.name ?? ''));
-    recentWeightController = TextEditingController.fromValue(
-        TextEditingValue(text: pet.recentWeight.toString()));
-    targetWeightController = TextEditingController.fromValue(
-        TextEditingValue(text: pet.targetWeight.toString()));
+    nameController.text = pet.name ?? '';
+    recentWeightController.text = pet.recentWeight.toString();
+    targetWeightController.text = pet.targetWeight.toString();
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    nameController.addListener(() {
+      name.value = nameController.text;
+    });
+
+    recentWeightController.addListener(() {
+      recentWeight.value =
+          double.tryParse(recentWeightController.text.toString()) ?? 0.0;
+    });
+
+    targetWeightController.addListener(() {
+      targetWeight.value =
+          double.tryParse(targetWeightController.text.toString()) ?? 0.0;
+    });
   }
 
   void changeName(String text) {
@@ -72,12 +88,16 @@ class PetController extends GetxController {
   void addRencentHealth(String health) {
     if (health == 'NONE') {
       recentHealth.value = ['NONE'];
-    } else if (recentHealth.contains(health)) {
-      recentHealth.remove("NONE");
-      recentHealth.remove(health);
+    } else if (recentHealth.value.contains(health)) {
+      recentHealth.update((val) {
+        val?.remove("NONE");
+        val?.remove(health);
+      });
     } else {
-      recentHealth.remove("NONE");
-      recentHealth.add(health);
+      recentHealth.update((val) {
+        val?.remove("NONE");
+        val?.add(health);
+      });
     }
   }
 

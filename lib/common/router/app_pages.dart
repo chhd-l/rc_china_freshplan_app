@@ -56,7 +56,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.petDetail,
-      page: () => const PetDetailPage(),
+      page: () => PetDetailPage(),
     ),
     GetPage(
       name: AppRoutes.addressManage,

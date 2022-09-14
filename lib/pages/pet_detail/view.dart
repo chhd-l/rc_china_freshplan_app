@@ -12,16 +12,20 @@ import 'package:rc_china_freshplan_app/global.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
 
 class PetDetailPage extends StatelessWidget {
-  const PetDetailPage({Key? key}) : super(key: key);
+  PetDetailPage({super.key});
+
+  final TabsController c = Get.put(TabsController());
+  final PetController petCtl = Get.put(PetController());
+  final global = Get.put(GlobalConfigService());
 
   @override
   Widget build(BuildContext context) {
-    final TabsController c = Get.put(TabsController());
-    final PetController petCtl = Get.put(PetController());
-    final global = Get.put(GlobalConfigService());
     var args = Get.arguments;
     var pet = PetUtil.getPet(args.toString());
-    petCtl.initData(pet);
+    Future.delayed(const Duration(milliseconds: 200)).then((value) {
+      c.changeTab(0);
+      petCtl.initData(pet);
+    });
 
     void _handlePressSave() {
       PetUtil.updatePet(Pet(
@@ -36,8 +40,8 @@ class PetDetailPage extends StatelessWidget {
         breedName: petCtl.breedName.value,
         targetWeight: petCtl.targetWeight.value,
         recentWeight: petCtl.recentWeight.value,
-        recentHealth:
-            List<String>.from(petCtl.recentHealth.map((e) => e.toString())),
+        recentHealth: List<String>.from(
+            petCtl.recentHealth.value.map((e) => e.toString())),
         recentPosture: petCtl.recentPosture.value,
       ));
       Get.toNamed(AppRoutes.petList);
@@ -175,9 +179,7 @@ class PetDetailPage extends StatelessWidget {
                     buildPetItem(
                         '宠物昵称',
                         buildInputItem(petCtl.nameController,
-                            handleChange: (value) {
-                          petCtl.changeName(value);
-                        }),
+                            handleChange: (value) {}),
                         ''),
                     buildPetItem(
                         '宠物生日',
@@ -268,9 +270,8 @@ class PetDetailPage extends StatelessWidget {
                         '近期体重',
                         buildInputNumberItem(petCtl.recentWeightController,
                             inputType: const TextInputType.numberWithOptions(
-                                decimal: true), handleChange: (value) {
-                          petCtl.changeRecentWeight(value);
-                        }),
+                                decimal: true),
+                            handleChange: (value) {}),
                         '(kg)'),
                     buildPetItem(
                         '近期状态',
@@ -381,9 +382,8 @@ class PetDetailPage extends StatelessWidget {
                         '成年目标体重',
                         buildInputNumberItem(petCtl.targetWeightController,
                             inputType: const TextInputType.numberWithOptions(
-                                decimal: true), handleChange: (value) {
-                          petCtl.changeTargetWeight(value);
-                        }),
+                                decimal: true),
+                            handleChange: (value) {}),
                         '(kg)'),
                     buildPetItem(
                         '近期健康状况',
