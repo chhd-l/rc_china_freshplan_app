@@ -165,39 +165,3 @@ class CreatePetPage extends StatelessWidget {
   }
 }
 
-Widget headInfo(String imagePath, VoidCallback action) {
-  return Stack(
-    children: [
-      SizedBox(width: 69.w, height: 64.w),
-      Positioned(
-        left: 8.w,
-        child: Image.asset('assets/images/pet_icon_bg.png'),
-      ),
-      Positioned(
-        right: 5.w,
-        child: GestureDetector(
-          onTap: action,
-          child: ClipOval(
-            child: SizedBox(
-                height: 64, width: 64, child: headInfoImage(imagePath)),
-          ),
-        ),
-      )
-    ],
-  );
-}
-
-Widget headInfoImage(String imagePath) {
-  if (imagePath.isEmpty) return Image.asset('assets/images/pet-gray.png');
-  return CachedNetworkImage(
-      imageUrl: imagePath,
-      placeholder: (context, url) => Image.asset(
-            'assets/images/pet-gray.png',
-            fit: BoxFit.cover,
-          ),
-      errorWidget: (context, url, error) => Image.asset(
-            'assets/images/pet-gray.png',
-            fit: BoxFit.cover,
-          ),
-      fit: BoxFit.cover);
-}
