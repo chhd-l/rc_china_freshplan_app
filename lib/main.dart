@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'common/router/app_pages.dart';
 import 'global.dart';
@@ -33,6 +34,15 @@ class MyApp extends StatelessWidget {
                 // translations: Languages(), // 加载翻译初始化
                 locale: window.locale, //跟随系统
                 fallbackLocale: const Locale('en', 'US'),
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate
+                ],
+                supportedLocales: const [
+                  Locale('zh', 'CH'),
+                  Locale('en', 'US')
+                ],
                 debugShowCheckedModeBanner: false,
                 initialRoute: AppPages.initial,
                 getPages: AppPages.routes,

@@ -3,8 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart' as Res;
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:dio/adapter.dart';
+import 'storage.dart';
 
 import '../../global.dart';
 
@@ -82,11 +84,9 @@ class HttpUtil {
       return handler.next(options);
     }, onResponse: (response, handler) {
       print(response);
-      if ((response.data['code'] != null && response.data['code'] != 200) ||
-          (response.statusCode != 201 && response.statusCode != 200)) {
+      if (response.statusCode != 200) {
         print('error....');
-        if (response.data['code'] == 410 &&
-            Get.currentRoute != AppRoutes.login) {
+        if (response.statusCode == 410 && Get.currentRoute != AppRoutes.login) {
           Get.offAllNamed(AppRoutes.login);
           final global = Get.put(GlobalConfigService());
           // global.loginOut();
@@ -96,7 +96,7 @@ class HttpUtil {
             requestOptions: response.requestOptions,
             type: DioErrorType.response,
             error: ErrorEntity(
-                code: response.data['code'], message: response.data['msg'])));
+                code: response.statusCode, message: response.data['message'])));
       } else {
         print('success....');
         print(response);
@@ -189,11 +189,10 @@ class HttpUtil {
   /// 读取本地配置
   Options getLocalOptions() {
     late Options options;
-    String? token =
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0MzFlMWM3LWIxMmItNDJhYi05ODk3LWQxOGVmMWUyZWVlMSIsIm5hbWUiOm51bGwsImdlbmRlciI6IjAiLCJhdmF0YXJVcmwiOiJodHRwczovL3Rmcy5hbGlwYXlvYmplY3RzLmNvbS9pbWFnZXMvcGFydG5lci9UMWRLUmVYYWRvWFhYWFhYWFgiLCJuaWNrTmFtZSI6IlRpbXllZSIsImVtYWlsIjpudWxsLCJwaG9uZSI6IjEzNTkwNDE1NjI5IiwibGV2ZWwiOiLmlrDmiYvpk7LlsY7lrpgiLCJwb2ludHMiOjAsImRlZmF1bHRDb25zdW1lckFkZHJlc3NJZCI6bnVsbCwibGFzdExvZ2luVGltZSI6IjIwMjItMDgtMzFUMDk6MzM6MjUrMDg6MDAiLCJzdG9yZUlkIjoiMzliNjQ0NGItNjgzYi00OTE1LThiNzUtNWQ4NDAzZjQwYTAyIiwiaWF0IjoxNjYzMTM0NzAwLCJleHAiOjE2NjMxNDE5MDB9.CYDIC0dgJcxMpIgG9mwKRuWBIJa4cMo2AT6LUh_P_gM';
-    if (token != null) {
+    String token = StorageUtil().getStr('accessToken');
+    if (token != '') {
       options = Options(headers: {
-        'Authorization': token,
+        'Authorization': 'Bearer $token',
       });
     } else {
       options = Options();
