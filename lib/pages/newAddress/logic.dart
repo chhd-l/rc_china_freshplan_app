@@ -40,7 +40,6 @@ class CreateAddRessLogic extends GetxController {
   };
 
   void initData(args) {
-    Future.delayed(const Duration(milliseconds: 10)).then((e) {
       var addRess = AddRessUtil.getAddRess(args);
       receiverName.value = addRess.receiverName!;
       phone.value = addRess.phone!;
@@ -49,7 +48,6 @@ class CreateAddRessLogic extends GetxController {
       region.value = addRess.region!;
       detail.value = addRess.detail!;
       isDefault.value = addRess.isDefault!;
-    });
   }
 
   void recommendedRecipes(String updid) {

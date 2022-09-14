@@ -12,23 +12,23 @@ class NewAddress extends StatelessWidget {
 
   Widget build(BuildContext context) {
     final CreateAddRessLogic logic = Get.put(CreateAddRessLogic());
-    var args = Get.arguments ?? '-1';
+    var args = Get.arguments;
 
-    TextEditingController contNameroller = TextEditingController(
-      text: logic.receiverName.value,
-    );
+    TextEditingController contNameroller = TextEditingController();
   
-    TextEditingController contPhoneroller = TextEditingController(
-      text: logic.phone.value,
-    );
+    TextEditingController contPhoneroller = TextEditingController();
   
-    TextEditingController contCityroller = TextEditingController(
-      text: logic.province.value,
-    );
+    TextEditingController contCityroller = TextEditingController();
 
-    TextEditingController contDateliroller = TextEditingController(
-      text: logic.detail.value,
-    );
+    TextEditingController contDateliroller = TextEditingController();
+    
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      logic.initData(args);
+      contNameroller.text = logic.receiverName.value;
+      contPhoneroller.text = logic.phone.value;
+      contCityroller.text = logic.province.value;
+      contDateliroller.text = logic.detail.value;
+    });
 
     return MaterialApp(
       home: Scaffold(

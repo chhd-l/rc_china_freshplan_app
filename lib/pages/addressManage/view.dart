@@ -26,7 +26,7 @@ class AddRessManage extends StatelessWidget {
             child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
             child: titleButton('新增地址', () {
-                    Get.toNamed(AppRoutes.newAddress);
+                    Get.toNamed(AppRoutes.newAddress, arguments: '-1');
                   },
                   isCircle: true,
                   fontSize: 18,
