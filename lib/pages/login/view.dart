@@ -8,6 +8,7 @@ import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/util/address-util.dart';
+import 'package:rc_china_freshplan_app/api/consumer/index.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -26,14 +27,23 @@ class _LoginPageState extends State<LoginPage> {
       storeId: '39b6444b-683b-4915-8b75-5d8403f40a02');
   String _password = '';
 
-  void _onPressLogin() {
+  void _onPressLogin() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      StorageUtil().setJSON('loginUser', consumer.toJson());
-      EventBus().sendBroadcast('user-login');
-      PetUtil.init();
-      AddRessUtil.init();
-      Get.offNamed(AppRoutes.account);
+      var db = await ConsumerEndPoint.appLogin(consumer.mobile!);
+      if (db != false) {
+        StorageUtil().setStr('accessToken', db['access_token']);
+        consumer.name = db['userInfo']['nickName'];
+        consumer.nickName = db['userInfo']['nickName'];
+        consumer.avatarUrl = db['userInfo']['avatarUrl'];
+        consumer.storeId = db['userInfo']['storeId'];
+        StorageUtil().setJSON('loginUser', consumer.toJson());
+        StorageUtil().setJSON('consumerAccount', db['consumerAccount']);
+        EventBus().sendBroadcast('user-login');
+        PetUtil.init();
+        AddRessUtil.init();
+        Get.offNamed(AppRoutes.account);
+      }
     }
     //Get.toNamed(AppRoutes.account);
   }
@@ -93,19 +103,19 @@ class _LoginPageState extends State<LoginPage> {
                       if (!reg.hasMatch(value!)) {
                         return '请输入正确的手机号码';
                       }
-                      if (global.userList.indexWhere((element) =>
-                              element['mobile'].toString() == value) <
-                          0) {
-                        return '手机号不正确';
-                      }
+                      // if (global.userList.indexWhere((element) =>
+                      //         element['mobile'].toString() == value) <
+                      //     0) {
+                      //   return '手机号不正确';
+                      // }
                       return null;
                     },
                     onSaved: (value) {
-                      var user = global.userList.firstWhere(
-                          (element) => element['mobile'].toString() == value);
+                      // var user = global.userList.firstWhere(
+                      //     (element) => element['mobile'].toString() == value);
                       consumer.mobile = value ?? '';
-                      consumer.name = user['name'].toString();
-                      consumer.nickName = user['name'].toString();
+                      // consumer.name = user['name'].toString();
+                      // consumer.nickName = user['name'].toString();
                     },
                   ),
                   const SizedBox(

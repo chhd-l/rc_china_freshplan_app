@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
@@ -37,12 +38,21 @@ class AccountPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 15.0),
       child: Row(children: [
         ClipOval(
-          child: Image.asset(
-            'assets/images/unlogin.png',
-            width: 55,
-            height: 55,
-            fit: BoxFit.cover,
-          ),
+          child: consumer == null
+              ? Image.asset(
+                  'assets/images/unlogin.png',
+                  width: 55,
+                  height: 55,
+                  fit: BoxFit.cover,
+                )
+              : CachedNetworkImage(
+                  imageUrl:
+                      consumer.avatarUrl != null && consumer.avatarUrl != ''
+                          ? consumer.avatarUrl.toString()
+                          : 'assets/images/unlogin.png',
+                  width: 55,
+                  height: 55,
+                ),
         ),
         Expanded(
             child: Container(
@@ -78,6 +88,8 @@ class AccountPage extends StatelessWidget {
           ),
           onTap: () {
             StorageUtil().remove('loginUser');
+            StorageUtil().remove('consumerAccount');
+            StorageUtil().remove('accessToken');
             PetUtil.logout();
             AddRessUtil.logout();
             Get.offAllNamed(AppRoutes.login);

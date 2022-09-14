@@ -82,10 +82,9 @@ class HttpUtil {
       return handler.next(options);
     }, onResponse: (response, handler) {
       print(response);
-      if (response.data['code'] != 200||response.statusCode!=201) {
+      if (response.statusCode != 200) {
         print('error....');
-        if (response.data['code'] == 410 &&
-            Get.currentRoute != AppRoutes.login) {
+        if (response.statusCode == 410 && Get.currentRoute != AppRoutes.login) {
           Get.offAllNamed(AppRoutes.login);
           final global = Get.put(GlobalConfigService());
           // global.loginOut();
@@ -95,7 +94,7 @@ class HttpUtil {
             requestOptions: response.requestOptions,
             type: DioErrorType.response,
             error: ErrorEntity(
-                code: response.data['code'], message: response.data['msg'])));
+                code: response.statusCode, message: response.data['message'])));
       } else {
         print('success....');
         print(response);

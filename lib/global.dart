@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'common/util/storage.dart';
 import 'common/util/pet-util.dart';
 import 'common/util/address-util.dart';
+import 'api/consumer/index.dart';
 import 'constants.dart';
 
 /// 全局配置
@@ -68,6 +69,7 @@ class GlobalConfigService extends GetxService {
     await StorageUtil.init();
     PetUtil.init();
     AddRessUtil.init();
+    await ConsumerEndPoint.changeToken();
 
     return this;
   }

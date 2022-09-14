@@ -267,8 +267,8 @@ class PetDetailPage extends StatelessWidget {
                     buildPetItem(
                         '近期体重',
                         buildInputNumberItem(petCtl.recentWeightController,
-                            inputType: TextInputType.number,
-                            handleChange: (value) {
+                            inputType: const TextInputType.numberWithOptions(
+                                decimal: true), handleChange: (value) {
                           petCtl.changeRecentWeight(value);
                         }),
                         '(kg)'),
@@ -380,8 +380,8 @@ class PetDetailPage extends StatelessWidget {
                     buildPetItem(
                         '成年目标体重',
                         buildInputNumberItem(petCtl.targetWeightController,
-                            inputType: TextInputType.number,
-                            handleChange: (value) {
+                            inputType: const TextInputType.numberWithOptions(
+                                decimal: true), handleChange: (value) {
                           petCtl.changeTargetWeight(value);
                         }),
                         '(kg)'),
