@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/data/address.dart';
@@ -61,6 +63,7 @@ class CreateAddRessLogic extends GetxController {
       detail: detail.value,
       isDefault: isDefault.value,
     );
+    print(addRess.toJson());
     updid != '-1' ? AddRessUtil.updateAddRess(addRess) : AddRessUtil.addRes(addRess);
     Get.toNamed(AppRoutes.addressManage);
   }
