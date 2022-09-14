@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/data/address.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/addRess-util.dart';
 import 'package:get/get.dart';
@@ -8,8 +9,10 @@ import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
 class AddRessManage extends StatelessWidget {
   var isFromCheckout = false;
+  var callback;
   AddRessManage({super.key}) {
-    isFromCheckout = Get.arguments ?? false;
+    isFromCheckout = Get.arguments["isFromCheckout"] ?? false;
+    callback=Get.arguments["callback"];
   }
 
   @override
@@ -17,7 +20,7 @@ class AddRessManage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: commonAppBar('地址管理'),
-        body: MyStatefulWidget(isFromCheckout),
+        body: MyStatefulWidget(isFromCheckout,callback),
         bottomNavigationBar:  Container(
             padding: const EdgeInsets.only(bottom:12.0),
             decoration: const BoxDecoration(
@@ -32,7 +35,7 @@ class AddRessManage extends StatelessWidget {
                   fontSize: 18,
                   height: 38,
           ),
-        ),                      )  
+        ),                      )
       ),
     );
   }
@@ -40,8 +43,10 @@ class AddRessManage extends StatelessWidget {
 
 class MyStatefulWidget extends StatefulWidget {
   var isCheckout = false;
-  MyStatefulWidget(bool isFromCheckout, {super.key}) {
+  var isCallback;
+  MyStatefulWidget(bool isFromCheckout, callback, {super.key}) {
     isCheckout = isFromCheckout;
+    isCallback=callback;
   }
 
   @override
@@ -73,8 +78,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           itemBuilder: (BuildContext ctx, int i) {
           return GestureDetector(
               onTap: () {
-                if (widget.isCheckout) {
-                  Get.offNamed(AppRoutes.checkout, arguments: addRessList[i]);
+                if (widget.isCheckout&&widget.isCallback!=null) {
+                  // AddRess address=AddRess(receiverName: 'zuoqin',phone: '13101227768',province: '重庆',city: '重庆市',region: '渝中区',detail: '华盛路1号德勤大楼');
+                  widget.isCallback(addRessList[i]);
+                  Get.back();
                 }
               },
               child:Container(
@@ -95,14 +102,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               children:  [
                 Row(
                   children: [
-                    Expanded( 
-                      child: Text(addRessList[i].receiverName as String, style: const TextStyle(
+                    Expanded(
+                      child: Text(addRessList[i].receiverName??'', style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               )),
                     ),
                     Expanded(
-                      child: Text(addRessList[i].phone as String, textAlign: TextAlign.right, style: const TextStyle(
+                      child: Text(addRessList[i].phone??'', textAlign: TextAlign.right, style: const TextStyle(
                                color: Color.fromARGB(255, 153, 153, 153),
                              ),),
                     ),
@@ -110,15 +117,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
                 Row(
                   children: [
-                    Expanded( 
+                    Expanded(
                       child: Container(
                       margin: const EdgeInsets.only(top: 12.0, bottom: 12.0, left: 0, right: 0),
                       padding: const EdgeInsets.all(0),
                       child: Text(
-                        '${addRessList[i].province as String} ${addRessList[i].city as String} ${addRessList[i].region as String} ${addRessList[i].detail as String} ', 
+                        '${addRessList[i].province as String} ${addRessList[i].city as String} ${addRessList[i].region as String} ${addRessList[i].detail as String} ',
                         textAlign: TextAlign.left,
                       )
-                    ),                
+                    ),
                   ),
                 ]),
                 Row(
@@ -126,7 +133,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () => {
-                          
+
                         },
                         child: Row(
                           children: [
@@ -145,7 +152,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             const Text('默认地址', style: TextStyle(
                               color: Color.fromARGB(255, 153, 153, 153),
                             )),
-                          ] 
+                          ]
                         ),
                       ),
                     ),

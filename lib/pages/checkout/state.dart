@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/data/address.dart';
 
 class CheckoutState {
   RxList orderProduct = [].obs;
   RxInt productTotalPrice = 0.obs; //商品总价
   RxInt payTotalPrice=0.obs;
+  Rx<AddRess> address=Rx<AddRess>(AddRess());
 
   int discountPrice = 20; //促销折扣
   int newDiscountPrice = 20; //新人折扣

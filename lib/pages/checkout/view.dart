@@ -40,15 +40,20 @@ class CheckoutPage extends StatelessWidget {
                       const SizedBox(height: 12),
                       commonContainer(GestureDetector(
                         onTap: () {
-                          Get.toNamed(AppRoutes.addressManage, arguments: true);
+                          Get.toNamed(AppRoutes.addressManage, arguments: {
+                            "isFromCheckout": true,
+                            "callback": (address) {
+                              state.address.value = address;
+                            }
+                          });
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Image.asset('assets/images/address.png'),
                             const SizedBox(width: 8),
-                            Expanded(
-                                child: logic.address != null
+                            Obx(() => Expanded(
+                                child: state.address.value.receiverName != null
                                     ? Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -56,14 +61,15 @@ class CheckoutPage extends StatelessWidget {
                                           Row(
                                             children: [
                                               Text(
-                                                logic.address['receiverName'],
+                                                state.address.value
+                                                    .receiverName!,
                                                 style: textSyle700(
                                                     fontSize: 15,
                                                     color: const Color.fromRGBO(
                                                         34, 34, 34, 1)),
                                               ),
                                               const SizedBox(width: 8),
-                                              Text(logic.address['phone'],
+                                              Text(state.address.value.phone!,
                                                   style: textSyle700(
                                                       fontSize: 15,
                                                       color:
@@ -71,10 +77,10 @@ class CheckoutPage extends StatelessWidget {
                                             ],
                                           ),
                                           Text(
-                                            logic.address['province'] +
-                                                logic.address['city'] +
-                                                logic.address['region'] +
-                                                logic.address['detail'],
+                                            state.address.value.province! +
+                                                state.address.value.city! +
+                                                state.address.value.region! +
+                                                state.address.value.detail!,
                                             style: textSyle700(fontSize: 13),
                                           ),
                                         ],
@@ -84,7 +90,7 @@ class CheckoutPage extends StatelessWidget {
                                         style: textSyle700(
                                             fontSize: 17,
                                             color: AppColors.text333),
-                                      )),
+                                      ))),
                             Image.asset('assets/images/arrow-right.png'),
                           ],
                         ),

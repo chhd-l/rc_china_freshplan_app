@@ -15,16 +15,11 @@ class CheckoutLogic extends GetxController {
 
   TextEditingController remarkController = TextEditingController();
 
-  final address = Get.arguments;
-
   @override
   void onReady() {
     for (var element in global.recipesList) {
       setOrderProduct(element);
     }
-    print(global.selectProduct);
-    print(state.orderProduct);
-    print(state.productTotalPrice);
     super.onReady();
   }
 
