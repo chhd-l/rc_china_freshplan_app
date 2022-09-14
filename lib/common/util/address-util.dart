@@ -6,13 +6,13 @@ class AddRessUtil {
   static List<AddRess> addRessList = [];
   static late Consumer? consumer;
 
-  static void init() {
+  static Future<void> init() async {
     consumer = StorageUtil().getJSON("loginUser") != null
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
     if (consumer != null) {
       var petListInStorage =
-          StorageUtil().getJSON('${consumer?.mobile}_addRess');
+          StorageUtil().getJSON('${consumer?.addresslist}_addRess');
       if (petListInStorage != null) {
         List<dynamic> list = List.from(petListInStorage);
         addRessList = List<AddRess>.from(list.map((e) => AddRess.fromJson(e)));
