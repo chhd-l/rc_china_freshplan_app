@@ -68,7 +68,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.orderList,
-      page: () => OrderList(),
+      page: () => const OrderList(),
     ),
     GetPage(
       name: AppRoutes.orderDetails,

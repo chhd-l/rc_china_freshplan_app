@@ -20,6 +20,26 @@ class OrderList extends StatelessWidget {
       return 'xx';
     }
   }
+
+  returnCancelText (String type) {
+    if (type == 'UNPAID') {
+      return '取消';
+    } else if (type == 'TO_SHIP') {
+      return '催发货';
+    } else if (type == 'VOID') {
+      return '删除订单';
+    } else {
+      return '查看物流';
+    }
+  }
+
+  returnDetermine (String type) {
+    if (type == 'UNPAID') {
+      return '付款';
+    } else {
+      return '确认收货';
+    }
+  }
   
   final CreateOrderRessLogic logic = Get.put(CreateOrderRessLogic());
   var orderLists = logic.arr;
@@ -219,9 +239,12 @@ class OrderList extends StatelessWidget {
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 12),
+                          height: 70,
                           child: ListView.builder(
-                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
                             itemCount: orderLists[i]['lineItem'].length,
+                            itemExtent: 70,
+                            cacheExtent: 160,
                             itemBuilder: (BuildContext ctxs, int index) {
                               return Container(
                                 margin: const EdgeInsets.only(right: 12),
@@ -252,8 +275,8 @@ class OrderList extends StatelessWidget {
                               Expanded(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  children: const [
-                                    Text(
+                                  children: [
+                                    const Text(
                                       '¥', 
                                       style: TextStyle(
                                         fontSize: 8,
@@ -261,8 +284,8 @@ class OrderList extends StatelessWidget {
                                       )
                                     ),
                                     Text(
-                                      '150.00', 
-                                      style: TextStyle(
+                                      orderLists[i]['orderPrice']['totalPrice'], 
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold
                                       )
@@ -281,20 +304,24 @@ class OrderList extends StatelessWidget {
                                 side: BorderSide(color: Color(0xFFCDCDCD),width: 1,style: BorderStyle.solid),
                                 borderRadius: BorderRadius.all(Radius.circular(20))
                               ),
-                              child: const Text('取消'),
+                              child: Text(returnCancelText(orderLists[i]['orderState']['orderState'])),
                               onPressed: () {},
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              child: MaterialButton(
-                                shape: const RoundedRectangleBorder(
-                                  side: BorderSide(color: Color(0xFF96CC39),width: 1,style: BorderStyle.solid),
-                                  borderRadius: BorderRadius.all(Radius.circular(20))
+                            ClipOval(
+                              child: (orderLists[i]['orderState']['orderState'] == 'UNPAID' 
+                            || orderLists[i]['orderState']['orderState'] == 'SHIPPED')
+                            ? Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                child: MaterialButton(
+                                  shape: const RoundedRectangleBorder(
+                                    side: BorderSide(color: Color(0xFF96CC39),width: 1,style: BorderStyle.solid),
+                                    borderRadius: BorderRadius.all(Radius.circular(20))
+                                  ),
+                                  textColor: const Color(0xFF96CC39),
+                                  child: Text(returnDetermine(orderLists[i]['orderState']['orderState'])),
+                                  onPressed: () {},
                                 ),
-                                textColor: const Color(0xFF96CC39),
-                                child: const Text('付款'),
-                                onPressed: () {},
-                              ),
+                              ) : null,
                             )
                           ]
                         )
