@@ -64,6 +64,25 @@ class PetController extends GetxController {
     });
   }
 
+  @override
+  void onClose() {
+    super.onClose();
+    name.value = "";
+    gender.value = "";
+    type.value = "";
+    breedCode.value = "";
+    breedName.value = "";
+    image.value = "";
+    birthday.value = "";
+    recentWeight.value = 0.0;
+    targetWeight.value = 0.0;
+    recentPosture.value = "";
+    recentHealth.value = [];
+    nameController.clear();
+    recentWeightController.clear();
+    targetWeightController.clear();
+  }
+
   void changeName(String text) {
     name.value = text;
   }
