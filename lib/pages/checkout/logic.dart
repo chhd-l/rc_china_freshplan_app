@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/data/payRequestParams.dart';
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/data/consumer.dart';
+import 'package:rc_china_freshplan_app/pages/checkout/pay_request_params.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:sy_flutter_alipay/sy_flutter_alipay.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -45,10 +48,58 @@ class CheckoutLogic extends GetxController {
 
   //支付
   pay() async {
+    if (state.address.value.id == null) {
+      EasyLoading.showInfo('please select your address');
+      return;
+    }
+    var payProduct = json.decode(json.encode(state.orderProduct));
+    for (var element in payProduct) {
+      element["variants"] = element["variants"][0];
+      element["variants"]["num"] = 1;
+    }
+
     EasyLoading.show(status: 'loading orderInfo...');
-    HttpUtil()
-        .post(getPayInfo, params: getPayInfoParams)
-        .onError((ErrorEntity error, stackTrace) {
+    HttpUtil().post(getPayInfo, params: {
+      "query": subscriptionCreateAndPayQuery,
+      "variables": {
+        "input": {
+          "description": "description",
+          "type": "FRESH_PLAN",
+          "cycle": null,
+          "freshType": null,
+          "voucher": null,
+          "consumer": {
+            "id": "7431e1c7-b12b-42ab-9897-d18ef1e2eee1",
+            "avatarUrl":
+                "https://tfs.alipayobjects.com/images/partner/T1dKReXadoXXXXXXXX",
+            "level": "新手铲屎官",
+            "phone": "13590415629",
+            "nickName": "Timyee",
+            "name": null,
+            "email": null,
+            "points": 0,
+            "account": {
+              "unionId": null,
+              "openId": "2088102181402630",
+              "isWXGroupVip": false
+            }
+          },
+          "pet": global.checkoutPet.value.toJson(),
+          "source": "ALIPAY_MINI_PROGRAM",
+          "address": state.address.value.clonePayAddressToJson(),
+          "productList": payProduct,
+          "benefits": null,
+          "coupons": null,
+          "remark": remarkController.text,
+          "firstDeliveryTime":
+              DateTime.now().toIso8601String().split('.')[0] + '.000Z',
+          "totalDeliveryTimes": 6
+        },
+        "payWayId": "ALI_PAY_APP",
+        "storeId": "39b6444b-683b-4915-8b75-5d8403f40a02",
+        "operator": "Timyee"
+      }
+    }).onError((ErrorEntity error, stackTrace) {
       EasyLoading.showError(error.message!);
     }).then((value) async {
       EasyLoading.dismiss();

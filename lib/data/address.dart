@@ -43,4 +43,16 @@ class AddRess {
     data['isDefault'] = this.isDefault;
     return data;
   }
+
+  Map<String, dynamic> clonePayAddressToJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['receiverName'] = this.receiverName;
+    data['phone'] = this.phone;
+    data['province'] = this.province;
+    data['city'] = this.city;
+    data['region'] = this.region;
+    data['detail'] = this.detail;
+    return data;
+  }
 }

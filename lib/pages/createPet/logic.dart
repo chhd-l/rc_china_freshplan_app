@@ -107,6 +107,7 @@ class CreatePetLogic extends GetxController {
     );
     print(pet.toJson());
     PetUtil.addPet(pet);
+    global.checkoutPet.value=pet;
     Get.toNamed(AppRoutes.recommendRecipes);
   }
 
