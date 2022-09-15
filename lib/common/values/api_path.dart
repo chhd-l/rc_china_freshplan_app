@@ -5,3 +5,5 @@ const String getPayInfo='fc-mp-subscription/graphql';
 const String upload = 'upload';
 
 const String wxAuthUrl = 'fc-mp-auth/graphql';
+
+const String orderUrl = 'fc-com-order-list/graphql';
