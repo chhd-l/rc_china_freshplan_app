@@ -28,10 +28,10 @@ class CheckoutLogic extends GetxController {
   }
 
   setOrderProduct(element) {
-    if (global.selectProduct.contains(element['value'])) {
+    if (global.selectProduct.contains(element["variants"][0]["id"])) {
       state.orderProduct.insert(0, element);
       state.productTotalPrice.value = state.productTotalPrice.value +
-          int.parse(element['price'].toString());
+          int.parse(element["variants"][0]['subscriptionPrice'].toString());
       state.payTotalPrice.value = (state.productTotalPrice.value -
           state.discountPrice -
           state.newDiscountPrice -
