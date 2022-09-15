@@ -41,7 +41,7 @@ class PetUtil {
     data['breedName'] = pet.breedName;
     data['image'] = pet.image;
     data['isSterilized'] = pet.isSterilized;
-    data['birthday'] = DateTime.parse(pet.birthday!).toIso8601String();
+    data['birthday'] = DateTime.parse(pet.birthday!).toUtc().toIso8601String();
     data['recentWeight'] = pet.recentWeight;
     data['targetWeight'] = pet.targetWeight;
     data['recentPosture'] = pet.recentPosture;
@@ -73,9 +73,8 @@ class PetUtil {
     petList.clear();
   }
 
-  static void addPet(Pet pet) {
-    petList.add(pet);
-    StorageUtil().setJSON('${consumer?.phone}_petList', petList);
+  static Future addPet(Pet pet) {
+    return PetEndPoint.createPet(pet);
   }
 
   static Pet getPet(String id) {
@@ -96,26 +95,12 @@ class PetUtil {
             ));
   }
 
-  static void updatePet(Pet pet) {
-    int idx = 0;
-    petList.asMap().entries.forEach((element) {
-      if (element.value.id == pet.id) {
-        idx = element.key;
-      }
-    });
-    petList.replaceRange(idx, idx + 1, [pet]);
-    StorageUtil().setJSON('${consumer?.phone}_petList', petList);
+  static Future<bool> updatePet(Pet pet) {
+    return PetEndPoint.updatePet(pet);
   }
 
-  static void removePet(Pet pet) {
-    int idx = 0;
-    petList.asMap().entries.forEach((element) {
-      if (element.value.id == pet.id) {
-        idx = element.key;
-      }
-    });
-    petList.replaceRange(idx, idx + 1, []);
-    StorageUtil().setJSON('${consumer?.phone}_petList', petList);
+  static Future<bool> removePet(Pet pet) {
+    return PetEndPoint.deletePet(pet.id!);
   }
 
   static void removeAllPet() {

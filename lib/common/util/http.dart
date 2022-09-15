@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart' as Res;
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:dio/adapter.dart';
 import 'storage.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../global.dart';
 
@@ -85,7 +87,7 @@ class HttpUtil {
     }, onResponse: (response, handler) {
       print(response);
       //上传图片的statusCode是201
-      if (response.statusCode != 200&&response.statusCode != 201) {
+      if (response.statusCode != 200 && response.statusCode != 201) {
         print('error....');
         if (response.statusCode == 410 && Get.currentRoute != AppRoutes.login) {
           Get.offAllNamed(AppRoutes.login);
@@ -101,8 +103,20 @@ class HttpUtil {
       } else {
         print('success....');
         print(response);
-        handler.next(Res.Response(
-            requestOptions: response.requestOptions, data: response));
+        var jsonView = json.decode(response.toString());
+        if (jsonView['errors'] != null) {
+          handler.reject(DioError(
+            requestOptions: response.requestOptions,
+            type: DioErrorType.response,
+            error: ErrorEntity(
+              code: 500,
+              message: 'Unknown error',
+            ),
+          ));
+        } else {
+          handler.next(Res.Response(
+              requestOptions: response.requestOptions, data: response));
+        }
       }
     }));
   }
@@ -114,7 +128,10 @@ class HttpUtil {
   ErrorEntity createErrorEntity(DioError error) {
     print('444444');
     print(error);
-    if (error.error is ErrorEntity) return error.error;
+    if (error.error is ErrorEntity) {
+      EasyLoading.showError(error.error.message ?? 'Operation failed');
+      return error.error;
+    }
     switch (error.type) {
       case DioErrorType.cancel:
         return ErrorEntity(code: -1, message: "cancel");
@@ -133,7 +150,7 @@ class HttpUtil {
       case DioErrorType.response:
         {
           try {
-            int errCode = error.response!.statusCode ?? 0;
+            int? errCode = error.response!.statusCode;
             // String errMsg = error.response.statusMessage;
             // return ErrorEntity(code: errCode, message: errMsg);
             switch (errCode) {
