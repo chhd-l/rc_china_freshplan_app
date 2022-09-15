@@ -10,8 +10,6 @@ class PetListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Pet> petList = PetUtil.petList;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('宠物列表'),
@@ -34,9 +32,9 @@ class PetListPage extends StatelessWidget {
           children: [
             Expanded(
                 child: ListView.builder(
-              itemCount: petList.length,
+              itemCount: PetUtil.petList.length,
               itemBuilder: (context, index) {
-                Pet pet = petList[index];
+                Pet pet = PetUtil.petList[index];
                 return GestureDetector(
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
