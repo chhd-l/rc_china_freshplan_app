@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
@@ -84,7 +85,19 @@ Widget orderProductContainer(List orderProduct, int productTotalPrice) {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(item['assets']),
+                CachedNetworkImage(
+                  imageUrl: item["variants"][0]["defaultImage"],
+                  placeholder: (context, url) => Image.asset(
+                    'assets/images/牛肉泥.png',
+                    fit: BoxFit.cover,
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/images/牛肉泥.png',
+                    fit: BoxFit.cover,
+                  ),
+                  width: 89,
+                  height: 89,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Column(
@@ -92,7 +105,8 @@ Widget orderProductContainer(List orderProduct, int productTotalPrice) {
                       Text(item['name'],
                           style: textSyle700(
                               fontSize: 14, color: AppColors.text333)),
-                      Text(handlePrice(item['price']),
+                      Text(
+                          handlePrice(item["variants"][0]['subscriptionPrice']),
                           style: textSyle700(
                               fontSize: 12, color: AppColors.text999)),
                     ],

@@ -161,7 +161,9 @@ TextStyle textSyle400(
 PreferredSizeWidget commonAppBar(String appBarTitle,
     {bool needBack = true,
     List<Widget>? actions,
-    Color bgColor = Colors.white}) {
+    Color bgColor = Colors.white,
+    bool titleIsImage = false,
+    String imageTitle = 'assets/images/fresh-plan-logo.png'}) {
   return PreferredSize(
       preferredSize: const Size.fromHeight(70.0),
       child: Padding(
@@ -171,13 +173,15 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 20.0),
-                child: Text(appBarTitle,
-                    style: textSyle400(
-                        fontSize: 18.sp,
-                        color: const Color.fromRGBO(51, 51, 51, 1))),
-              ),
+              !titleIsImage
+                  ? Container(
+                      margin: const EdgeInsets.only(right: 20.0),
+                      child: Text(appBarTitle,
+                          style: textSyle400(
+                              fontSize: 18.sp,
+                              color: const Color.fromRGBO(51, 51, 51, 1))),
+                    )
+                  : Image.asset(imageTitle),
             ],
           ),
           leading: needBack
