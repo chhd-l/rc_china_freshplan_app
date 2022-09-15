@@ -52,6 +52,7 @@ class CheckoutLogic extends GetxController {
       EasyLoading.showInfo('please select your address');
       return;
     }
+
     var payProduct = json.decode(json.encode(state.orderProduct));
     for (var element in payProduct) {
       element["variants"] = element["variants"][0];
@@ -68,22 +69,7 @@ class CheckoutLogic extends GetxController {
           "cycle": null,
           "freshType": null,
           "voucher": null,
-          "consumer": {
-            "id": "7431e1c7-b12b-42ab-9897-d18ef1e2eee1",
-            "avatarUrl":
-                "https://tfs.alipayobjects.com/images/partner/T1dKReXadoXXXXXXXX",
-            "level": "新手铲屎官",
-            "phone": "13590415629",
-            "nickName": "Timyee",
-            "name": null,
-            "email": null,
-            "points": 0,
-            "account": {
-              "unionId": null,
-              "openId": "2088102181402630",
-              "isWXGroupVip": false
-            }
-          },
+          "consumer": Consumer.fromJson(StorageUtil().getJSON('loginUser')).payConsumerToJson(),
           "pet": global.checkoutPet.value.toJson(),
           "source": "ALIPAY_MINI_PROGRAM",
           "address": state.address.value.clonePayAddressToJson(),
