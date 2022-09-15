@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/src/multipart_file.dart' as DIOMUL;
 import 'package:dio/src/form_data.dart' as DIOFORM;
+import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/global.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'state.dart';
 
@@ -107,7 +109,7 @@ class CreatePetLogic extends GetxController {
     );
     print(pet.toJson());
     PetUtil.addPet(pet);
-    global.checkoutPet.value=pet;
+    global.checkoutPet.value = pet;
     Get.toNamed(AppRoutes.recommendRecipes);
   }
 
@@ -115,6 +117,54 @@ class CreatePetLogic extends GetxController {
     state.type.value = value;
     state.breedList.value =
         value == 'DOG' ? global.dogBreedList : global.catBreedList;
+  }
+
+  void selectBirthday() {
+    state.birthday.value = state.birthday.value != ''
+        ? state.birthday.value
+        : DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
+    Get.bottomSheet(Container(
+      height: 200,
+      color: Colors.white,
+      alignment: Alignment.center,
+      child: CupertinoDatePicker(
+        onDateTimeChanged: (dateTime) {
+          state.birthday.value =
+              DateFormat("yyyy-MM-dd").format(dateTime).toString();
+        },
+        initialDateTime: DateTime.now(),
+        minuteInterval: 1,
+        mode: CupertinoDatePickerMode.date,
+      ),
+    ));
+  }
+
+  void selectBreed() {
+    state.breedName.value = state.breedName.value != ''
+        ? state.breedName.value
+        : state.breedList[0]['name'];
+    state.breedCode.value = state.breedCode.value != ''
+        ? state.breedCode.value
+        : state.breedList[0]['code'];
+    Get.bottomSheet(Container(
+        height: 200,
+        color: Colors.white,
+        alignment: Alignment.center,
+        child: CupertinoPicker(
+          magnification: 1.22,
+          squeeze: 1.2,
+          useMagnifier: true,
+          itemExtent: 32.0,
+          onSelectedItemChanged: (int selectedItem) {
+            state.breedName.value = state.breedList[selectedItem]['name'];
+            state.breedCode.value = state.breedList[selectedItem]['code'];
+          },
+          children: List<Widget>.generate(state.breedList.length, (int index) {
+            return Center(
+              child: Text(state.breedList[index]["name"]),
+            );
+          }),
+        )));
   }
 
   void changeRecentHealth(int index) {

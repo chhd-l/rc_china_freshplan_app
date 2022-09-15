@@ -175,7 +175,7 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
             children: <Widget>[
               !titleIsImage
                   ? Container(
-                      margin: const EdgeInsets.only(right: 20.0),
+                      margin:  EdgeInsets.only(right: needBack?20.0:0),
                       child: Text(appBarTitle,
                           style: textSyle400(
                               fontSize: 18.sp,
@@ -190,7 +190,7 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
                   onPressed: () {
                     Get.back();
                   })
-              : null,
+              : Container(),
           automaticallyImplyLeading: true,
           elevation: 0,
           actions: actions,
