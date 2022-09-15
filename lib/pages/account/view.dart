@@ -71,7 +71,7 @@ class AccountPage extends StatelessWidget {
                   },
                 )
               : Text(
-                  consumer.name ?? '',
+                  consumer.nickName ?? '',
                   style: const TextStyle(
                     fontSize: 22,
                     color: Color.fromARGB(255, 51, 51, 51),

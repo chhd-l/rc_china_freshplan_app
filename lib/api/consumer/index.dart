@@ -8,6 +8,15 @@ import 'dart:convert';
 class ConsumerEndPoint {
   static const String storeId = '39b6444b-683b-4915-8b75-5d8403f40a02';
 
+  static String getLoggedConsumerId() {
+    var loggedUser = StorageUtil().getJSON("loginUser");
+    if (loggedUser != null) {
+      return loggedUser['id'];
+    } else {
+      return '';
+    }
+  }
+
   static dynamic appLogin(String phone) async {
     EasyLoading.show(status: 'loading...');
     var data = await HttpUtil().post(wxAuthUrl, params: {

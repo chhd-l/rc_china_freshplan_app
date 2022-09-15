@@ -33,16 +33,16 @@ class AddRessUtil {
 
   static AddRess getAddRess(String id) {
     var init = addRessList.singleWhere((element) => element.id == id,
-      orElse: () => AddRess(
-          id: '-1',
-          receiverName: '',
-          phone: '',
-          region: '',
-          city: '',
-          detail: '',
-          isDefault: false,
-          province: '',
-      ));
+        orElse: () => AddRess(
+              id: '-1',
+              receiverName: '',
+              phone: '',
+              region: '',
+              city: '',
+              detail: '',
+              isDefault: false,
+              province: '',
+            ));
     return init;
   }
 
@@ -54,7 +54,7 @@ class AddRessUtil {
       }
     });
     addRessList.replaceRange(idx, idx + 1, [pet]);
-    StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
+    StorageUtil().setJSON('${consumer?.phone}_addRess', addRessList);
   }
 
   static void removeAddRess(AddRess pet) {
@@ -65,11 +65,11 @@ class AddRessUtil {
       }
     });
     addRessList.replaceRange(idx, idx + 1, []);
-    StorageUtil().setJSON('${consumer?.mobile}_addRess', addRessList);
+    StorageUtil().setJSON('${consumer?.phone}_addRess', addRessList);
   }
 
   static void removeAllAddRess() {
     addRessList.clear();
-    StorageUtil().remove('${consumer?.mobile}_addRess');
+    StorageUtil().remove('${consumer?.phone}_addRess');
   }
 }
