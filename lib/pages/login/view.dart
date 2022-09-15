@@ -33,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       var db = await ConsumerEndPoint.appLogin(consumer.mobile!);
       if (db != false) {
         StorageUtil().setStr('accessToken', db['access_token']);
+        consumer.id = db['userInfo']['id'];
         consumer.name = db['userInfo']['nickName'];
         consumer.nickName = db['userInfo']['nickName'];
         consumer.avatarUrl = db['userInfo']['avatarUrl'];
