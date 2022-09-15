@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
@@ -52,29 +53,18 @@ class CheckoutPage extends StatelessWidget {
                       commonContainer(Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Obx(() => priceRow(
-                              '商品金额',
-                              logic
-                                  .handlePrice(state.productTotalPrice.value))),
-                          priceRow(
-                              '促销折扣',
-                              logic.handlePrice(state.discountPrice,
-                                  isDiscount: true)),
-                          priceRow(
-                              '新人折扣',
-                              logic.handlePrice(state.newDiscountPrice,
-                                  isDiscount: true)),
-                          priceRow(
-                              '运费',
-                              logic.handlePrice(state.deliveryPrice,
-                                  isDiscount: true)),
+                          Obx(() =>
+                              priceRow('商品金额', state.productTotalPrice.value)),
+                          priceRow('促销折扣', state.discountPrice, discount: true),
+                          priceRow('新人折扣', state.newDiscountPrice,
+                              discount: true),
+                          priceRow('运费', state.deliveryPrice, discount: true),
                           Row(
                             children: [
                               const Spacer(),
                               Text('合计：', style: textSyle700(fontSize: 14)),
                               Obx(() => Text(
-                                    logic
-                                        .handlePrice(state.payTotalPrice.value),
+                                    handlePrice(state.payTotalPrice.value),
                                     style: const TextStyle(
                                         fontSize: 20,
                                         color: Color.fromRGBO(212, 157, 40, 1)),
@@ -86,12 +76,11 @@ class CheckoutPage extends StatelessWidget {
                       commonContainer(Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            priceRow(
-                                '首次发货',
-                                DateFormat("yyyy-MM-dd")
+                            priceRow('首次发货', 0,
+                                rightText: DateFormat("yyyy-MM-dd")
                                     .format(DateTime.now())
                                     .toString()),
-                            priceRow('发货周期', '四周'),
+                            priceRow('发货周期', 0, rightText: '四周'),
                           ])),
                       commonContainer(
                           padding: const EdgeInsets.only(right: 16, left: 16),
@@ -130,7 +119,7 @@ class CheckoutPage extends StatelessWidget {
                       style:
                           textSyle700(fontSize: 16, color: AppColors.text333)),
                   Obx(() => Text(
-                        logic.handlePrice(state.payTotalPrice.value),
+                        handlePrice(state.payTotalPrice.value),
                         style: const TextStyle(
                             fontSize: 16,
                             color: Color.fromRGBO(212, 157, 40, 1)),

@@ -4,7 +4,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
+import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 
 import 'get_products_params.dart';
@@ -37,7 +39,6 @@ class RecommendRecipesLogic extends GetxController {
       EasyLoading.dismiss();
       if (value == null) return;
       value = json.decode(value.toString());
-      print(value["data"]["productFindPageByEs"]["records"]);
       global.recipesList
           .insertAll(0, value["data"]["productFindPageByEs"]["records"]);
     });
@@ -45,17 +46,19 @@ class RecommendRecipesLogic extends GetxController {
 
   //获取推荐产品
   getSubscriptionSimpleRecommend() async {
+    Pet pet = global.checkoutPet.value;
     EasyLoading.show(status: 'loading subscriptionRecommend...');
     HttpUtil().post(getSubscriptionRecommend, params: {
       "query": getSubscriptionRecommendQuery,
       "variables": {
         "input": {
           "subscriptionType": "FRESH_PLAN",
-          "petType": "DOG",
-          "petBreedCode": "55",
+          "petType": pet.type,
+          "petBreedCode": pet.breedCode,
           "isPetSterilized": false,
-          "petBirthday": "2022-03-30T16:00:00.000Z",
-          "recentHealth": "NONE"
+          "petBirthday":
+              handleDateTimeToZone(DateTime.parse(pet.birthday.toString())),
+          "recentHealth": (pet.recentHealth ?? []).join('|')
         }
       }
     }).onError((ErrorEntity error, stackTrace) {
@@ -66,12 +69,11 @@ class RecommendRecipesLogic extends GetxController {
       value = json.decode(value.toString());
       var productList =
           value["data"]["subscriptionSimpleRecommend"]["productList"];
-      print('getSubscriptionSimpleRecommend');
-      print("productList");
       handleDefaultRecommendProduct(productList);
     });
   }
 
+  //处理默认推荐的套餐
   void handleDefaultRecommendProduct(productList) {
     for (var element in productList) {
       for (var item in global.recipesList) {
@@ -85,7 +87,8 @@ class RecommendRecipesLogic extends GetxController {
     }
   }
 
-  void selectRecipesItem(value){
+  //点击套餐
+  void selectRecipesItem(value) {
     if (selectedProduct.contains(value)) {
       selectedProduct.remove(value);
     } else if (selectedProduct.length < 2) {
@@ -93,7 +96,8 @@ class RecommendRecipesLogic extends GetxController {
     }
   }
 
-  void gotoPurchase(){
+  //立即购买
+  void gotoPurchase() {
     global.selectProduct.value = selectedProduct;
     Get.toNamed(AppRoutes.checkout);
   }
