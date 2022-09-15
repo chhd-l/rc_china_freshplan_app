@@ -5,6 +5,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
+import '../createPet/common-widget-view.dart';
 import 'logic.dart';
 
 class IndexPage extends StatelessWidget {
@@ -15,15 +16,18 @@ class IndexPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(color: AppColors.primaryBackground),
+      backgroundColor: AppColors.primaryBackground,
+      appBar: commonAppBar('fresh plan',
+          bgColor: AppColors.primaryBackground,
+          needBack: false,
+          titleIsImage: true),
+      body: SafeArea(
           child: Column(children: [
-            const SizedBox(height: 60),
-            Image.asset('assets/images/fresh-plan-logo.png'),
-            const SizedBox(height: 30),
+        Expanded(
+            child: SingleChildScrollView(
+          child: Column(children: [
             Padding(
-              padding: const EdgeInsets.only(left: 24, right: 36),
+              padding: const EdgeInsets.only(left: 24, right: 36, top: 30),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -57,17 +61,6 @@ class IndexPage extends StatelessWidget {
             //       Image.asset('assets/images/fresh-plan-1.png'),
             //       Image.asset('assets/images/fresh-plan-2.png'),
             //     ])),
-            Padding(
-              padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
-              child: titleButton('定制鲜粮', () {
-                logic.customizedFreshFood();
-              },
-                  isCircle: true,
-                  icon: Container(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Image.asset('assets/images/time.png'),
-                  )),
-            ),
             Padding(
               padding: const EdgeInsets.only(top: 24, bottom: 24),
               child: Image.asset('assets/images/arrow-bottom.png'),
@@ -157,8 +150,20 @@ class IndexPage extends StatelessWidget {
               fit: BoxFit.fitWidth,
             ),
           ]),
+        )),
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 12),
+          child: titleButton('定制鲜粮', () {
+            logic.customizedFreshFood();
+          },
+              isCircle: true,
+              icon: Container(
+                padding: const EdgeInsets.only(right: 12),
+                child: Image.asset('assets/images/time.png'),
+              )),
         ),
-      ),
+      ])),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(

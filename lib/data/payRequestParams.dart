@@ -136,7 +136,7 @@ const getPayInfoParams={
       "firstDeliveryTime": "2022-09-09T00:00:00.000Z",
       "totalDeliveryTimes": 6
     },
-    "payWayId": "e47dfb0f-1d3f-11ed-8ae8-00163e02a659",
+    "payWayId": "ALI_PAY_APP",
     "storeId": "39b6444b-683b-4915-8b75-5d8403f40a02",
     "operator": "Timyee"
   }
