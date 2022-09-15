@@ -23,7 +23,7 @@ class CreateOrderRessLogic extends GetxController {
         'createdAt': '2022-06-21 12:13:34',
       },
       'orderPrice': {
-        'totalPrice': '150',
+        'totalPrice': '150.00',
 
       }
     },
@@ -31,18 +31,18 @@ class CreateOrderRessLogic extends GetxController {
       'id': '2',
       'lineItem': [
         {
-          'pic': 'assets/images/牛肉泥.png',
+          'pic': 'assets/images/鸡肉料理.png',
         },
         {
-          'pic': 'assets/images/火鸡料理.png',
+          'pic': 'assets/images/猪肉便饭.png',
         },
       ],
       'orderState': {
-        'orderState': 'TO_SHIP',
+        'orderState': 'SHIPPED',
         'createdAt': '2022-06-21 12:13:34',
       },
       'orderPrice': {
-        'totalPrice': '600',
+        'totalPrice': '600.00',
 
       }
     },

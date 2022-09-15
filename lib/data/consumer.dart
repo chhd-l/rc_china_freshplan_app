@@ -1,4 +1,5 @@
 class Consumer {
+  String? id;
   String? name;
   String? nickName;
   String? mobile;
@@ -7,7 +8,8 @@ class Consumer {
   List? addresslist;
 
   Consumer(
-      {this.name,
+      {this.id,
+      this.name,
       this.nickName,
       this.mobile,
       this.storeId,
@@ -15,6 +17,7 @@ class Consumer {
       this.addresslist});
 
   Consumer.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     nickName = json['nickName'];
     mobile = json['mobile'];
@@ -25,6 +28,7 @@ class Consumer {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['name'] = this.name;
     data['nickName'] = this.nickName;
     data['mobile'] = this.mobile;
