@@ -8,10 +8,11 @@ import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/pay_request_params.dart';
 import 'package:rc_china_freshplan_app/global.dart';
-import 'package:sy_flutter_alipay/sy_flutter_alipay.dart';
+// import 'package:sy_flutter_alipay/sy_flutter_alipay.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
+import 'package:tobias/tobias.dart' as tobias;
 
 import 'state.dart';
 
@@ -62,8 +63,9 @@ class CheckoutLogic extends GetxController {
       value = json.decode(value.toString());
       var payInfo = value["data"]["subscriptionCreateAndPay"]
           ["paymentStartResult"]["aliPaymentRequest"]["orderStr"];
-      var result = await SyFlutterAlipay.pay(payInfo,
-          urlScheme: 'paydemo', isSandbox: false);
+      var result=await tobias.aliPay(payInfo);
+      // var result = await SyFlutterAlipay.pay(payInfo,
+      //     urlScheme: 'paydemo', isSandbox: false);
       print(result);
       if (result["resultStatus"].toString() == '9000' ||
           result["resultStatus"].toString() == '6001') {
