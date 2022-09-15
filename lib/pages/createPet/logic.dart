@@ -88,7 +88,7 @@ class CreatePetLogic extends GetxController {
     });
   }
 
-  void recommendedRecipes() {
+  void recommendedRecipes() async {
     Get.put(GlobalConfigService()).petName.value = state.name.value;
     Pet pet = Pet(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
@@ -106,8 +106,10 @@ class CreatePetLogic extends GetxController {
       recentHealth: state.recentHealth.value,
     );
     print(pet.toJson());
-    PetUtil.addPet(pet);
-    Get.toNamed(AppRoutes.recommendRecipes);
+    var createFlag = await PetUtil.addPet(pet);
+    if (createFlag != false) {
+      Get.toNamed(AppRoutes.recommendRecipes);
+    }
   }
 
   void changeType(value) {

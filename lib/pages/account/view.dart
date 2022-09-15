@@ -7,8 +7,10 @@ import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/util/address-util.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
+import 'package:rc_china_freshplan_app/pages/pet_detail/pet.dart';
+import 'controller.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends GetView<AccountController> {
   const AccountPage({Key? key}) : super(key: key);
 
   @override
@@ -17,21 +19,7 @@ class AccountPage extends StatelessWidget {
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
     if (consumer != null) {
-      PetUtil.init();
-      // PetUtil.addPet(Pet(
-      //     id: 'jfds-xfds-fds3r-fdsaf',
-      //     name: 'ttes',
-      //     image: '',
-      //     type: 'CAT',
-      //     gender: 'FEMALE',
-      //     birthday: '2022-09-10',
-      //     breedCode: '10012',
-      //     breedName: '小猫',
-      //     isSterilized: false,
-      //     recentWeight: 0.0,
-      //     targetWeight: 0.0,
-      //     recentPosture: 'STANDARD',
-      //     recentHealth: ['NONE']));
+      controller.getPetList();
     }
 
     Widget loginSection = Container(
@@ -242,15 +230,17 @@ class AccountPage extends StatelessWidget {
       );
     }
 
-    Widget buildPetListRegion() {
-      var petList = PetUtil.petList;
+    Widget buildPetListRegion = GetBuilder<AccountController>(builder: (_) {
+      if (controller.petList.isEmpty) {
+        return buildEmpltyPetListRegion();
+      }
       return SizedBox(
         height: 80,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: petList.length,
+          itemCount: controller.petList.length,
           itemBuilder: (context, index) {
-            var pet = petList[index];
+            var pet = controller.petList[index];
             return Container(
               margin: const EdgeInsets.only(right: 30),
               height: 80,
@@ -285,7 +275,7 @@ class AccountPage extends StatelessWidget {
           },
         ),
       );
-    }
+    });
 
     Widget petSection = Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -338,11 +328,8 @@ class AccountPage extends StatelessWidget {
             },
           ),
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            child: PetUtil.petList.isEmpty
-                ? buildEmpltyPetListRegion()
-                : buildPetListRegion(),
-          )
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              child: buildPetListRegion)
         ],
       ),
     );

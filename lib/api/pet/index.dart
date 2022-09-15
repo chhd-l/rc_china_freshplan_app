@@ -33,7 +33,9 @@ class PetEndPoint {
     EasyLoading.show();
     return await HttpUtil().post(petUrl, params: {
       "query": createPetMutation,
-      "variables": PetUtil.normalizeToApi(pet),
+      "variables": {
+        "input": PetUtil.normalizeToApi(pet),
+      },
     }).then((value) {
       EasyLoading.dismiss();
       var db = json.decode(value.toString())?['data']?['consumerPetCreate'];
@@ -49,7 +51,9 @@ class PetEndPoint {
     EasyLoading.show();
     return await HttpUtil().post(petUrl, params: {
       "query": updatePetMutation,
-      "variables": PetUtil.normalizeToApi(pet, needId: true),
+      "variables": {
+        "input": PetUtil.normalizeToApi(pet, needId: true),
+      },
     }).then((value) {
       EasyLoading.dismiss();
       var db = json.decode(value.toString())?['data']?['consumerPetUpdate'];
