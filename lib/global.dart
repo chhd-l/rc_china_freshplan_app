@@ -6,12 +6,14 @@ import 'common/util/pet-util.dart';
 import 'common/util/address-util.dart';
 import 'api/consumer/index.dart';
 import 'constants.dart';
+import 'data/pet.dart';
 
 /// 全局配置
 class GlobalConfigService extends GetxService {
   RxString petName = ''.obs;
   RxList selectProduct = [].obs;
   RxList recipesList=[].obs;
+  Rx<Pet> checkoutPet=Rx<Pet>(Pet());
 
 
   final List userList = [

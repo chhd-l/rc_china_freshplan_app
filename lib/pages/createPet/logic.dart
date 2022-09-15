@@ -108,6 +108,7 @@ class CreatePetLogic extends GetxController {
     print(pet.toJson());
     var createFlag = await PetUtil.addPet(pet);
     if (createFlag != false) {
+      global.checkoutPet.value = pet;
       Get.toNamed(AppRoutes.recommendRecipes);
     }
   }

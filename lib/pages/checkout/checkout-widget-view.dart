@@ -1,13 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/address.dart';
-
-handlePrice(value, {isDiscount = false}) {
-  return isDiscount ? '-￥$value.00' : '￥$value.00';
-}
 
 Widget commonContainer(Widget child, {EdgeInsetsGeometry? padding}) {
   return Container(
@@ -142,7 +138,8 @@ Widget orderProductContainer(List orderProduct, int productTotalPrice) {
   ));
 }
 
-Widget priceRow(String left, String right) {
+Widget priceRow(String left, int right,
+    {bool discount = false, bool isPrice = true, String rightText = ''}) {
   return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
@@ -150,7 +147,7 @@ Widget priceRow(String left, String right) {
         children: [
           Text(left,
               style: textSyle700(fontSize: 14, color: AppColors.text666)),
-          Text(right,
+          Text(isPrice ? handlePrice(right, isDiscount: discount) : rightText,
               style: textSyle700(fontSize: 14, color: AppColors.text333)),
         ],
       ));

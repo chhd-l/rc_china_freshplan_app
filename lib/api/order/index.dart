@@ -13,30 +13,38 @@ Consumer? consumer = StorageUtil().getJSON("loginUser") != null
 class OrderEndPoint {
   static const String storeId = '39b6444b-683b-4915-8b75-5d8403f40a02';
 
-  static dynamic appLogin(sample) async {
+  static dynamic getOrders(limit, offset, sample) async {
     if(consumer == null) {
       return false;
     }
     EasyLoading.show(status: 'loading...');
-    var data = await HttpUtil().post(wxAuthUrl, params: {
+    var data = await HttpUtil().post(orderUrl, params: {
       "query": orderListQuery,
       "variables": {
-        "sample": sample,
-        "storeId": storeId,
-        "consumerId": consumer,
+        "input": {
+          "sample": {
+            ...sample,
+            "consumerId": consumer?.id,
+          },
+          'withTotal': true,
+          "limit": limit,
+          "offset": offset,
+          "storeId": consumer?.storeId,
+        }
       }
     }).onError((ErrorEntity error, stackTrace) {
       EasyLoading.showError(error.message!);
     }).then((value) {
       EasyLoading.dismiss();
       var res = json.decode(value.toString());
-      if (res['data'] != null && res['data']['appLogin'] != null) {
-        return res['data']['appLogin'];
+      if (res['data'] != null) {
+        return res['data']['orderFindPage'];
       } else {
         EasyLoading.showError('请求错误');
         return false;
       }
     });
+    print(data);
     return data;
   }
 }

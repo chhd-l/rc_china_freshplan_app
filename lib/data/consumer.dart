@@ -1,3 +1,5 @@
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
+
 class Consumer {
   String? id;
   String? name;
@@ -59,6 +61,29 @@ class Consumer {
     data['storeId'] = this.storeId;
     data['avatarUrl'] = this.avatarUrl;
     data['addresslist'] = this.addresslist;
+    return data;
+  }
+
+  Map<String, dynamic> payConsumerAccountToJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    var consumerAccount=StorageUtil().getJSON('consumerAccount');
+    data['unionId'] = consumerAccount["unionId"];
+    data['openId'] = consumerAccount["openId"];
+    data['isWXGroupVip'] = consumerAccount["isWXGroupVip"];
+    return data;
+  }
+
+  Map<String, dynamic> payConsumerToJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['nickName'] = this.nickName;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['level'] = this.level;
+    data['points'] = this.points;
+    data['avatarUrl'] = this.avatarUrl;
+    data['account']=payConsumerAccountToJson();
     return data;
   }
 }
