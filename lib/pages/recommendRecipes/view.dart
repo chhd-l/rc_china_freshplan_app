@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +21,7 @@ class RecommendRecipesPage extends StatelessWidget {
           child: Column(children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(children: [
                   Text(
                     '${logic.petName}的专属健康食谱',
