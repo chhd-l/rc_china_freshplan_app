@@ -11,7 +11,6 @@ import 'data/pet.dart';
 
 /// 全局配置
 class GlobalConfigService extends GetxService {
-  RxString petName = ''.obs;
   RxList selectProduct = [].obs;
   RxList recipesList = [].obs;
   Rx<Pet> checkoutPet = Rx<Pet>(Pet());
