@@ -33,4 +33,7 @@ class AppColors {
 
   ///#333333
   static const Color text333 = Color.fromRGBO(51, 51, 51, 1);
+
+  /// 绿色按钮禁用颜色
+  static const Color baseGray=Color.fromRGBO(246, 246, 246, 1);
 }
