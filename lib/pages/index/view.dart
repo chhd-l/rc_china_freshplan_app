@@ -17,17 +17,16 @@ class IndexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBackground,
-      appBar: commonAppBar('fresh plan',
-          bgColor: AppColors.primaryBackground,
-          needBack: false,
-          titleIsImage: true),
       body: SafeArea(
           child: Column(children: [
+        const SizedBox(height: 32),
+        Image.asset('assets/images/fresh-plan-logo.png'),
+        const SizedBox(height: 6),
         Expanded(
             child: SingleChildScrollView(
           child: Column(children: [
             Padding(
-              padding: const EdgeInsets.only(left: 24, right: 36, top: 30),
+              padding: const EdgeInsets.only(left: 24, right: 36, top: 24),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -40,21 +40,20 @@ class CreatePetLogic extends GetxController {
   void onInit() {
     super.onInit();
 
-    recentWeightController.text = '0.0';
-    targetWeightController.text = '0.0';
-
     petNameController.addListener(() {
       state.name.value = petNameController.text;
     });
 
     recentWeightController.addListener(() {
-      state.recentWeight.value =
-          double.parse(recentWeightController.text.toString());
+      state.recentWeight.value = recentWeightController.text != ''
+          ? double.parse(recentWeightController.text.toString())
+          : 0.0;
     });
 
     targetWeightController.addListener(() {
-      state.targetWeight.value =
-          double.parse(targetWeightController.text.toString());
+      state.targetWeight.value = targetWeightController.text != ''
+          ? double.parse(targetWeightController.text.toString())
+          : 0.0;
     });
   }
 
