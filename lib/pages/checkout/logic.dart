@@ -86,7 +86,7 @@ class CheckoutLogic extends GetxController {
     var productList = json.decode(json.encode(state.orderProduct));
     for (var element in productList) {
       element["variants"] = element["variants"][0];
-      element["variants"]["num"] = 1;
+      element["variants"]["num"] = 6;
     }
     var payParams = {
       "query": subscriptionCreateAndPayQuery,
