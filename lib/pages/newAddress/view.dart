@@ -17,7 +17,11 @@ class NewAddress extends StatelessWidget {
 
     TextEditingController contPhoneroller = TextEditingController();
 
+    TextEditingController contProvinceroller = TextEditingController();
+
     TextEditingController contCityroller = TextEditingController();
+
+    TextEditingController contRegionroller = TextEditingController();
 
     TextEditingController contDateliroller = TextEditingController();
 
@@ -25,7 +29,9 @@ class NewAddress extends StatelessWidget {
       logic.initData(args);
       contNameroller.text = logic.receiverName.value;
       contPhoneroller.text = logic.phone.value;
-      contCityroller.text = logic.province.value;
+      contProvinceroller.text = logic.province.value;
+      contCityroller.text = logic.city.value;
+      contRegionroller.text = logic.region.value;
       contDateliroller.text = logic.detail.value;
     });
 
@@ -100,15 +106,47 @@ class NewAddress extends StatelessWidget {
                       Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: Row(children: [
-                            const Expanded(child: Text('所在地区')),
+                            const Expanded(child: Text('所在省')),
+                            Expanded(
+                              flex: 3,
+                              child: TextField(
+                                  controller: contProvinceroller,
+                                  onChanged: ((value) =>
+                                      {logic.onChangeprovince(value)}),
+                                  decoration: const InputDecoration(
+                                      hintText: '省份名',
+                                      hintStyle: TextStyle(fontSize: 13),
+                                      border: InputBorder.none)),
+                            )
+                          ])),
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Row(children: [
+                            const Expanded(child: Text('所在城市')),
                             Expanded(
                               flex: 3,
                               child: TextField(
                                   controller: contCityroller,
                                   onChanged: ((value) =>
-                                      {logic.onChangeprovince(value)}),
+                                      {logic.onChangecity(value)}),
                                   decoration: const InputDecoration(
-                                      hintText: '省，市，区',
+                                      hintText: '城市名',
+                                      hintStyle: TextStyle(fontSize: 13),
+                                      border: InputBorder.none)),
+                            )
+                          ])),
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Row(children: [
+                            const Expanded(child: Text('所在区县')),
+                            Expanded(
+                              flex: 3,
+                              child: TextField(
+                                  controller: contRegionroller,
+                                  onChanged: ((value) =>
+                                      {logic.onChangeregion(value)}),
+                                  decoration: const InputDecoration(
+                                      hintText: '区、县名',
                                       hintStyle: TextStyle(fontSize: 13),
                                       border: InputBorder.none)),
                             )

@@ -33,8 +33,6 @@ class GlobalConfigService extends GetxService {
     WidgetsFlutterBinding.ensureInitialized();
     // 工具初始
     await StorageUtil.init();
-    PetUtil.init();
-    AddRessUtil.init();
     await ConsumerEndPoint.changeToken();
 
     return this;
