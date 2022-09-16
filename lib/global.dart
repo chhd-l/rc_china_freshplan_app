@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/data/address.dart';
 
 import 'common/util/storage.dart';
 import 'common/util/pet-util.dart';
@@ -12,9 +13,10 @@ import 'data/pet.dart';
 class GlobalConfigService extends GetxService {
   RxString petName = ''.obs;
   RxList selectProduct = [].obs;
-  RxList recipesList=[].obs;
-  Rx<Pet> checkoutPet=Rx<Pet>(Pet());
-
+  RxList recipesList = [].obs;
+  Rx<Pet> checkoutPet = Rx<Pet>(Pet());
+  Rx<AddRess> checkoutAddress = Rx<AddRess>(AddRess());
+  RxBool isCheckoutSelectAddress = false.obs;
 
   final List userList = [
     {'name': '好球', 'mobile': '15095806060'},

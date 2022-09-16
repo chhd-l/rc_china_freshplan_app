@@ -44,7 +44,7 @@ class CheckoutLogic extends GetxController {
 
   //支付
   pay() async {
-    if (state.address.value.id == null) {
+    if (global.checkoutAddress.value.id == null) {
       EasyLoading.showInfo('please select your address');
       return;
     }
@@ -81,7 +81,7 @@ class CheckoutLogic extends GetxController {
     pet["birthday"] =
         handleDateTimeToZone(DateTime.parse(pet["birthday"].toString()));
 
-    var address = state.address.value.clonePayAddressToJson();
+    var address = global.checkoutAddress.value.clonePayAddressToJson();
 
     var productList = json.decode(json.encode(state.orderProduct));
     for (var element in productList) {

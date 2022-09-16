@@ -41,7 +41,7 @@ class NewAddress extends StatelessWidget {
               Icons.arrow_back_ios,
             ),
             onTap: () {
-              Get.toNamed(AppRoutes.addressManage);
+              Get.back();
             },
           ),
         ),

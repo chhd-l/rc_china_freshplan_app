@@ -41,13 +41,9 @@ class CheckoutPage extends StatelessWidget {
                     child: Column(children: [
                       const SizedBox(height: 12),
                       Obx(() => addressContainer(() {
-                            Get.toNamed(AppRoutes.addressManage, arguments: {
-                              "isFromCheckout": true,
-                              "callback": (address) {
-                                state.address.value = address;
-                              }
-                            });
-                          }, state.address.value)),
+                            logic.global.isCheckoutSelectAddress.value = true;
+                            Get.toNamed(AppRoutes.addressManage);
+                          }, logic.global.checkoutAddress.value)),
                       Obx(() => orderProductContainer(
                           state.orderProduct, state.productTotalPrice.value)),
                       commonContainer(Column(
