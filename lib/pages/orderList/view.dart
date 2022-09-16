@@ -74,29 +74,29 @@ class _OrderListWidgetState extends State<OrderList> {
           ),
           child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 15),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxHeight: 30,
-                ),
-                child: TextField(
-                maxLines: 1,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-                  hintText: '搜索订单',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none),
-                  filled: true,
-                  fillColor: const Color(0xfafafafa),
-                )
-              ))
-            ),
+            // Container(
+            //   padding: const EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 15),
+            //   decoration: const BoxDecoration(
+            //     color: Colors.white,
+            //   ),
+            //   child: ConstrainedBox(
+            //     constraints: const BoxConstraints(
+            //       maxHeight: 30,
+            //     ),
+            //     child: TextField(
+            //     maxLines: 1,
+            //     decoration: InputDecoration(
+            //       contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+            //       hintText: '搜索订单',
+            //       prefixIcon: const Icon(Icons.search),
+            //       border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(15),
+            //           borderSide: BorderSide.none),
+            //       filled: true,
+            //       fillColor: const Color(0xfafafafa),
+            //     )
+            //   ))
+            // ),
             Obx(() => Row(
               children: [
                 Expanded(
@@ -217,7 +217,7 @@ class _OrderListWidgetState extends State<OrderList> {
               ],
             )),
             Container(
-              child: orders.length == '0' ? Container(
+              child: (orders.length == null ? 0 : orders.length) == 0 ? Container(
                 margin: const EdgeInsets.only(top: 38),
                 child: Column(
                   children: [
@@ -253,7 +253,7 @@ class _OrderListWidgetState extends State<OrderList> {
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: orders.length,
+                  itemCount: orders.length == null ? 0 : orders.length,
                   itemBuilder: (BuildContext ctx, int i) {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 18),
@@ -297,7 +297,7 @@ class _OrderListWidgetState extends State<OrderList> {
                             height: 70,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: orders[i]['lineItem'].length,
+                              itemCount: orders[i]['lineItem'].length != 'null' ? orders[i]['lineItem'].length : 0,
                               itemExtent: 70,
                               cacheExtent: 160,
                               itemBuilder: (BuildContext ctxs, int index) {
@@ -360,7 +360,9 @@ class _OrderListWidgetState extends State<OrderList> {
                                   borderRadius: BorderRadius.all(Radius.circular(20))
                                 ),
                                 child: Text(returnCancelText(orders[i]['orderState']['orderState'])),
-                                onPressed: () async {},
+                                onPressed: () {
+                                  Get.toNamed(AppRoutes.newAddress, arguments: orders[i].orderNumber);
+                                },
                               ),
                               Container(
                                 child: (orders[i]['orderState']['orderState'] == 'UNPAID' 

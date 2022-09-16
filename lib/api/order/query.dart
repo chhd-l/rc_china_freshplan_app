@@ -133,3 +133,145 @@ const String orderListQuery = r'''
     }
   }
 ''';
+
+const String orderDetailQuery = r'''
+  query orderGet($input:OrderGetInput){
+    orderGet(input:$input) {
+       _id
+      orderNumber
+      version
+      isSubscription
+      subscriptionId
+      subscriptionNo
+      freshType
+      lineItem {
+        id
+        isGift
+        skuNo
+        spuNo
+        skuName
+        spuName
+        productSpecifications
+        pic
+        price
+        num
+         productAttributeAndValues{
+          attributeName
+          attributeNameEn
+          attributeValueName
+          attributeValueNameEn
+          relId
+          attributeId
+          attributeValueId
+          productId
+          }
+          feedingDays
+      }
+      shippingAddress{
+        id
+        consumerId
+        receiverName
+        phone
+        country
+        province
+        city
+        region
+        detail
+        postcode
+        isDefault
+      }
+      delivery{
+        shippingTime
+        expectedShippingDate
+        shippingCompany
+        shippingCompanyImg
+        trackingId
+        isReturn
+        status
+        deliveryItems{
+          time
+          context
+          areaCode
+          areaName
+          status
+        }
+      }
+      payment{
+       paymentId
+         amount
+         paymentStartTime
+         paymentFinishTime
+         payWayCode
+         payWayOrderId
+         paymentState
+      }
+      orderPrice {
+        productPrice
+        totalPrice
+        deliveryPrice
+        discountsPrice
+        vipDiscountsPrice
+      }
+      orderState {
+        orderType
+        orderState
+        storeId
+        lastModifiedAt
+        lastModifiedBy
+        createdAt
+        createdBy
+        orderSource
+      }
+      logs{
+        id
+        status
+        event
+        createdAt
+        createdBy
+        operatorType
+        description
+      }
+      remark
+      consumer {
+        isMember
+        consumerId
+        consumerName
+        consumerEmail
+        consumerLevel
+        nickName
+        phone
+        avatarUrl
+        unionId
+        openId
+      }
+      comments{
+        id
+        createId
+        content
+        createdAt
+        createdBy
+        lastModifiedAt
+        lastModifiedBy
+        avatarUrl
+      }
+      invoice {
+        invoiceId
+        status
+        type
+        addTime
+        updateTime
+        auditTime
+        printTime
+        no
+        purchaserName
+        purchaserTaxpayerNumber
+        purchaserAddress
+        purchaserPhone
+        purchaserBank
+        purchaserBankAccount
+        mobile
+        email
+      }
+    }
+  }
+''';
