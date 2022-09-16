@@ -65,7 +65,7 @@ class CreateAddRessLogic extends GetxController {
     );
     print(addRess.toJson());
     updid != '-1' ? AddRessUtil.updateAddRess(addRess) : AddRessUtil.addRes(addRess);
-    Get.toNamed(AppRoutes.addressManage);
+    Get.back();
   }
 
 }
