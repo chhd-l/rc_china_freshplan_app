@@ -69,7 +69,7 @@ class OrderDetailsLogic extends GetxController {
 
       paymentFinishTime.value = value['payment']['paymentFinishTime'];
       createdAt.value = value['orderState']['createdAt'];
-      remark.value = value['remark'];
+      remark.value = value['remark'] ? value['remark'] : '无';
     });
   }
 }

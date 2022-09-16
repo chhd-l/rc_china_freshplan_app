@@ -361,7 +361,7 @@ class _OrderListWidgetState extends State<OrderList> {
                                 ),
                                 child: Text(returnCancelText(orders[i]['orderState']['orderState'])),
                                 onPressed: () {
-                                  Get.toNamed(AppRoutes.newAddress, arguments: orders[i].id);
+                                  Get.toNamed(AppRoutes.newAddress, arguments: orders[i].orderNumber);
                                 },
                               ),
                               Container(

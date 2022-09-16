@@ -10,6 +10,7 @@ class OrderDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   final OrderDetailsLogic logic = Get.put(OrderDetailsLogic());
+  // logic.getOrderList(Get.arguments);
   logic.getOrderList('O20220915200200498');
 
   returnTitleText(String type) {
