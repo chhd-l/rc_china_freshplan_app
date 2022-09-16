@@ -166,9 +166,25 @@ class AccountPage extends GetView<AccountController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildOrderItem('assets/images/unpaid-icon.png', '待付款'),
-                buildOrderItem('assets/images/unship-icon.png', '待发货'),
-                buildOrderItem('assets/images/shipped-icon.png', '待收货'),
+                GestureDetector(
+                  child: buildOrderItem('assets/images/unpaid-icon.png', '待付款'),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.orderList, arguments: 'UNPAID');
+                  },
+                ),
+                GestureDetector(
+                  child: buildOrderItem('assets/images/unship-icon.png', '待发货'),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.orderList, arguments: 'TO_SHIP');
+                  },
+                ),
+                GestureDetector(
+                  child:
+                      buildOrderItem('assets/images/shipped-icon.png', '待收货'),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.orderList, arguments: 'SHIPPED');
+                  },
+                ),
               ],
             ),
           )
