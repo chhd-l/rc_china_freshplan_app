@@ -44,7 +44,34 @@ class OrderEndPoint {
         return false;
       }
     });
-    print(data);
+    return data;
+  }
+
+  static dynamic getOrderDetail(String orderNum) async {
+    if(consumer == null) {
+      return false;
+    }
+    EasyLoading.show(status: 'loading...');
+    var data = await HttpUtil().post(orderDetailUrl, params: {
+      "query": orderDetailQuery,
+      "variables": {
+        "input": {
+          "storeId": consumer?.storeId,
+          "orderNum": orderNum,
+        }
+      }
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      var res = json.decode(value.toString());
+      if (res['data']['orderGet'] != null) {
+        return res['data']['orderGet'];
+      } else {
+        EasyLoading.showError('请求错误');
+        return false;
+      }
+    });
     return data;
   }
 }

@@ -8,6 +8,8 @@ const String wxAuthUrl = 'fc-mp-auth/graphql';
 
 const String orderUrl = 'fc-com-order-list/graphql';
 
+const String orderDetailUrl = "fc-com-order-detail/graphql";
+
 const String getSubscriptionRecommend =
     'fc-mp-subscription-recommend/graphql'; //获取订阅推荐
     

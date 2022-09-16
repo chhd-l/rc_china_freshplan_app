@@ -15,4 +15,12 @@ class OrderUtil {
     }
     return data['records'];
   }
+
+  static Future getOrderDetail(String orderNum) async {
+    var data = await OrderEndPoint.getOrderDetail(orderNum);
+    if (data == false) {
+      return false;
+    }
+    return data;
+  }
 }
