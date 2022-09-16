@@ -19,10 +19,7 @@ Widget commonTitle(String title, {String? description, String? subTitle}) {
         children: [
           Row(
             children: [
-              Text(
-                title,
-                style: textSyle700(fontSize: 18, height: 1),
-              ),
+              Text(title, style: textSyle700(fontSize: 18, height: 1)),
               if (subTitle != null)
                 Text(subTitle,
                     style: textSyle700(fontSize: 13, color: AppColors.text999))
