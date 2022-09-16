@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/order_util.dart';
-import './logic.dart';
+import 'package:rc_china_freshplan_app/data/order.dart';
+import 'logic.dart';
 
 class OrderList extends StatefulWidget {
   const OrderList({Key? key}) : super(key: key);
@@ -12,12 +13,10 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListWidgetState extends State<OrderList> {
-  @override
+  final OrderLogic logic = Get.put(OrderLogic());
   Widget build(BuildContext context) {
-  
-  final CreateOrderRessLogic logic = Get.put(CreateOrderRessLogic());
-  OrderUtil.getOrders();
-  var orderLists = OrderUtil.orderLists;
+  logic.getOrderList();
+  var orders = OrderUtil.orderLists;
 
   returnType (String type) {
     if (type == 'UNPAID') {
@@ -26,8 +25,10 @@ class _OrderListWidgetState extends State<OrderList> {
       return '待发货';
     } else if (type == 'SHIPPED') {
       return '待收货';
+    } else if (type == 'COMPLETED') {
+      return '交易成功';
     } else {
-      return 'xx';
+      return '交易关闭';
     }
   }
 
@@ -102,6 +103,10 @@ class _OrderListWidgetState extends State<OrderList> {
                   child: GestureDetector(
                     onTap: (() {
                       logic.onChangeTagType('ALL');
+                      logic.getOrderList();
+                      setState(() {
+                        orders = logic.orderLists;
+                      });
                     }),
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -127,9 +132,9 @@ class _OrderListWidgetState extends State<OrderList> {
                   child: GestureDetector(
                     onTap: (() {
                       logic.onChangeTagType('UNPAID');
-                      OrderUtil.getOrders();
+                      logic.getOrderList();
                       setState(() {
-                        orderLists = OrderUtil.orderLists;
+                        orders = logic.orderLists;
                       });
                     }),
                     child: Container(
@@ -156,6 +161,10 @@ class _OrderListWidgetState extends State<OrderList> {
                   child: GestureDetector(
                     onTap: (() {
                       logic.onChangeTagType('TO_SHIP');
+                      logic.getOrderList();
+                      setState(() {
+                        orders = logic.orderLists;
+                      });
                     }),
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -181,6 +190,10 @@ class _OrderListWidgetState extends State<OrderList> {
                   child: GestureDetector(
                     onTap: (() {
                       logic.onChangeTagType('SHIPPED');
+                      logic.getOrderList();
+                      setState(() {
+                        orders = logic.orderLists;
+                      });
                     }),
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -204,7 +217,7 @@ class _OrderListWidgetState extends State<OrderList> {
               ],
             )),
             Container(
-              child: orderLists.length == '0' ? Container(
+              child: orders.length == '0' ? Container(
                 margin: const EdgeInsets.only(top: 38),
                 child: Column(
                   children: [
@@ -240,7 +253,7 @@ class _OrderListWidgetState extends State<OrderList> {
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: orderLists.length,
+                  itemCount: orders.length,
                   itemBuilder: (BuildContext ctx, int i) {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 18),
@@ -262,14 +275,14 @@ class _OrderListWidgetState extends State<OrderList> {
                           Row(
                             children: [
                               Expanded(
-                                child: Text(returnType(orderLists[i]['orderState']['orderState']), style: const TextStyle(
+                                child: Text(returnType(orders[i]['orderState']['orderState']), style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),
                               ),
                               Expanded(
                                 flex: 3,
                                 child: Text(
-                                  '创建时间:${orderLists[i]['orderState']['createdAt']}', 
+                                  '创建时间:${orders[i]['orderState']['createdAt']}', 
                                   textAlign: TextAlign.right,
                                   style: const TextStyle(
                                     color: Color(0xFF666666),
@@ -284,18 +297,18 @@ class _OrderListWidgetState extends State<OrderList> {
                             height: 70,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: orderLists[i]['lineItem'].length,
+                              itemCount: orders[i]['lineItem'].length,
                               itemExtent: 70,
                               cacheExtent: 160,
                               itemBuilder: (BuildContext ctxs, int index) {
+                                List item = orders[i]['lineItem'];
                                 return Container(
-                                  margin: const EdgeInsets.only(right: 12),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFf1f1f1),
                                     borderRadius: BorderRadius.circular(3.0),
                                   ),
                                   child: Image.network(
-                                    orderLists[i]['lineItem'][index]['pic'],
+                                    item[index]['pic'] as String,
                                     width: 70,
                                     height: 70,
                                     fit: BoxFit.cover,
@@ -326,7 +339,7 @@ class _OrderListWidgetState extends State<OrderList> {
                                         )
                                       ),
                                       Text(
-                                        '${orderLists[i]['orderPrice']['totalPrice']}', 
+                                        '${orders[i]['orderPrice']['totalPrice']}.00', 
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold
@@ -346,12 +359,12 @@ class _OrderListWidgetState extends State<OrderList> {
                                   side: BorderSide(color: Color(0xFFCDCDCD),width: 1,style: BorderStyle.solid),
                                   borderRadius: BorderRadius.all(Radius.circular(20))
                                 ),
-                                child: Text(returnCancelText(orderLists[i]['orderState']['orderState'])),
+                                child: Text(returnCancelText(orders[i]['orderState']['orderState'])),
                                 onPressed: () async {},
                               ),
                               Container(
-                                child: (orderLists[i]['orderState']['orderState'] == 'UNPAID' 
-                              || orderLists[i]['orderState']['orderState'] == 'SHIPPED')
+                                child: (orders[i]['orderState']['orderState'] == 'UNPAID' 
+                              || orders[i]['orderState']['orderState'] == 'SHIPPED')
                               ? Container(
                                   margin: const EdgeInsets.only(left: 10),
                                   child: MaterialButton(
@@ -360,7 +373,7 @@ class _OrderListWidgetState extends State<OrderList> {
                                       borderRadius: BorderRadius.all(Radius.circular(20))
                                     ),
                                     textColor: const Color(0xFF96CC39),
-                                    child: Text(returnDetermine(orderLists[i]['orderState']['orderState'])),
+                                    child: Text(returnDetermine(orders[i]['orderState']['orderState'])),
                                     onPressed: () {},
                                   ),
                                 ) : null,
