@@ -12,9 +12,7 @@ Widget commonTitle(String title, {String? description, String? subTitle}) {
           height: 18.5,
           decoration: const BoxDecoration(
               color: AppColors.tint,
-              borderRadius: BorderRadius.all(
-                Radius.circular(15),
-              ))),
+              borderRadius: BorderRadius.all(Radius.circular(15)))),
       const SizedBox(width: 10),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +44,7 @@ Widget selectBox({VoidCallback? onPressed, String? value}) {
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
           color: AppColors.baseGray,
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
-          )),
+          borderRadius: BorderRadius.all(Radius.circular(15))),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
           value != null && value != '' ? value : '请选择',
