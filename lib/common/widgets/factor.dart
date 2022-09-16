@@ -58,20 +58,6 @@ Widget titleButton(String title, VoidCallback? onPressed,
 //   );
 // }
 
-Widget backgroundContainer(Widget child,
-    {safeAreaBottom = true, pading = EdgeInsets.zero}) {
-  return Container(
-    decoration: BoxDecoration(
-        image: DecorationImage(
-      image: AssetImage('assets/images/yellow_bg.png'),
-      fit: BoxFit.cover,
-    )),
-    child: SafeArea(bottom: safeAreaBottom, child: child),
-    padding: pading,
-    height: double.infinity,
-  );
-}
-
 Widget titleToast(String title,
     {Color bgColor = defaultBgColor, Color fontColor = Colors.black}) {
   if (title.length <= 0) return Container();
@@ -161,7 +147,9 @@ TextStyle textSyle400(
 PreferredSizeWidget commonAppBar(String appBarTitle,
     {bool needBack = true,
     List<Widget>? actions,
-    Color bgColor = Colors.white}) {
+    Color bgColor = Colors.white,
+    bool titleIsImage = false,
+    String imageTitle = 'assets/images/fresh-plan-logo.png'}) {
   return PreferredSize(
       preferredSize: const Size.fromHeight(70.0),
       child: Padding(
@@ -171,13 +159,15 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 20.0),
-                child: Text(appBarTitle,
-                    style: textSyle400(
-                        fontSize: 18.sp,
-                        color: const Color.fromRGBO(51, 51, 51, 1))),
-              ),
+              !titleIsImage
+                  ? Container(
+                      margin:  EdgeInsets.only(right: needBack?20.0:0),
+                      child: Text(appBarTitle,
+                          style: textSyle400(
+                              fontSize: 18.sp,
+                              color: const Color.fromRGBO(51, 51, 51, 1))),
+                    )
+                  : Image.asset(imageTitle),
             ],
           ),
           leading: needBack
@@ -186,7 +176,7 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
                   onPressed: () {
                     Get.back();
                   })
-              : null,
+              : Container(),
           automaticallyImplyLeading: true,
           elevation: 0,
           actions: actions,

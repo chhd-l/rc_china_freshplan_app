@@ -1,11 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
+import 'package:rc_china_freshplan_app/api/pet/index.dart';
 import 'storage.dart';
 
 class PetUtil {
   static List<Pet> petList = [];
   static late Consumer? consumer;
+
+  static Pet normalizeFromApi(dynamic data) {
+    return Pet(
+      id: data['id'],
+      name: data['name'],
+      gender: data['gender'],
+      type: data['type'],
+      breedCode: data['breedCode'],
+      breedName: data['breedName'],
+      image: data['image'],
+      isSterilized: data['isSterilized'],
+      birthday:
+          DateFormat('yyyy-MM-dd').format(DateTime.parse(data['birthday'])),
+      recentWeight: double.tryParse(data['recentWeight'].toString()) ?? 0.0,
+      targetWeight: double.tryParse(data['targetWeight'].toString()) ?? 0.0,
+      recentPosture: data['recentPosture'],
+      recentHealth: data['recentHealth'].toString().split('|'),
+      subscriptionNo: data['subscriptionNo'].cast<String>(),
+    );
+  }
+
+  static Map<String, dynamic> normalizeToApi(Pet pet, {bool needId = false}) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (needId) {
+      data['id'] = pet.id;
+    }
+    data['name'] = pet.name;
+    data['gender'] = pet.gender;
+    data['type'] = pet.type;
+    data['breedCode'] = pet.breedCode;
+    data['breedName'] = pet.breedName;
+    data['image'] = pet.image;
+    data['isSterilized'] = pet.isSterilized;
+    data['birthday'] = DateTime.parse(pet.birthday!).toUtc().toIso8601String();
+    data['recentWeight'] = pet.recentWeight;
+    data['targetWeight'] = pet.targetWeight;
+    data['recentPosture'] = pet.recentPosture;
+    data['recentHealth'] = (pet.recentHealth ?? []).join('|');
+    return data;
+  }
+
+  static Future<List<Pet>> getPetList() async {
+    var list = await PetEndPoint.getPetList();
+    petList = list;
+    return list;
+  }
 
   static Future<void> init() async {
     consumer = StorageUtil().getJSON("loginUser") != null
@@ -13,7 +61,7 @@ class PetUtil {
         : null;
     if (consumer != null) {
       var petListInStorage =
-          StorageUtil().getJSON('${consumer?.mobile}_petList');
+          StorageUtil().getJSON('${consumer?.phone}_petList');
       if (petListInStorage != null) {
         List<dynamic> list = List.from(petListInStorage);
         petList = List<Pet>.from(list.map((e) => Pet.fromJson(e)));
@@ -25,9 +73,8 @@ class PetUtil {
     petList.clear();
   }
 
-  static void addPet(Pet pet) {
-    petList.add(pet);
-    StorageUtil().setJSON('${consumer?.mobile}_petList', petList);
+  static Future addPet(Pet pet) {
+    return PetEndPoint.createPet(pet);
   }
 
   static Pet getPet(String id) {
@@ -48,30 +95,16 @@ class PetUtil {
             ));
   }
 
-  static void updatePet(Pet pet) {
-    int idx = 0;
-    petList.asMap().entries.forEach((element) {
-      if (element.value.id == pet.id) {
-        idx = element.key;
-      }
-    });
-    petList.replaceRange(idx, idx + 1, [pet]);
-    StorageUtil().setJSON('${consumer?.mobile}_petList', petList);
+  static Future<bool> updatePet(Pet pet) {
+    return PetEndPoint.updatePet(pet);
   }
 
-  static void removePet(Pet pet) {
-    int idx = 0;
-    petList.asMap().entries.forEach((element) {
-      if (element.value.id == pet.id) {
-        idx = element.key;
-      }
-    });
-    petList.replaceRange(idx, idx + 1, []);
-    StorageUtil().setJSON('${consumer?.mobile}_petList', petList);
+  static Future<bool> removePet(Pet pet) {
+    return PetEndPoint.deletePet(pet.id!);
   }
 
   static void removeAllPet() {
     petList.clear();
-    StorageUtil().remove('${consumer?.mobile}_petList');
+    StorageUtil().remove('${consumer?.phone}_petList');
   }
 }

@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart' as Res;
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:dio/adapter.dart';
+import 'storage.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../global.dart';
 
@@ -82,7 +86,8 @@ class HttpUtil {
       return handler.next(options);
     }, onResponse: (response, handler) {
       print(response);
-      if (response.statusCode != 200) {
+      //上传图片的statusCode是201
+      if (response.statusCode != 200 && response.statusCode != 201) {
         print('error....');
         if (response.statusCode == 410 && Get.currentRoute != AppRoutes.login) {
           Get.offAllNamed(AppRoutes.login);
@@ -98,8 +103,20 @@ class HttpUtil {
       } else {
         print('success....');
         print(response);
-        handler.next(Res.Response(
-            requestOptions: response.requestOptions, data: response));
+        var jsonView = json.decode(response.toString());
+        if (jsonView['errors'] != null) {
+          handler.reject(DioError(
+            requestOptions: response.requestOptions,
+            type: DioErrorType.response,
+            error: ErrorEntity(
+              code: 500,
+              message: 'Unknown error',
+            ),
+          ));
+        } else {
+          handler.next(Res.Response(
+              requestOptions: response.requestOptions, data: response));
+        }
       }
     }));
   }
@@ -111,7 +128,10 @@ class HttpUtil {
   ErrorEntity createErrorEntity(DioError error) {
     print('444444');
     print(error);
-    if (error.error is ErrorEntity) return error.error;
+    if (error.error is ErrorEntity) {
+      EasyLoading.showError(error.error.message ?? 'Operation failed');
+      return error.error;
+    }
     switch (error.type) {
       case DioErrorType.cancel:
         return ErrorEntity(code: -1, message: "cancel");
@@ -130,7 +150,7 @@ class HttpUtil {
       case DioErrorType.response:
         {
           try {
-            int errCode = error.response!.statusCode ?? 0;
+            int? errCode = error.response!.statusCode;
             // String errMsg = error.response.statusMessage;
             // return ErrorEntity(code: errCode, message: errMsg);
             switch (errCode) {
@@ -187,11 +207,10 @@ class HttpUtil {
   /// 读取本地配置
   Options getLocalOptions() {
     late Options options;
-    String? token =
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0MzFlMWM3LWIxMmItNDJhYi05ODk3LWQxOGVmMWUyZWVlMSIsIm5hbWUiOm51bGwsImdlbmRlciI6IjAiLCJhdmF0YXJVcmwiOiJodHRwczovL3Rmcy5hbGlwYXlvYmplY3RzLmNvbS9pbWFnZXMvcGFydG5lci9UMWRLUmVYYWRvWFhYWFhYWFgiLCJuaWNrTmFtZSI6IlRpbXllZSIsImVtYWlsIjpudWxsLCJwaG9uZSI6IjEzNTkwNDE1NjI5IiwibGV2ZWwiOiLmlrDmiYvpk7LlsY7lrpgiLCJwb2ludHMiOjAsImRlZmF1bHRDb25zdW1lckFkZHJlc3NJZCI6bnVsbCwibGFzdExvZ2luVGltZSI6IjIwMjItMDgtMzFUMDk6MzM6MjUrMDg6MDAiLCJzdG9yZUlkIjoiMzliNjQ0NGItNjgzYi00OTE1LThiNzUtNWQ4NDAzZjQwYTAyIiwiaWF0IjoxNjYzMTQ3NzU0LCJleHAiOjE2NjMxNTQ5NTR9.f7Bz0GI3Wo7pddURgDkie8E-oeupUZPODEuxe-9RuNg';
-    if (token != null) {
+    String token = StorageUtil().getStr('accessToken');
+    if (token != '') {
       options = Options(headers: {
-        'Authorization': token,
+        'Authorization': 'Bearer $token',
       });
     } else {
       options = Options();

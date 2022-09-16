@@ -30,13 +30,21 @@ class _LoginPageState extends State<LoginPage> {
   void _onPressLogin() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      var db = await ConsumerEndPoint.appLogin(consumer.mobile!);
+      var db = await ConsumerEndPoint.appLogin(consumer.phone!);
       if (db != false) {
         StorageUtil().setStr('accessToken', db['access_token']);
-        consumer.name = db['userInfo']['nickName'];
+        consumer.id = db['userInfo']['id'];
+        consumer.name = db['userInfo']['name'];
+        consumer.gender = db['userInfo']['gender'];
         consumer.nickName = db['userInfo']['nickName'];
         consumer.avatarUrl = db['userInfo']['avatarUrl'];
         consumer.storeId = db['userInfo']['storeId'];
+        consumer.email = db['userInfo']['email'];
+        consumer.level = db['userInfo']['level'];
+        consumer.points = db['userInfo']['points'];
+        consumer.defaultConsumerAddressId =
+            db['userInfo']['defaultConsumerAddressId'];
+        consumer.lastLoginTime = db['userInfo']['lastLoginTime'];
         StorageUtil().setJSON('loginUser', consumer.toJson());
         StorageUtil().setJSON('consumerAccount', db['consumerAccount']);
         EventBus().sendBroadcast('user-login');
@@ -113,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     onSaved: (value) {
                       // var user = global.userList.firstWhere(
                       //     (element) => element['mobile'].toString() == value);
-                      consumer.mobile = value ?? '';
+                      consumer.phone = value ?? '';
                       // consumer.name = user['name'].toString();
                       // consumer.nickName = user['name'].toString();
                     },

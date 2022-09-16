@@ -8,15 +8,16 @@ class AddRess {
   String? detail;
   bool? isDefault;
 
-  AddRess(
-      {this.id,
+  AddRess({
+    this.id,
       this.receiverName,
       this.phone,
       this.province,
       this.city,
       this.region,
       this.detail,
-      this.isDefault});
+      this.isDefault
+    });
 
   AddRess.fromJson(Map<String, dynamic> json) {
     receiverName = json['receiverName'];
@@ -40,6 +41,18 @@ class AddRess {
     data['region'] = this.region;
     data['detail'] = this.detail;
     data['isDefault'] = this.isDefault;
+    return data;
+  }
+
+  Map<String, dynamic> clonePayAddressToJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['receiverName'] = this.receiverName;
+    data['phone'] = this.phone;
+    data['province'] = this.province;
+    data['city'] = this.city;
+    data['region'] = this.region;
+    data['detail'] = this.detail;
     return data;
   }
 }

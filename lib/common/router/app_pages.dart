@@ -5,8 +5,10 @@ import 'package:rc_china_freshplan_app/pages/index/view.dart';
 import 'package:rc_china_freshplan_app/pages/addressManage/view.dart';
 import 'package:rc_china_freshplan_app/pages/newAddress/view.dart';
 import 'package:rc_china_freshplan_app/pages/account/view.dart';
+import 'package:rc_china_freshplan_app/pages/account/controller.dart';
 import 'package:rc_china_freshplan_app/pages/login/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_list/view.dart';
+import 'package:rc_china_freshplan_app/pages/pet_list/controller.dart';
 import 'package:rc_china_freshplan_app/pages/pet_detail/view.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/view.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/create-pet_next_view.dart';
@@ -45,6 +47,8 @@ class AppPages {
     GetPage(
       name: AppRoutes.account,
       page: () => const AccountPage(),
+      binding: BindingsBuilder(
+          () => Get.lazyPut<AccountController>(() => AccountController())),
     ),
     GetPage(
       name: AppRoutes.login,
@@ -53,10 +57,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.petList,
       page: () => const PetListPage(),
+      binding: BindingsBuilder(
+          () => Get.lazyPut<PetListController>(() => PetListController())),
     ),
     GetPage(
       name: AppRoutes.petDetail,
-      page: () => const PetDetailPage(),
+      page: () => PetDetailPage(),
     ),
     GetPage(
       name: AppRoutes.addressManage,

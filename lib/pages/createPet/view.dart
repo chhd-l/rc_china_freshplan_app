@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,9 +5,6 @@ import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-
-import 'package:intl/intl.dart';
-import 'package:rc_china_freshplan_app/global.dart';
 
 import 'common-widget-view.dart';
 import 'logic.dart';
@@ -23,23 +18,6 @@ class CreatePetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _showDialog(Widget child) {
-      showCupertinoModalPopup<void>(
-          context: context,
-          builder: (BuildContext context) => Container(
-                height: 216,
-                padding: const EdgeInsets.only(top: 6.0),
-                margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                ),
-                color: CupertinoColors.systemBackground.resolveFrom(context),
-                child: SafeArea(
-                  top: false,
-                  child: child,
-                ),
-              ));
-    }
-
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
@@ -101,26 +79,7 @@ class CreatePetPage extends StatelessWidget {
                     child: Obx(() => selectBox(
                         value: state.breedName.value,
                         onPressed: () {
-                          _showDialog(
-                            CupertinoPicker(
-                              magnification: 1.22,
-                              squeeze: 1.2,
-                              useMagnifier: true,
-                              itemExtent: 32.0,
-                              onSelectedItemChanged: (int selectedItem) {
-                                state.breedName.value =
-                                    state.breedList[selectedItem]['name'];
-                                state.breedCode.value =
-                                state.breedList[selectedItem]['code'];
-                              },
-                              children: List<Widget>.generate(
-                                  state.breedList.length, (int index) {
-                                return Center(
-                                  child: Text(state.breedList[index]["name"]),
-                                );
-                              }),
-                            ),
-                          );
+                          logic.selectBreed();
                         })),
                   ),
                   Obx(() => commonTitle('${state.name.value}多大了',
@@ -130,21 +89,7 @@ class CreatePetPage extends StatelessWidget {
                     child: Obx(() => selectBox(
                         value: state.birthday.value,
                         onPressed: () {
-                          Get.bottomSheet(Container(
-                            height: 200,
-                            color: Colors.white,
-                            alignment: Alignment.center,
-                            child: CupertinoDatePicker(
-                              onDateTimeChanged: (dateTime) {
-                                state.birthday.value = DateFormat("yyyy-MM-dd")
-                                    .format(dateTime)
-                                    .toString();
-                              },
-                              initialDateTime: DateTime.now(),
-                              minuteInterval: 1,
-                              mode: CupertinoDatePickerMode.date,
-                            ),
-                          ));
+                          logic.selectBirthday();
                         })),
                   ),
                 ]),
@@ -163,41 +108,4 @@ class CreatePetPage extends StatelessWidget {
           ]),
         ));
   }
-}
-
-Widget headInfo(String imagePath, VoidCallback action) {
-  return Stack(
-    children: [
-      SizedBox(width: 69.w, height: 64.w),
-      Positioned(
-        left: 8.w,
-        child: Image.asset('assets/images/pet_icon_bg.png'),
-      ),
-      Positioned(
-        right: 5.w,
-        child: GestureDetector(
-          onTap: action,
-          child: ClipOval(
-            child: SizedBox(
-                height: 64, width: 64, child: headInfoImage(imagePath)),
-          ),
-        ),
-      )
-    ],
-  );
-}
-
-Widget headInfoImage(String imagePath) {
-  if (imagePath.isEmpty) return Image.asset('assets/images/pet-gray.png');
-  return CachedNetworkImage(
-      imageUrl: imagePath,
-      placeholder: (context, url) => Image.asset(
-            'assets/images/pet-gray.png',
-            fit: BoxFit.cover,
-          ),
-      errorWidget: (context, url, error) => Image.asset(
-            'assets/images/pet-gray.png',
-            fit: BoxFit.cover,
-          ),
-      fit: BoxFit.cover);
 }

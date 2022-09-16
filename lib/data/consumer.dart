@@ -1,23 +1,46 @@
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
+
 class Consumer {
+  String? id;
   String? name;
+  String? gender;
   String? nickName;
-  String? mobile;
+  String? email;
+  String? phone;
+  String? level;
+  int? points;
+  String? defaultConsumerAddressId;
+  String? lastLoginTime;
   String? storeId;
   String? avatarUrl;
   List? addresslist;
 
   Consumer(
-      {this.name,
+      {this.id,
+      this.name,
+      this.gender,
       this.nickName,
-      this.mobile,
+      this.email,
+      this.phone,
+      this.level,
+      this.points,
+      this.defaultConsumerAddressId,
+      this.lastLoginTime,
       this.storeId,
       this.avatarUrl,
       this.addresslist});
 
   Consumer.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
+    gender = json['gender'];
     nickName = json['nickName'];
-    mobile = json['mobile'];
+    email = json['email'];
+    phone = json['phone'];
+    level = json['level'];
+    points = json['points'];
+    defaultConsumerAddressId = json['defaultConsumerAddressId'];
+    lastLoginTime = json['lastLoginTime'];
     storeId = json['storeId'];
     avatarUrl = json['avatarUrl'];
     addresslist = json['addresslist'];
@@ -25,12 +48,42 @@ class Consumer {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['name'] = this.name;
+    data['gender'] = this.gender;
     data['nickName'] = this.nickName;
-    data['mobile'] = this.mobile;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['level'] = this.level;
+    data['points'] = this.points;
+    data['defaultConsumerAddressId'] = this.defaultConsumerAddressId;
+    data['lastLoginTime'] = this.lastLoginTime;
     data['storeId'] = this.storeId;
     data['avatarUrl'] = this.avatarUrl;
     data['addresslist'] = this.addresslist;
+    return data;
+  }
+
+  Map<String, dynamic> payConsumerAccountToJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    var consumerAccount=StorageUtil().getJSON('consumerAccount');
+    data['unionId'] = consumerAccount["unionId"];
+    data['openId'] = consumerAccount["openId"];
+    data['isWXGroupVip'] = consumerAccount["isWXGroupVip"];
+    return data;
+  }
+
+  Map<String, dynamic> payConsumerToJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['nickName'] = this.nickName;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['level'] = this.level;
+    data['points'] = this.points;
+    data['avatarUrl'] = this.avatarUrl;
+    data['account']=payConsumerAccountToJson();
     return data;
   }
 }

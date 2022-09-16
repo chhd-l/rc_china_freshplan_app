@@ -12,6 +12,7 @@ class Pet {
   String? recentPosture;
   double? targetWeight;
   List<String>? recentHealth;
+  List<String>? subscriptionNo;
 
   Pet(
       {this.id,
@@ -26,7 +27,8 @@ class Pet {
       this.recentWeight,
       this.recentPosture,
       this.targetWeight,
-      this.recentHealth});
+      this.recentHealth,
+      this.subscriptionNo});
 
   Pet.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -52,7 +52,7 @@ dependencies:
   cached_network_image: ^3.2.1
 
   #支付宝
-  sy_flutter_alipay: ^0.2.1
+  tobias: ^2.4.1
 
   #loading
   flutter_easyloading: ^3.0.3
@@ -62,6 +62,9 @@ dependencies:
 
   # 图片选择
   image_picker: ^0.8.4+1
+
+  # 加载html标签
+  flutter_html: ^2.2.1
 
 dev_dependencies:
   flutter_test:
