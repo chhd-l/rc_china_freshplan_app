@@ -58,20 +58,6 @@ Widget titleButton(String title, VoidCallback? onPressed,
 //   );
 // }
 
-Widget backgroundContainer(Widget child,
-    {safeAreaBottom = true, pading = EdgeInsets.zero}) {
-  return Container(
-    decoration: BoxDecoration(
-        image: DecorationImage(
-      image: AssetImage('assets/images/yellow_bg.png'),
-      fit: BoxFit.cover,
-    )),
-    child: SafeArea(bottom: safeAreaBottom, child: child),
-    padding: pading,
-    height: double.infinity,
-  );
-}
-
 Widget titleToast(String title,
     {Color bgColor = defaultBgColor, Color fontColor = Colors.black}) {
   if (title.length <= 0) return Container();
