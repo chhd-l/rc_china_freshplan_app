@@ -7,24 +7,16 @@ import 'package:rc_china_freshplan_app/data/address.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/global.dart';
 
 class AddRessManage extends StatelessWidget {
-  var isFromCheckout = false;
-  var callback;
-  AddRessManage({super.key}) {
-    isFromCheckout =
-        Get.arguments != null ? Get.arguments["isFromCheckout"] : false;
-    callback = Get.arguments != null ? Get.arguments["callback"] : null;
-  }
+  AddRessManage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            '地址管理',
-            selectionColor: Colors.black,
-          ),
+          title: const Text('地址管理'),
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
@@ -33,13 +25,13 @@ class AddRessManage extends StatelessWidget {
               Icons.arrow_back_ios,
             ),
             onTap: () {
-              Get.toNamed(AppRoutes.account);
+              Get.back();
             },
           ),
         ),
-        body: MyStatefulWidget(isFromCheckout, callback),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(bottom: 12.0),
+        body: MyStatefulWidget(),
+        bottomNavigationBar:  Container(
+          padding: const EdgeInsets.only(bottom:12.0),
           decoration: const BoxDecoration(
             color: Colors.white,
           ),
@@ -60,12 +52,7 @@ class AddRessManage extends StatelessWidget {
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  var isCheckout = false;
-  var isCallback;
-  MyStatefulWidget(bool isFromCheckout, callback, {super.key}) {
-    isCheckout = isFromCheckout;
-    isCallback = callback;
-  }
+  const MyStatefulWidget( {super.key}) ;
 
   @override
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
@@ -146,9 +133,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         itemBuilder: (BuildContext ctx, int i) {
           return GestureDetector(
               onTap: () {
-                if (widget.isCheckout && widget.isCallback != null) {
-                  // AddRess address=AddRess(receiverName: 'zuoqin',phone: '13101227768',province: '重庆',city: '重庆市',region: '渝中区',detail: '华盛路1号德勤大楼');
-                  widget.isCallback(addRessList[i]);
+                final global=Get.put(GlobalConfigService());
+                if (global.isCheckoutSelectAddress.value) {
+                  global.checkoutAddress.value=addRessList[i];
                   Get.back();
                 }
               },

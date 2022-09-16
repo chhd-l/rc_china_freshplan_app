@@ -77,7 +77,7 @@ class CreateAddRessLogic extends GetxController {
       flag = await AddRessUtil.addRes(addRess);
     }
     if (flag != false) {
-      Get.toNamed(AppRoutes.addressManage);
+      Get.back();
     }
   }
 }

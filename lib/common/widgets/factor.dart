@@ -58,20 +58,6 @@ Widget titleButton(String title, VoidCallback? onPressed,
 //   );
 // }
 
-Widget backgroundContainer(Widget child,
-    {safeAreaBottom = true, pading = EdgeInsets.zero}) {
-  return Container(
-    decoration: BoxDecoration(
-        image: DecorationImage(
-      image: AssetImage('assets/images/yellow_bg.png'),
-      fit: BoxFit.cover,
-    )),
-    child: SafeArea(bottom: safeAreaBottom, child: child),
-    padding: pading,
-    height: double.infinity,
-  );
-}
-
 Widget titleToast(String title,
     {Color bgColor = defaultBgColor, Color fontColor = Colors.black}) {
   if (title.length <= 0) return Container();
@@ -174,14 +160,12 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               !titleIsImage
-                  ? Container(
-                      margin:  EdgeInsets.only(right: needBack?20.0:0),
-                      child: Text(appBarTitle,
-                          style: textSyle400(
-                              fontSize: 18.sp,
-                              color: const Color.fromRGBO(51, 51, 51, 1))),
-                    )
+                  ? Text(appBarTitle,
+                      style: textSyle400(
+                          fontSize: 18.sp,
+                          color: const Color.fromRGBO(51, 51, 51, 1)))
                   : Image.asset(imageTitle),
+              SizedBox(width: titleIsImage ? 40 : 30),
             ],
           ),
           leading: needBack

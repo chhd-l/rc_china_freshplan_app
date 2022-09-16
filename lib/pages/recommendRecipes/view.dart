@@ -23,7 +23,7 @@ class RecommendRecipesPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Column(children: [
                   Text(
-                    '${logic.global.petName.value}的专属健康食谱',
+                    '${logic.global.checkoutPet.value.name}的专属健康食谱',
                     style: textSyle900(fontSize: 23),
                   ),
                   Obx(() => richText(

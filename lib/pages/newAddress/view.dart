@@ -37,10 +37,7 @@ class NewAddress extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            "${args != '-1' ? '修改' : '新增'}地址",
-            selectionColor: Colors.black,
-          ),
+          title: Text("${args != '-1' ? '修改' : '新增'}地址"),
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
@@ -49,7 +46,7 @@ class NewAddress extends StatelessWidget {
               Icons.arrow_back_ios,
             ),
             onTap: () {
-              Get.toNamed(AppRoutes.addressManage);
+              Get.back();
             },
           ),
         ),
