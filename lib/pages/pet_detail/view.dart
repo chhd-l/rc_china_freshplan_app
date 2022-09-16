@@ -23,7 +23,7 @@ class PetDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var args = Get.arguments;
     var pet = PetUtil.getPet(args.toString());
-    Future.delayed(const Duration(milliseconds: 200)).then((value) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       c.changeTab(0);
       petCtl.initData(pet);
     });
@@ -73,6 +73,7 @@ class PetDetailPage extends StatelessWidget {
                   CupertinoDialogAction(
                     child: const Text('确定'),
                     onPressed: () async {
+                      Get.back();
                       var deleteFlag = await PetUtil.removePet(pet);
                       if (deleteFlag) {
                         Get.toNamed(AppRoutes.petList);
@@ -131,10 +132,11 @@ class PetDetailPage extends StatelessWidget {
                   ],
                 )),
                 GestureDetector(
-                    child: const Icon(
-                      Icons.delete_outline,
-                      size: 24,
-                      color: Colors.black,
+                    child: Image.asset(
+                      'assets/images/ressDelete.png',
+                      width: 27,
+                      height: 27,
+                      fit: BoxFit.fitWidth,
                     ),
                     onTap: () {
                       _handleDelete();

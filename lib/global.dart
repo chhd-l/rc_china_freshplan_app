@@ -11,7 +11,6 @@ import 'data/pet.dart';
 
 /// 全局配置
 class GlobalConfigService extends GetxService {
-  RxString petName = ''.obs;
   RxList selectProduct = [].obs;
   RxList recipesList = [].obs;
   Rx<Pet> checkoutPet = Rx<Pet>(Pet());
@@ -34,8 +33,6 @@ class GlobalConfigService extends GetxService {
     WidgetsFlutterBinding.ensureInitialized();
     // 工具初始
     await StorageUtil.init();
-    PetUtil.init();
-    AddRessUtil.init();
     await ConsumerEndPoint.changeToken();
 
     return this;

@@ -38,8 +38,11 @@ class CreatePetNextPage extends StatelessWidget {
                             decimal: true)),
                   ),
                   commonTitle('${logic.petNameController.text}近期状态'),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16, bottom: 32),
+                  Container(
+                    margin: const EdgeInsets.only(top: 16, bottom: 32),
+                    decoration: const BoxDecoration(
+                        color: AppColors.baseGray,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -99,8 +102,7 @@ class CreatePetNextPage extends StatelessWidget {
                                                       logic.healthList[index]
                                                           ['value'])
                                               ? AppColors.tint
-                                              : const Color.fromRGBO(
-                                                  246, 246, 246, 1),
+                                              : AppColors.baseGray,
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(15),
                                           )),

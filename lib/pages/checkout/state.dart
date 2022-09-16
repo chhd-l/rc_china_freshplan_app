@@ -7,7 +7,7 @@ class CheckoutState {
   RxInt payTotalPrice=0.obs;
   Rx<AddRess> address=Rx<AddRess>(AddRess());
 
-  int discountPrice = 20; //促销折扣
-  int newDiscountPrice = 20; //新人折扣
+  int discountPrice = 0; //促销折扣
+  int newDiscountPrice = 0; //新人折扣
   int deliveryPrice = 0; //运费
 }

@@ -26,6 +26,8 @@ class CreatePetLogic extends GetxController {
   TextEditingController recentWeightController = TextEditingController();
   TextEditingController targetWeightController = TextEditingController();
 
+  FocusNode petNameFocusNode = FocusNode();
+
   final List healthList = [
     {'name': '对食物很挑剔', 'value': 'PICKY_EATER'},
     {'name': '食物过敏或胃敏感', 'value': 'FOOD_ALLERGIES_OR_STOMACH_SENSITIVITIES'},
@@ -38,21 +40,20 @@ class CreatePetLogic extends GetxController {
   void onInit() {
     super.onInit();
 
-    recentWeightController.text = '0.0';
-    targetWeightController.text = '0.0';
-
     petNameController.addListener(() {
       state.name.value = petNameController.text;
     });
 
     recentWeightController.addListener(() {
-      state.recentWeight.value =
-          double.parse(recentWeightController.text.toString());
+      state.recentWeight.value = recentWeightController.text != ''
+          ? double.parse(recentWeightController.text.toString())
+          : 0.0;
     });
 
     targetWeightController.addListener(() {
-      state.targetWeight.value =
-          double.parse(targetWeightController.text.toString());
+      state.targetWeight.value = targetWeightController.text != ''
+          ? double.parse(targetWeightController.text.toString())
+          : 0.0;
     });
   }
 
@@ -91,7 +92,6 @@ class CreatePetLogic extends GetxController {
   }
 
   void recommendedRecipes() async {
-    Get.put(GlobalConfigService()).petName.value = state.name.value;
     Pet pet = Pet(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
       name: state.name.value,
@@ -125,20 +125,22 @@ class CreatePetLogic extends GetxController {
     state.birthday.value = state.birthday.value != ''
         ? state.birthday.value
         : DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
-    Get.bottomSheet(Container(
-      height: 200,
-      color: Colors.white,
-      alignment: Alignment.center,
-      child: CupertinoDatePicker(
-        onDateTimeChanged: (dateTime) {
-          state.birthday.value =
-              DateFormat("yyyy-MM-dd").format(dateTime).toString();
-        },
-        initialDateTime: DateTime.now(),
-        minuteInterval: 1,
-        mode: CupertinoDatePickerMode.date,
-      ),
-    ));
+    Get.bottomSheet(
+        Container(
+          height: 200,
+          color: Colors.white,
+          alignment: Alignment.center,
+          child: CupertinoDatePicker(
+            onDateTimeChanged: (dateTime) {
+              state.birthday.value =
+                  DateFormat("yyyy-MM-dd").format(dateTime).toString();
+            },
+            initialDateTime: DateTime.now(),
+            minuteInterval: 1,
+            mode: CupertinoDatePickerMode.date,
+          ),
+        ),
+        persistent: false);
   }
 
   void selectBreed() {
@@ -148,25 +150,28 @@ class CreatePetLogic extends GetxController {
     state.breedCode.value = state.breedCode.value != ''
         ? state.breedCode.value
         : state.breedList[0]['code'];
-    Get.bottomSheet(Container(
-        height: 200,
-        color: Colors.white,
-        alignment: Alignment.center,
-        child: CupertinoPicker(
-          magnification: 1.22,
-          squeeze: 1.2,
-          useMagnifier: true,
-          itemExtent: 32.0,
-          onSelectedItemChanged: (int selectedItem) {
-            state.breedName.value = state.breedList[selectedItem]['name'];
-            state.breedCode.value = state.breedList[selectedItem]['code'];
-          },
-          children: List<Widget>.generate(state.breedList.length, (int index) {
-            return Center(
-              child: Text(state.breedList[index]["name"]),
-            );
-          }),
-        )));
+    Get.bottomSheet(
+        Container(
+            height: 200,
+            color: Colors.white,
+            alignment: Alignment.center,
+            child: CupertinoPicker(
+              magnification: 1.22,
+              squeeze: 1.2,
+              useMagnifier: true,
+              itemExtent: 32.0,
+              onSelectedItemChanged: (int selectedItem) {
+                state.breedName.value = state.breedList[selectedItem]['name'];
+                state.breedCode.value = state.breedList[selectedItem]['code'];
+              },
+              children:
+                  List<Widget>.generate(state.breedList.length, (int index) {
+                return Center(
+                  child: Text(state.breedList[index]["name"]),
+                );
+              }),
+            )),
+        persistent: false);
   }
 
   void changeRecentHealth(int index) {
