@@ -4,7 +4,9 @@ import 'package:rc_china_freshplan_app/data/order.dart';
 class OrderUtil {
   static List orderLists= [];
 
-  static Future<List<Order>> getOrders(String text) async {
+  static Future getOrders(String text) async {
+    print('getOrders');
+    print(text);
     var params = {};
     if(text != 'ALL') {
       params['orderState'] = text;

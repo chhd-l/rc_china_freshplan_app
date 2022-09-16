@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:flutter/services.dart';
 import 'package:rc_china_freshplan_app/pages/orderDetails/logic.dart';
@@ -38,6 +39,16 @@ class OrderDetails extends StatelessWidget {
       return '交易已完成';
     } else {
       return '订单已取消';
+    }
+  }
+
+  returnPayWayCode () {
+    if(logic.payWayCode.value == 'WECHAT_PAY') {
+      return '微信';
+    } else if(logic.payWayCode.value == 'ALI_PAY') {
+      return '支付宝';
+    } else {
+      return '';
     }
   }
 
@@ -100,28 +111,36 @@ class OrderDetails extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Column(
-                    crossAxisAlignment : CrossAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          Text('${logic.receiverName.value} ',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15
-                            )
-                          ),
-                          Text(' ${logic.phone}',
-                              style: const TextStyle(
-                                color: Color(0xFF666666),
-                                fontSize: 12
-                              )
-                            ),
-                        ],
+                      Container(
+                        margin: const EdgeInsets.only(right: 12),
+                        child: Image.asset('assets/images/address.png'),
                       ),
-                      Text('${logic.province.value} ${logic.city.value} ${logic.region.value} ${logic.detail.value}'),
+                      Column(
+                        crossAxisAlignment : CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text('${logic.receiverName.value} ',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15
+                                )
+                              ),
+                              Text(' ${logic.phone}',
+                                  style: const TextStyle(
+                                    color: Color(0xFF666666),
+                                    fontSize: 12
+                                  )
+                                ),
+                            ],
+                          ),
+                          Text('${logic.province.value} ${logic.city.value} ${logic.region.value} ${logic.detail.value}'),
+                        ],
+                      )
                     ],
-                  ),
+                  )
                 ),
                 Container(
                   alignment: Alignment.topLeft,
@@ -194,39 +213,41 @@ class OrderDetails extends StatelessWidget {
                           margin: const EdgeInsets.only(bottom: 12,top: 12),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text('商品金额', style: TextStyle(
+                            children: [
+                              const Text('商品金额', style: TextStyle(
                                 color: Color(0xFF666666),
                               )),
-                              Text('¥150.00', style: TextStyle(
+                              Text('¥${logic.productPrice.value}.00', style: const TextStyle(
                                 fontWeight: FontWeight.bold
                               )),
                             ],
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text('促销折扣', style: TextStyle(
-                                color: Color(0xFF666666),
-                              )),
-                              Text('-¥60.00', style: TextStyle(
-                                fontWeight: FontWeight.bold
-                              )),
-                            ],
-                          )
+                          child: logic.discountsPrice.value != '0' ? Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('促销折扣', style: TextStyle(
+                                  color: Color(0xFF666666),
+                                )),
+                                Text('-¥${logic.discountsPrice.value}.00', style: const TextStyle(
+                                  fontWeight: FontWeight.bold
+                                )),
+                              ],
+                            )
+                          ) : null
                         ),
                         Container(
                           margin: const EdgeInsets.only(bottom: 12),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text('商品金额', style: TextStyle(
+                            children: [
+                              const Text('商品金额', style: TextStyle(
                                 color: Color(0xFF666666),
                               )),
-                              Text('¥0.00', style: TextStyle(
+                              Text('¥${logic.discountsPrice.value}.00', style: const TextStyle(
                                 fontWeight: FontWeight.bold
                               )),
                             ],
@@ -235,9 +256,9 @@ class OrderDetails extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const [
-                            Text('合计：'),
-                            Text(' ￥90.00', style: TextStyle(
+                          children: [
+                            const Text('合计：'),
+                            Text(' ￥${logic.totalPrice.value}.00', style: const TextStyle(
                               color: Color(0xFFD49D28),
                               fontSize: 17,
                               fontWeight: FontWeight.bold
@@ -333,11 +354,11 @@ class OrderDetails extends StatelessWidget {
                           margin: const EdgeInsets.only(bottom: 12),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text('付款方式', style: TextStyle(
+                            children: [
+                              const Text('付款方式', style: TextStyle(
                                 color: Color(0xFF666666),
                               )),
-                              Text('花呗支付'),
+                              Text(returnPayWayCode()),
                             ],
                           )
                         ),
@@ -349,7 +370,7 @@ class OrderDetails extends StatelessWidget {
                               const Text('付款时间', style: TextStyle(
                                 color: Color(0xFF666666),
                               )),
-                              Text(logic.createdAt.value),
+                              Text(logic.createdAt.value != '' ? DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(logic.createdAt.value)) : logic.createdAt.value),
                             ],
                           )
                         ),

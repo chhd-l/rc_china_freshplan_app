@@ -24,7 +24,6 @@ class OrderDetailsLogic extends GetxController {
   var productPrice = ''.obs;
   var deliveryPrice = ''.obs;
   var discountsPrice = ''.obs;
-  var vipDiscountsPrice = ''.obs;
   var totalPrice = ''.obs;
   // 订单编号
   var orderNumber = ''.obs;
@@ -38,9 +37,6 @@ class OrderDetailsLogic extends GetxController {
 
   void getOrderList(String orderNum) {
     OrderUtil.getOrderDetail(orderNum).then((value) {
-      print('orderDetails');
-      print(value['remark']);
-
       orderDetails = value;
 
       orderNumber.value = value['orderNumber'];
@@ -57,19 +53,20 @@ class OrderDetailsLogic extends GetxController {
 
       lineItem.value = value['lineItem'];
 
-      productPrice.value = value['orderPrice']['productPrice'];
-      deliveryPrice.value = value['orderPrice']['deliveryPrice'];
-      discountsPrice.value = value['orderPrice']['discountsPrice'];
-      vipDiscountsPrice.value = value['orderPrice']['vipDiscountsPrice'];
-      totalPrice.value = value['orderPrice']['totalPrice'];
-      // print(int.parse(productPrice.value) + int.parse(deliveryPrice.value));
-      // print(int.parse(discountsPrice.value) + int.parse(vipDiscountsPrice.value));
-      // print((int.parse(discountsPrice.value) + int.parse(vipDiscountsPrice.value)) > 0);
-      // print(totalPrice.value);
+      productPrice.value = '${value['orderPrice']['productPrice'] + value['orderPrice']['deliveryPrice']}';
+      deliveryPrice.value = '${value['orderPrice']['deliveryPrice']}';
+      discountsPrice.value = '${value['orderPrice']['discountsPrice']}';
+      totalPrice.value = '${value['orderPrice']['totalPrice']}';
+
+      print('${value['orderPrice']}');
+      print(productPrice);
+      print(deliveryPrice);
+      print(discountsPrice);
+      print(totalPrice);
 
       paymentFinishTime.value = value['payment']['paymentFinishTime'];
       createdAt.value = value['orderState']['createdAt'];
-      remark.value = value['remark'] ? value['remark'] : '无';
+      remark.value = value['remark'] != '' ? value['remark'] : '无';
     });
   }
 }

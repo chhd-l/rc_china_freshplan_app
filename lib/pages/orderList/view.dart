@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/order_util.dart';
 import 'package:rc_china_freshplan_app/data/order.dart';
@@ -15,8 +16,7 @@ class OrderList extends StatefulWidget {
 class _OrderListWidgetState extends State<OrderList> {
   final OrderLogic logic = Get.put(OrderLogic());
   Widget build(BuildContext context) {
-  logic.getOrderList();
-  var orders = OrderUtil.orderLists;
+  logic.getOrderList('ALL');
 
   returnType (String type) {
     if (type == 'UNPAID') {
@@ -29,26 +29,6 @@ class _OrderListWidgetState extends State<OrderList> {
       return '交易成功';
     } else {
       return '交易关闭';
-    }
-  }
-
-  returnCancelText (String type) {
-    if (type == 'UNPAID') {
-      return '取消';
-    } else if (type == 'TO_SHIP') {
-      return '催发货';
-    } else if (type == 'VOID') {
-      return '删除订单';
-    } else {
-      return '查看物流';
-    }
-  }
-
-  returnDetermine (String type) {
-    if (type == 'UNPAID') {
-      return '付款';
-    } else {
-      return '确认收货';
     }
   }
   
@@ -72,41 +52,15 @@ class _OrderListWidgetState extends State<OrderList> {
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 249, 249, 249),
           ),
-          child: Column(
+          child: Obx(() => Column(
           children: [
-            // Container(
-            //   padding: const EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 15),
-            //   decoration: const BoxDecoration(
-            //     color: Colors.white,
-            //   ),
-            //   child: ConstrainedBox(
-            //     constraints: const BoxConstraints(
-            //       maxHeight: 30,
-            //     ),
-            //     child: TextField(
-            //     maxLines: 1,
-            //     decoration: InputDecoration(
-            //       contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-            //       hintText: '搜索订单',
-            //       prefixIcon: const Icon(Icons.search),
-            //       border: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(15),
-            //           borderSide: BorderSide.none),
-            //       filled: true,
-            //       fillColor: const Color(0xfafafafa),
-            //     )
-            //   ))
-            // ),
-            Obx(() => Row(
+            Row(
               children: [
                 Expanded(
                   child: GestureDetector(
                     onTap: (() {
                       logic.onChangeTagType('ALL');
-                      logic.getOrderList();
-                      setState(() {
-                        orders = logic.orderLists;
-                      });
+                      logic.getOrderList('ALL');
                     }),
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -132,10 +86,7 @@ class _OrderListWidgetState extends State<OrderList> {
                   child: GestureDetector(
                     onTap: (() {
                       logic.onChangeTagType('UNPAID');
-                      logic.getOrderList();
-                      setState(() {
-                        orders = logic.orderLists;
-                      });
+                      logic.getOrderList('UNPAID');
                     }),
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -161,10 +112,7 @@ class _OrderListWidgetState extends State<OrderList> {
                   child: GestureDetector(
                     onTap: (() {
                       logic.onChangeTagType('TO_SHIP');
-                      logic.getOrderList();
-                      setState(() {
-                        orders = logic.orderLists;
-                      });
+                      logic.getOrderList('TO_SHIP');
                     }),
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -190,10 +138,7 @@ class _OrderListWidgetState extends State<OrderList> {
                   child: GestureDetector(
                     onTap: (() {
                       logic.onChangeTagType('SHIPPED');
-                      logic.getOrderList();
-                      setState(() {
-                        orders = logic.orderLists;
-                      });
+                      logic.getOrderList('SHIPPED');
                     }),
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 12),
@@ -215,9 +160,9 @@ class _OrderListWidgetState extends State<OrderList> {
                   )
                 ),
               ],
-            )),
+            ),
             Container(
-              child: (orders.length == null ? 0 : orders.length) == 0 ? Container(
+              child: (logic.orderLists.length == null || logic.orderLists.length == 0) ? Container(
                 margin: const EdgeInsets.only(top: 38),
                 child: Column(
                   children: [
@@ -253,8 +198,9 @@ class _OrderListWidgetState extends State<OrderList> {
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: orders.length == null ? 0 : orders.length,
+                  itemCount:logic.orderLists.length != null ? logic.orderLists.length : 0,
                   itemBuilder: (BuildContext ctx, int i) {
+                    var orders = logic.orderLists;
                     return Container(
                       margin: const EdgeInsets.only(bottom: 18),
                       padding: const EdgeInsets.all(12),
@@ -282,7 +228,7 @@ class _OrderListWidgetState extends State<OrderList> {
                               Expanded(
                                 flex: 3,
                                 child: Text(
-                                  '创建时间:${orders[i]['orderState']['createdAt']}', 
+                                  '创建时间:${orders[i]['orderState']['createdAt'] != '' ? DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(orders[i]['orderState']['createdAt'])) : orders[i]['orderState']['createdAt']}', 
                                   textAlign: TextAlign.right,
                                   style: const TextStyle(
                                     color: Color(0xFF666666),
@@ -330,6 +276,7 @@ class _OrderListWidgetState extends State<OrderList> {
                                 Expanded(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       const Text(
                                         '¥', 
@@ -359,27 +306,11 @@ class _OrderListWidgetState extends State<OrderList> {
                                   side: BorderSide(color: Color(0xFFCDCDCD),width: 1,style: BorderStyle.solid),
                                   borderRadius: BorderRadius.all(Radius.circular(20))
                                 ),
-                                child: Text(returnCancelText(orders[i]['orderState']['orderState'])),
+                                child: const Text('查看详情'),
                                 onPressed: () {
-                                  Get.toNamed(AppRoutes.newAddress, arguments: orders[i].orderNumber);
+                                  Get.toNamed(AppRoutes.orderDetails, arguments: orders[i]['orderNumber']);
                                 },
                               ),
-                              Container(
-                                child: (orders[i]['orderState']['orderState'] == 'UNPAID' 
-                              || orders[i]['orderState']['orderState'] == 'SHIPPED')
-                              ? Container(
-                                  margin: const EdgeInsets.only(left: 10),
-                                  child: MaterialButton(
-                                    shape: const RoundedRectangleBorder(
-                                      side: BorderSide(color: Color(0xFF96CC39),width: 1,style: BorderStyle.solid),
-                                      borderRadius: BorderRadius.all(Radius.circular(20))
-                                    ),
-                                    textColor: const Color(0xFF96CC39),
-                                    child: Text(returnDetermine(orders[i]['orderState']['orderState'])),
-                                    onPressed: () {},
-                                  ),
-                                ) : null,
-                              )
                             ]
                           )
                         ],
@@ -390,7 +321,7 @@ class _OrderListWidgetState extends State<OrderList> {
               )
             )
           ],
-        ))
+        )))
       )
     );
   }

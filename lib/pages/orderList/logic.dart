@@ -5,14 +5,15 @@ import 'package:rc_china_freshplan_app/data/order.dart';
 
 class OrderLogic extends GetxController {
   var tagType = 'ALL'.obs;
+  var orderLists = [].obs;
 
-  List<Order> orderLists = [];
-
-  void getOrderList() {
-    OrderUtil.getOrders(tagType.value).then((value) {
-      orderLists.clear();
-      orderLists.addAll(value);
-      update();
+  void getOrderList(String type) {
+    OrderUtil.getOrders(type).then((value) {
+      if(value != null) {
+        orderLists.value = value;
+      } else {
+        orderLists.value = [];
+      }
     });
   }
 
