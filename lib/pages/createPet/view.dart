@@ -38,14 +38,24 @@ class CreatePetPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Obx(() =>
-                          petTypeBox(state.type.value == 'CAT', 'cat', () {
+                      Obx(() => petAvatarPick(() {
                             logic.changeType('CAT');
-                          })),
-                      Obx(() =>
-                          petTypeBox(state.type.value == 'DOG', 'dog', () {
+                          }, '',
+                              childAsset: 'assets/images/cat.png',
+                              pickAsset:
+                                  'assets/images/pet-type-${state.type.value == 'CAT' ? 'selected' : 'select'}.png',
+                              bgColor: state.type.value == 'CAT'
+                                  ? const Color.fromRGBO(255, 176, 56, 1)
+                                  : const Color.fromRGBO(239, 239, 240, 1))),
+                      Obx(() => petAvatarPick(() {
                             logic.changeType('DOG');
-                          })),
+                          }, '',
+                              childAsset: 'assets/images/dog.png',
+                              pickAsset:
+                                  'assets/images/pet-type-${state.type.value == 'DOG' ? 'selected' : 'select'}.png',
+                              bgColor: state.type.value == 'DOG'
+                                  ? const Color.fromRGBO(255, 176, 56, 1)
+                                  : const Color.fromRGBO(239, 239, 240, 1))),
                     ],
                   ),
                   const SizedBox(height: 46),
