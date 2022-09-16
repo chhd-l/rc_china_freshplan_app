@@ -250,22 +250,6 @@ class OrderDetails extends StatelessWidget {
                                                 ],
                                               ))
                                           : null),
-                                  Container(
-                                      margin: const EdgeInsets.only(bottom: 12),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text('商品金额',
-                                              style: TextStyle(
-                                                color: Color(0xFF666666),
-                                              )),
-                                          Text(
-                                              '¥${logic.discountsPrice.value}.00',
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      )),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment: CrossAxisAlignment.end,

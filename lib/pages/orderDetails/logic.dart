@@ -4,7 +4,6 @@ import 'package:rc_china_freshplan_app/common/util/order_util.dart';
 import 'package:rc_china_freshplan_app/data/order.dart';
 
 class OrderDetailsLogic extends GetxController {
-
   var orderDetails = {};
 
   // 订单状态
@@ -42,7 +41,7 @@ class OrderDetailsLogic extends GetxController {
       orderNumber.value = value['orderNumber'];
       subscriptionNo.value = value['subscriptionNo'];
       orderState.value = value['orderState']['orderState'];
-      payWayCode.value = value['payment']['payWayCode'];
+      payWayCode.value = value['payment']['payWayCode'] ?? '';
 
       receiverName.value = value['shippingAddress']['receiverName'];
       phone.value = value['shippingAddress']['phone'];
@@ -53,7 +52,8 @@ class OrderDetailsLogic extends GetxController {
 
       lineItem.value = value['lineItem'];
 
-      productPrice.value = '${value['orderPrice']['productPrice'] + value['orderPrice']['deliveryPrice']}';
+      productPrice.value =
+          '${value['orderPrice']['productPrice'] + value['orderPrice']['deliveryPrice']}';
       deliveryPrice.value = '${value['orderPrice']['deliveryPrice']}';
       discountsPrice.value = '${value['orderPrice']['discountsPrice']}';
       totalPrice.value = '${value['orderPrice']['totalPrice']}';
