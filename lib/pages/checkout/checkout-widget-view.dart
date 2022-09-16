@@ -111,7 +111,7 @@ Widget orderProductContainer(List orderProduct, int productTotalPrice) {
                 const Spacer(),
                 Padding(
                     padding: const EdgeInsets.only(top: 20),
-                    child: Text('X1',
+                    child: Text('X6',
                         style: textSyle700(
                             fontSize: 10, color: AppColors.text999))),
               ],
