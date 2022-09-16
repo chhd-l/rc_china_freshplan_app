@@ -119,7 +119,7 @@ class PetListPage extends GetView<PetListController> {
                           },
                         ))),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+              padding: const EdgeInsets.fromLTRB(30, 10, 30, 20),
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),

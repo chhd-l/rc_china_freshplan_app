@@ -19,7 +19,7 @@ class IndexPage extends StatelessWidget {
       backgroundColor: AppColors.primaryBackground,
       body: SafeArea(
           child: Column(children: [
-        const SizedBox(height: 32),
+        const SizedBox(height: 12),
         Image.asset('assets/images/fresh-plan-logo.png'),
         const SizedBox(height: 6),
         Expanded(

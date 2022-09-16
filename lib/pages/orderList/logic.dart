@@ -17,7 +17,5 @@ class OrderLogic extends GetxController {
     });
   }
 
-  void onChangeTagType (String text) => {
-    tagType.value = text
-  };
+  void onChangeTagType(String text) => {tagType.value = text};
 }

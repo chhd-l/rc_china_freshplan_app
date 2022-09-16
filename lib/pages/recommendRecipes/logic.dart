@@ -30,7 +30,7 @@ class RecommendRecipesLogic extends GetxController {
 
   //获取产品列表
   getProductList() {
-    EasyLoading.show(status: 'loading productList...');
+    EasyLoading.show();
     HttpUtil()
         .post(getProducts, params: getProductsParams)
         .onError((ErrorEntity error, stackTrace) {
@@ -47,7 +47,7 @@ class RecommendRecipesLogic extends GetxController {
   //获取推荐产品
   getSubscriptionSimpleRecommend() async {
     Pet pet = global.checkoutPet.value;
-    EasyLoading.show(status: 'loading subscriptionRecommend...');
+    EasyLoading.show();
     HttpUtil().post(getSubscriptionRecommend, params: {
       "query": getSubscriptionRecommendQuery,
       "variables": {

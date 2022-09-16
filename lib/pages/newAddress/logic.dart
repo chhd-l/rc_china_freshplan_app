@@ -77,7 +77,7 @@ class CreateAddRessLogic extends GetxController {
       flag = await AddRessUtil.addRes(addRess);
     }
     if (flag != false) {
-      Get.back();
+      Get.back(result: true); //返回列表刷新地址
     }
   }
 }
