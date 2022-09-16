@@ -15,7 +15,7 @@ class AddRessManage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('地址管理', selectionColor: Colors.black,),
+          title: const Text('地址管理'),
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
