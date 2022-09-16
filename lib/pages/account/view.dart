@@ -119,42 +119,47 @@ class AccountPage extends GetView<AccountController> {
       ),
       child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child:
-                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Image.asset(
-                'assets/images/order-icon.png',
-                width: 20,
-                height: 20,
-                fit: BoxFit.fitWidth,
-              ),
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(left: 10),
-                  child: const Text(
-                    '我的订单',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+          GestureDetector(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child:
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Image.asset(
+                  'assets/images/order-icon.png',
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.fitWidth,
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: const Text(
+                      '我的订单',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(right: 5),
-                child: const Text('全部订单',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 153, 153, 153),
-                      fontSize: 12,
-                    )),
-              ),
-              const Icon(
-                Icons.arrow_forward_ios,
-                color: Color.fromARGB(255, 153, 153, 153),
-                size: 12,
-              )
-            ]),
+                Container(
+                  margin: const EdgeInsets.only(right: 5),
+                  child: const Text('全部订单',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 153, 153, 153),
+                        fontSize: 12,
+                      )),
+                ),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Color.fromARGB(255, 153, 153, 153),
+                  size: 12,
+                )
+              ]),
+            ),
+            onTap: () {
+              Get.toNamed(AppRoutes.orderList);
+            },
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),

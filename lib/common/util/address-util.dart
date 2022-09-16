@@ -1,10 +1,47 @@
 import 'package:rc_china_freshplan_app/data/address.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/api/address/index.dart';
 
 class AddRessUtil {
   static List<AddRess> addRessList = [];
   static late Consumer? consumer;
+
+  static AddRess normalizeFromApi(dynamic data) {
+    return AddRess(
+      id: data['id'],
+      receiverName: data['receiverName'],
+      phone: data['phone'],
+      province: data['province'],
+      city: data['city'],
+      region: data['region'],
+      detail: data['detail'],
+      isDefault: data['isDefault'],
+    );
+  }
+
+  static Map<String, dynamic> normalizeToApi(AddRess address, String consumerId,
+      {bool needId = false}) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (needId) {
+      data['id'] = address.id;
+    }
+    data['consumerId'] = consumerId;
+    data['receiverName'] = address.receiverName;
+    data['phone'] = address.phone;
+    data['province'] = address.province;
+    data['city'] = address.city;
+    data['region'] = address.region;
+    data['detail'] = address.detail;
+    data['isDefault'] = address.isDefault;
+    return data;
+  }
+
+  static Future<List<AddRess>> getAddressList() async {
+    var list = await AddressEndPoint.getAddressList();
+    addRessList = list;
+    return list;
+  }
 
   static Future<void> init() async {
     consumer = StorageUtil().getJSON("loginUser") != null
@@ -24,11 +61,8 @@ class AddRessUtil {
     addRessList.clear();
   }
 
-  static void addRes(AddRess pet) {
-    print('2222222');
-    addRessList.add(pet);
-    print(addRessList.length);
-    StorageUtil().setJSON('${consumer?.addresslist}_addRess', addRessList);
+  static Future addRes(AddRess address) {
+    return AddressEndPoint.createAddress(address);
   }
 
   static AddRess getAddRess(String id) {
@@ -46,26 +80,12 @@ class AddRessUtil {
     return init;
   }
 
-  static void updateAddRess(AddRess pet) {
-    int idx = 0;
-    addRessList.asMap().entries.forEach((element) {
-      if (element.value.id == pet.id) {
-        idx = element.key;
-      }
-    });
-    addRessList.replaceRange(idx, idx + 1, [pet]);
-    StorageUtil().setJSON('${consumer?.phone}_addRess', addRessList);
+  static Future<bool> updateAddRess(AddRess address) {
+    return AddressEndPoint.updateAddress(address);
   }
 
-  static void removeAddRess(AddRess pet) {
-    int idx = 0;
-    addRessList.asMap().entries.forEach((element) {
-      if (element.value.id == pet.id) {
-        idx = element.key;
-      }
-    });
-    addRessList.replaceRange(idx, idx + 1, []);
-    StorageUtil().setJSON('${consumer?.phone}_addRess', addRessList);
+  static Future<bool> removeAddRess(String id) {
+    return AddressEndPoint.deleteAddress(id);
   }
 
   static void removeAllAddRess() {

@@ -73,6 +73,7 @@ class PetDetailPage extends StatelessWidget {
                   CupertinoDialogAction(
                     child: const Text('确定'),
                     onPressed: () async {
+                      Get.back();
                       var deleteFlag = await PetUtil.removePet(pet);
                       if (deleteFlag) {
                         Get.toNamed(AppRoutes.petList);
