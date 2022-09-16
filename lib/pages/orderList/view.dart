@@ -22,6 +22,7 @@ class _OrderListWidgetState extends State<OrderList> {
         logic.onChangeTagType(args.toString());
         logic.getOrderList(args.toString());
       } else {
+        logic.onChangeTagType('ALL');
         logic.getOrderList('ALL');
       }
     });
