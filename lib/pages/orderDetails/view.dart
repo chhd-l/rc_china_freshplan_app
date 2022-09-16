@@ -405,44 +405,44 @@ class OrderDetails extends StatelessWidget {
                 ],
               )
             ),
-            Container(
-              child: (logic.orderState.value != 'TO_SHIP' && logic.orderState.value != 'COMPLETED') ?
-              Container(
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.all(12),
-                margin: const EdgeInsets.only(top: 12),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 12),
-                      child: logic.orderState.value == 'VOID' ? MaterialButton(
-                        shape: const RoundedRectangleBorder(
-                          side: BorderSide(color: Color(0xFFCDCDCD),width: 1,style: BorderStyle.solid),
-                          borderRadius: BorderRadius.all(Radius.circular(20))
-                        ),
-                        child: const Text('删除订单'),
-                        onPressed: () async {
-                          logic.getOrderList('O20220915200200498');
-                        },
-                      ) : null
-                    ),
-                    MaterialButton(
-                      shape: const RoundedRectangleBorder(
-                        side: BorderSide(color: Color(0xFF96CC39),width: 1,style: BorderStyle.solid),
-                        borderRadius: BorderRadius.all(Radius.circular(20))
-                      ),
-                      textColor: const Color(0xFF96CC39),
-                      child: Text(logic.orderState.value == "UNPAID" ? "付款" : "确认收货"),
-                      onPressed: () {},
-                    )
-                  ],
-                ),
-              ) : null
-            )
+            // Container(
+            //   child: (logic.orderState.value != 'TO_SHIP' && logic.orderState.value != 'COMPLETED') ?
+            //   Container(
+            //     alignment: Alignment.topLeft,
+            //     padding: const EdgeInsets.all(12),
+            //     margin: const EdgeInsets.only(top: 12),
+            //     decoration: const BoxDecoration(
+            //       color: Colors.white,
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.end,
+            //       children: [
+            //         Container(
+            //           margin: const EdgeInsets.only(right: 12),
+            //           child: logic.orderState.value == 'VOID' ? MaterialButton(
+            //             shape: const RoundedRectangleBorder(
+            //               side: BorderSide(color: Color(0xFFCDCDCD),width: 1,style: BorderStyle.solid),
+            //               borderRadius: BorderRadius.all(Radius.circular(20))
+            //             ),
+            //             child: const Text('删除订单'),
+            //             onPressed: () async {
+            //               logic.getOrderList('O20220915200200498');
+            //             },
+            //           ) : null
+            //         ),
+            //         MaterialButton(
+            //           shape: const RoundedRectangleBorder(
+            //             side: BorderSide(color: Color(0xFF96CC39),width: 1,style: BorderStyle.solid),
+            //             borderRadius: BorderRadius.all(Radius.circular(20))
+            //           ),
+            //           textColor: const Color(0xFF96CC39),
+            //           child: Text(logic.orderState.value == "UNPAID" ? "付款" : "确认收货"),
+            //           onPressed: () {},
+            //         )
+            //       ],
+            //     ),
+            //   ) : null
+            // )
           ],
         ))
       )
