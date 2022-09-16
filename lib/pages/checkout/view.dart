@@ -74,9 +74,12 @@ class CheckoutPage extends StatelessWidget {
                           children: [
                             priceRow('首次发货', 0,
                                 rightText: DateFormat("yyyy-MM-dd")
-                                    .format(DateTime.now())
-                                    .toString()),
-                            priceRow('发货周期', 0, rightText: '四周'),
+                                    .format(DateTime.now()
+                                        .add(const Duration(days: 1)))
+                                    .toString(),
+                                isPrice: false),
+                            priceRow('发货周期', 0,
+                                rightText: '四周', isPrice: false),
                           ])),
                       commonContainer(
                           padding: const EdgeInsets.only(right: 16, left: 16),
