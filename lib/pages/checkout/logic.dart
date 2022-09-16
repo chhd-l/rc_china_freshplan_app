@@ -51,7 +51,7 @@ class CheckoutLogic extends GetxController {
 
     var payParams = handlePayParams();
 
-    EasyLoading.show(status: 'loading orderInfo...');
+    EasyLoading.show();
     HttpUtil()
         .post(getPayInfo, params: payParams)
         .onError((ErrorEntity error, stackTrace) {

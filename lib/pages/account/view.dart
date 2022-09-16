@@ -23,7 +23,7 @@ class AccountPage extends GetView<AccountController> {
     }
 
     Widget loginSection = Container(
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
       child: Row(children: [
         ClipOval(
           child: consumer == null

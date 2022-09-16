@@ -7,17 +7,17 @@ import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 
 Consumer? consumer = StorageUtil().getJSON("loginUser") != null
-      ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
-      : null;
+    ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
+    : null;
 
 class OrderEndPoint {
   static const String storeId = '39b6444b-683b-4915-8b75-5d8403f40a02';
 
   static dynamic getOrders(limit, offset, sample) async {
-    if(consumer == null) {
+    if (consumer == null) {
       return false;
     }
-    EasyLoading.show(status: 'loading...');
+    EasyLoading.show();
     var data = await HttpUtil().post(orderUrl, params: {
       "query": orderListQuery,
       "variables": {
@@ -48,10 +48,10 @@ class OrderEndPoint {
   }
 
   static dynamic getOrderDetail(String orderNum) async {
-    if(consumer == null) {
+    if (consumer == null) {
       return false;
     }
-    EasyLoading.show(status: 'loading...');
+    EasyLoading.show();
     var data = await HttpUtil().post(orderDetailUrl, params: {
       "query": orderDetailQuery,
       "variables": {

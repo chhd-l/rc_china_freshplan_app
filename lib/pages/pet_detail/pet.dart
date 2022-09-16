@@ -139,7 +139,7 @@ class PetController extends GetxController {
     DIOFORM.FormData formdata = DIOFORM.FormData.fromMap(
         {"file": await DIOMUL.MultipartFile.fromFile(path, filename: name)});
 
-    EasyLoading.show(status: 'loading...');
+    EasyLoading.show();
     HttpUtil()
         .post(upload, params: formdata)
         .onError((ErrorEntity error, stackTrace) {

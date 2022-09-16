@@ -18,7 +18,7 @@ class ConsumerEndPoint {
   }
 
   static dynamic appLogin(String phone) async {
-    EasyLoading.show(status: 'loading...');
+    EasyLoading.show();
     var data = await HttpUtil().post(wxAuthUrl, params: {
       "query": appLoginQuery,
       "variables": {
