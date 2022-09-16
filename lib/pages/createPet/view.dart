@@ -53,8 +53,8 @@ class CreatePetPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 16, bottom: 32),
                     child: textFiled(
-                      controller: logic.petNameController,
-                    ),
+                        controller: logic.petNameController,
+                        focusNode: logic.petNameFocusNode),
                   ),
                   commonTitle('您爱宠的性别'),
                   Padding(
@@ -79,6 +79,7 @@ class CreatePetPage extends StatelessWidget {
                     child: Obx(() => selectBox(
                         value: state.breedName.value,
                         onPressed: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           logic.selectBreed();
                         })),
                   ),
@@ -89,6 +90,7 @@ class CreatePetPage extends StatelessWidget {
                     child: Obx(() => selectBox(
                         value: state.birthday.value,
                         onPressed: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           logic.selectBirthday();
                         })),
                   ),

@@ -160,14 +160,12 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               !titleIsImage
-                  ? Container(
-                      margin:  EdgeInsets.only(right: needBack?20.0:0),
-                      child: Text(appBarTitle,
-                          style: textSyle400(
-                              fontSize: 18.sp,
-                              color: const Color.fromRGBO(51, 51, 51, 1))),
-                    )
+                  ? Text(appBarTitle,
+                      style: textSyle400(
+                          fontSize: 18.sp,
+                          color: const Color.fromRGBO(51, 51, 51, 1)))
                   : Image.asset(imageTitle),
+              SizedBox(width: titleIsImage ? 40 : 30),
             ],
           ),
           leading: needBack
