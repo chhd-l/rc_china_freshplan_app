@@ -51,19 +51,19 @@ class _NumberControllerWidgetState extends State<NumberControllerWidget> {
               customIconButton(
                   icon: Icons.remove, isAdd: false, context: context),
               //输入框
-              Container(
+              SizedBox(
                 width: widget.width,
                 child: TextField(
                   controller: textController,
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16, color: Color.fromRGBO(77, 77, 77, 1)),
                   enableInteractiveSelection: false,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     contentPadding:
                         EdgeInsets.only(left: 0, top: 2, bottom: 2, right: 0),
-                    border: const OutlineInputBorder(
+                    border: OutlineInputBorder(
                       gapPadding: 0,
                       borderSide: BorderSide(
                         width: 0,
@@ -98,9 +98,9 @@ class _NumberControllerWidgetState extends State<NumberControllerWidget> {
     return Container(
       width: widget.iconWidth,
       child: IconButton(
-        padding: EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
         icon: Icon(icon),
-        color: Color.fromRGBO(77, 77, 77, 1),
+        color: const Color.fromRGBO(77, 77, 77, 1),
         onPressed: () {
           FocusScope.of(context).requestFocus(FocusNode());
           var num = int.parse(textController.text);
