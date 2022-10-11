@@ -74,4 +74,27 @@ class OrderEndPoint {
     });
     return data;
   }
+
+  static dynamic getOrderStatistics() async {
+    if (consumer == null) {
+      return false;
+    }
+    EasyLoading.show();
+    var data = await HttpUtil().post(orderStatisticsUrl, params: {
+      "query": orderStatisticsQuery,
+      "variables": {}
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      var res = json.decode(value.toString());
+      if (res['data']['OrderStatistics'] != null) {
+        return res['data']['OrderStatistics'];
+      } else {
+        EasyLoading.showError('请求错误');
+        return false;
+      }
+    });
+    return data;
+  }
 }

@@ -19,3 +19,5 @@ const String getProducts = 'fc-com-product-es-list/graphql'; //获取产品列�
 const String petUrl = 'fc-mp-pet/graphql';
 const String addressUrl = 'fc-com-address-list/graphql';
 const String addressActionUrl = 'fc-mp-address/graphql';
+
+const String orderStatisticsUrl = "/fc-com-order-list/graphql";

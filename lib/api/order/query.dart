@@ -275,3 +275,14 @@ const String orderDetailQuery = r'''
     }
   }
 ''';
+
+const String orderStatisticsQuery = r'''
+  query OrderStatistics {
+    OrderStatistics {
+      AllOrderQuantity
+      UnpaidOrderQuantity
+      ToShipOrderQuantity
+      ShippedOrderQuantity
+    }
+  }
+''';
