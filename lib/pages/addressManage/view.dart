@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/util/address-util.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/address.dart';
@@ -9,15 +10,20 @@ import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 
-class AddRessManage extends StatelessWidget {
-  AddRessManage({super.key});
+import 'no_address_view.dart';
+
+class AddressManage extends StatelessWidget {
+  const AddressManage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('地址管理'),
-          centerTitle: true,
+          title: Text(
+            '地址管理',
+            style: textSyle700(fontSize: 18),
+          ),
+          centerTitle: false,
           backgroundColor: Colors.white,
           elevation: 0,
           leading: GestureDetector(
@@ -29,7 +35,7 @@ class AddRessManage extends StatelessWidget {
             },
           ),
         ),
-        body: MyStatefulWidget());
+        body: const MyStatefulWidget());
   }
 }
 
@@ -40,10 +46,8 @@ class MyStatefulWidget extends StatefulWidget {
   _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
 }
 
-List ressList = [false, true];
-
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  List<AddRess> addRessList = [];
+  List<AddRess> addressList = [];
 
   @override
   void initState() {
@@ -54,15 +58,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Future<void> getData() async {
     var list = await AddRessUtil.getAddressList();
     setState(() {
-      addRessList = list;
+      addressList = list;
     });
   }
 
   Future<void> setDefault(String id) async {
     AddRess? address =
-        addRessList.firstWhereOrNull((element) => element.id == id);
+        addressList.firstWhereOrNull((element) => element.id == id);
     setState(() {
-      for (var element in addRessList) {
+      for (var element in addressList) {
         if (element.id == id) {
           element.isDefault = true;
         } else {
@@ -84,7 +88,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             content: const Text('确定要删除这个地址吗？'),
             actions: [
               CupertinoDialogAction(
-                child: const Text('确定'),
+                child: Text('确定', style: textSyle700(color: AppColors.tint)),
                 onPressed: () async {
                   Get.back();
                   var deleteFlag = await AddRessUtil.removeAddRess(id);
@@ -94,7 +98,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 },
               ),
               CupertinoDialogAction(
-                child: const Text('取消'),
+                child: Text('取消', style: textSyle700(color: AppColors.text999)),
                 onPressed: () {
                   Get.back();
                 },
@@ -112,158 +116,165 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         body: Column(
           children: [
             Expanded(
-                child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: addRessList.length,
-              itemBuilder: (BuildContext ctx, int i) {
-                return GestureDetector(
-                    onTap: () {
-                      final global = Get.put(GlobalConfigService());
-                      if (global.isCheckoutSelectAddress.value) {
-                        global.checkoutAddress.value = addRessList[i];
-                        Get.back();
-                      }
-                    },
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(2.5, 2.5),
-                                color: Color.fromRGBO(191, 191, 191, 0.1),
-                                blurRadius: 2.0,
-                                blurStyle: BlurStyle.solid,
-                                spreadRadius: 0.0)
-                          ]),
-                      margin: const EdgeInsets.only(
-                          left: 12.0, right: 12.0, top: 12.0),
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(addRessList[i].receiverName ?? '',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    )),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  addRessList[i].phone ?? '',
-                                  textAlign: TextAlign.right,
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 153, 153, 153),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(children: [
-                            Expanded(
+                child: addressList.isEmpty
+                    ? noAddressView()
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: addressList.length,
+                        itemBuilder: (BuildContext ctx, int i) {
+                          return GestureDetector(
+                              onTap: () {
+                                final global = Get.put(GlobalConfigService());
+                                if (global.isCheckoutSelectAddress.value) {
+                                  global.checkoutAddress.value = addressList[i];
+                                  Get.back();
+                                }
+                              },
                               child: Container(
-                                  margin: const EdgeInsets.only(
-                                      top: 12.0,
-                                      bottom: 12.0,
-                                      left: 0,
-                                      right: 0),
-                                  padding: const EdgeInsets.all(0),
-                                  child: Text(
-                                    '${addRessList[i].province as String} ${addRessList[i].city as String} ${addRessList[i].region as String} ${addRessList[i].detail as String} ',
-                                    textAlign: TextAlign.left,
-                                  )),
-                            ),
-                          ]),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: GestureDetector(
-                                  onTap: () => {},
-                                  child: Row(children: [
-                                    Radio(
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                      value: addRessList[i].isDefault as bool,
-                                      groupValue: true,
-                                      onChanged: (value) {
-                                        setDefault(addRessList[i].id!);
-                                      },
-                                    ),
-                                    const Text('默认地址',
-                                        style: TextStyle(
-                                          color: Color.fromARGB(
-                                              255, 153, 153, 153),
-                                        )),
-                                  ]),
-                                ),
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          offset: Offset(2.5, 2.5),
+                                          color: Color.fromRGBO(
+                                              191, 191, 191, 0.1),
+                                          blurRadius: 2.0,
+                                          blurStyle: BlurStyle.solid,
+                                          spreadRadius: 0.0)
+                                    ]),
+                                margin: const EdgeInsets.only(
+                                    left: 12.0, right: 12.0, top: 15.0),
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    GestureDetector(
-                                        onTap: () {
-                                          Get.toNamed(AppRoutes.newAddress,
-                                                  arguments: addRessList[i].id)
-                                              ?.then((value) =>
-                                                  value ? getData() : null);
-                                        },
-                                        child: Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 8.0),
-                                          child: Image.asset(
-                                            'assets/images/ressEdit.png',
-                                            width: 27,
-                                            height: 27,
-                                            fit: BoxFit.fitWidth,
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                              addressList[i].receiverName ?? '',
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              )),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                              addressList[i].phone ?? '',
+                                              textAlign: TextAlign.right,
+                                              style: textSyle700(
+                                                  fontSize: 15,
+                                                  color: AppColors.text999)),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 18.0, bottom: 13.0),
+                                        child: Text(
+                                          '${addressList[i].province as String} ${addressList[i].city as String} ${addressList[i].region as String} ${addressList[i].detail as String} ',
+                                          style: textSyle700(fontSize: 14),
+                                        )),
+                                    const Divider(
+                                        color:
+                                            Color.fromARGB(255, 231, 231, 231)),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: 24,
+                                                  child: Radio(
+                                                      visualDensity:
+                                                          const VisualDensity(
+                                                              horizontal: 0),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .shrinkWrap,
+                                                      value: addressList[i]
+                                                          .isDefault as bool,
+                                                      groupValue: true,
+                                                      onChanged: (value) {
+                                                        setDefault(
+                                                            addressList[i].id!);
+                                                      },
+                                                      activeColor:
+                                                          AppColors.tint),
+                                                ),
+                                                const SizedBox(width: 8),
+                                                const Text('默认地址',
+                                                    style: TextStyle(
+                                                      color: AppColors.text999,
+                                                    )),
+                                              ]),
+                                        ),
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                            AppRoutes
+                                                                .newAddress,
+                                                            arguments:
+                                                                addressList[i]
+                                                                    .id)
+                                                        ?.then((value) => value
+                                                            ? getData()
+                                                            : null);
+                                                  },
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 8.0),
+                                                    child: Image.asset(
+                                                      'assets/images/ressEdit.png',
+                                                      width: 27,
+                                                      height: 27,
+                                                      fit: BoxFit.fitWidth,
+                                                    ),
+                                                  )),
+                                              GestureDetector(
+                                                  onTap: (() {
+                                                    _handleDelete(
+                                                        addressList[i].id!);
+                                                  }),
+                                                  child: Image.asset(
+                                                    'assets/images/ressDelete.png',
+                                                    width: 27,
+                                                    height: 27,
+                                                    fit: BoxFit.fitWidth,
+                                                  )),
+                                            ],
                                           ),
-                                        )),
-                                    GestureDetector(
-                                        onTap: (() {
-                                          _handleDelete(addRessList[i].id!);
-                                        }),
-                                        child: Image.asset(
-                                          'assets/images/ressDelete.png',
-                                          width: 27,
-                                          height: 27,
-                                          fit: BoxFit.fitWidth,
-                                        )),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ));
-              },
-            )),
+                              ));
+                        },
+                      )),
+            const SizedBox(height: 15),
             Container(
-              padding: const EdgeInsets.fromLTRB(30, 10, 30, 20),
+              padding: const EdgeInsets.only(
+                  left: 48, right: 48, top: 12, bottom: 12),
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: MaterialButton(
-                    color: const Color.fromARGB(255, 150, 204, 57),
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.newAddress, arguments: '-1')
-                          ?.then((value) => value ? getData() : null);
-                    },
-                    elevation: 0,
-                    height: 44,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(22)),
-                    ),
-                    child: const Text('添加地址'),
-                  )),
-                ],
-              ),
+              child: titleButton('新增地址', () {
+                Get.toNamed(AppRoutes.newAddress, arguments: '-1')
+                    ?.then((value) => value ? getData() : null);
+              }, isCircle: true, height: 46, fontSize: 17),
             ),
           ],
         ));
