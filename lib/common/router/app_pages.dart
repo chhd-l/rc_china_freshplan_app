@@ -71,7 +71,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.addressManage,
-      page: () => AddRessManage(),
+      page: () => AddressManage(),
     ),
     GetPage(
       name: AppRoutes.newAddress,
