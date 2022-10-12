@@ -76,9 +76,16 @@ class _LoginPageState extends State<LoginPage> {
             const Text(
               '登录',
               style: TextStyle(
-                  fontSize: 32,
-                  color: Color.fromARGB(255, 51, 51, 51),
-                  fontWeight: FontWeight.bold),
+                fontSize: 32,
+                color: Color.fromARGB(255, 51, 51, 51),
+              ),
+            ),
+            Container(
+              width: 64,
+              height: 8,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 228, 254, 183),
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -190,6 +197,26 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  child: const Text(
+                    '忘记密码',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color.fromARGB(255, 51, 51, 51),
+                    ),
+                  ),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.resetPasswordStep1);
+                  },
+                )
+              ],
             ),
             const SizedBox(
               height: 20,

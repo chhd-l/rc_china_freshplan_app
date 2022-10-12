@@ -101,16 +101,18 @@ class HttpUtil {
             error: ErrorEntity(
                 code: response.statusCode, message: response.data['message'])));
       } else {
-        print('success....');
-        print(response);
         var jsonView = json.decode(response.toString());
         if (jsonView['errors'] != null) {
+          var errorList = List<dynamic>.from(jsonView['errors']);
+          var err = json.decode(errorList[0]?['extensions']?['details']);
+          print(err);
+
           handler.reject(DioError(
             requestOptions: response.requestOptions,
             type: DioErrorType.response,
             error: ErrorEntity(
               code: 500,
-              message: 'Unknown error',
+              message: err['Message'] ?? 'Unknown error',
             ),
           ));
         } else {
