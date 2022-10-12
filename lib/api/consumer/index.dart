@@ -17,21 +17,31 @@ class ConsumerEndPoint {
     }
   }
 
-  static dynamic appLogin(String phone) async {
+  static dynamic appLogin(String phone, String password) async {
     EasyLoading.show();
     var data = await HttpUtil().post(wxAuthUrl, params: {
       "query": appLoginQuery,
       "variables": {
-        "phone": phone,
-        "storeId": storeId,
+        "input": {
+          "jsCode": password,
+          "storeId": storeId,
+          "authType": "PHONE",
+          "phoneCode": phone
+        },
+        "updateConsumerFiled": {
+          "avatarUrl": "",
+          "nickName": "",
+          "gender": "",
+        },
+        "operator": ""
       }
     }).onError((ErrorEntity error, stackTrace) {
       EasyLoading.showError(error.message!);
     }).then((value) {
       EasyLoading.dismiss();
       var res = json.decode(value.toString());
-      if (res['data'] != null && res['data']['appLogin'] != null) {
-        return res['data']['appLogin'];
+      if (res['data'] != null && res['data']['wxRegisterAndLogin'] != null) {
+        return res['data']['wxRegisterAndLogin'];
       } else {
         EasyLoading.showError('用户名或密码错误');
         return false;
@@ -54,5 +64,46 @@ class ConsumerEndPoint {
       var newToken = json.decode(value.toString())['data']['wxLogin'];
       StorageUtil().setStr("accessToken", newToken['access_token']);
     });
+  }
+
+  static void sendVerificationCode(String phone, String codeType) async {
+    await HttpUtil().post(wxAuthUrl, params: {
+      "query": sendCodeMutation,
+      "variables": {
+        "input": {
+          "sendType": "PHONE_VERIFICATION_CODE",
+          "receivingSubject": phone,
+          "verificationCodeType": codeType,
+          "storeId": storeId
+        }
+      }
+    });
+  }
+
+  static dynamic registerByPhone(
+      String phone, String vcode, String password) async {
+    EasyLoading.show();
+    var data = await HttpUtil().post(wxAuthUrl, params: {
+      "query": registerMutation,
+      "variables": {
+        "input": {
+          "registerType": "PHONE_REGISTRATION",
+          "consumerInfo": {"phone": phone, "storeId": storeId},
+          "registerCode": vcode,
+          "password": password
+        }
+      }
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      var db = json.decode(value.toString());
+      if (db['data'] != null && db['data']['consumerRegister'] != null) {
+        return db['data']['consumerRegister'];
+      } else {
+        return false;
+      }
+    });
+    return data;
   }
 }

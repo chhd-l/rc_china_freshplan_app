@@ -16,6 +16,7 @@ import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 import 'package:rc_china_freshplan_app/pages/orderList/view.dart';
 import 'package:rc_china_freshplan_app/pages/OrderDetails/view.dart';
+import 'package:rc_china_freshplan_app/pages/register/view.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 
 class AppPages {
@@ -53,6 +54,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.login,
       page: () => const LoginPage(),
+    ),
+    GetPage(
+      name: AppRoutes.register,
+      page: () => const RegisterPage(),
     ),
     GetPage(
       name: AppRoutes.petList,
