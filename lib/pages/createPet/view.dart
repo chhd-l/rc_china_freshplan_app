@@ -71,7 +71,7 @@ class CreatePetPage extends StatelessWidget {
                         child: Column(
                           children: [
                             petAvatarPick(() {
-                              logic.tapHeadIcon();
+                              logic.selectImageType();
                             }, state.avatar.value,
                                 bgColor: const Color.fromRGBO(255, 176, 56, 1),
                                 childAsset:
