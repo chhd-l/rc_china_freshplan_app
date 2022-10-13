@@ -10,9 +10,11 @@ class OrderLogic extends GetxController {
   void getOrderList(String type) {
     OrderUtil.getOrders(type).then((value) {
       if(value != null) {
-        orderLists.value = value;
+        orderLists.clear();
+        orderLists.addAll(value);
+        update();
       } else {
-        orderLists.value = [];
+        orderLists.clear();
       }
     });
   }

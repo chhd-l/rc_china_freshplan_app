@@ -1,14 +1,15 @@
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/api/order/index.dart';
+import 'package:rc_china_freshplan_app/common/util/order_util.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 
 class AccountController extends GetxController {
   List<Pet> petList = [];
-  RxInt allOrderQuantity=0.obs;
-  RxInt unpaidOrderQuantity=0.obs;
-  RxInt toShipOrderQuantity=0.obs;
-  RxInt shippedOrderQuantity=0.obs;
+  RxInt allOrderQuantity = 0.obs;
+  RxInt unpaidOrderQuantity = 0.obs;
+  RxInt toShipOrderQuantity = 0.obs;
+  RxInt shippedOrderQuantity = 0.obs;
 
   void getPetList() {
     PetUtil.getPetList().then((value) {
@@ -18,11 +19,12 @@ class AccountController extends GetxController {
     });
   }
 
-  void getOrderStatistics() async{
-    final result=await OrderEndPoint.getOrderStatistics();
-    allOrderQuantity.value=result["AllOrderQuantity"]??0;
-    unpaidOrderQuantity.value=result["UnpaidOrderQuantity"];
-    toShipOrderQuantity.value=result["ToShipOrderQuantity"];
-    shippedOrderQuantity.value=result["ShippedOrderQuantity"];
+  void getOrderStatistics() async {
+    OrderUtil.getOrderStatistics().then((value) {
+      allOrderQuantity.value = value["AllOrderQuantity"] ?? 0;
+      unpaidOrderQuantity.value = value["UnpaidOrderQuantity"];
+      toShipOrderQuantity.value = value["ToShipOrderQuantity"];
+      shippedOrderQuantity.value = value["ShippedOrderQuantity"];
+    });
   }
 }

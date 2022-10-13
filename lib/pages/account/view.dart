@@ -21,7 +21,7 @@ class AccountPage extends GetView<AccountController> {
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
     if (consumer != null) {
-      // controller.getPetList();
+      controller.getPetList();
       controller.getOrderStatistics();
     }
 

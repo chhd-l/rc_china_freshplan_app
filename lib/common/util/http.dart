@@ -75,8 +75,8 @@ class HttpUtil {
 
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options, handler) {
-      print(baseUrl + options.path);
-      print(options.data);
+      // print(baseUrl + options.path);
+      // print(options.data);
 
       // dynamic data = mockDataWithPath(options.path);
       // if (data != null) {
@@ -239,7 +239,7 @@ class HttpUtil {
     try {
       var tokenOptions = options ?? getLocalOptions();
       var response = await dio.post(path,
-          data: params, options: tokenOptions, cancelToken: cancelToken);
+          data: params, options: tokenOptions, cancelToken: CancelToken());
       return response.data;
     } on DioError catch (e) {
       if (e.type != DioErrorType.cancel) throw createErrorEntity(e);

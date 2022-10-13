@@ -1,4 +1,3 @@
-
 const String orderListQuery = r'''
     query orderFindPage($input: OrderPageInput!){
       orderFindPage(input: $input) {
@@ -284,5 +283,29 @@ const String orderStatisticsQuery = r'''
       ToShipOrderQuantity
       ShippedOrderQuantity
     }
+  }
+''';
+
+const String orderShippedMutation = r'''
+mutation updateOrder ($input:OrderShipInput){
+orderShip(input: $input)
+}
+''';
+
+const String orderCompletedMutation =  r'''
+mutation orderCompleted ($input: OrderCompletedInput){
+orderCompleted(input:$input)
+}
+''';
+
+const String orderCancelMutation = r'''
+mutation cancelOrder ($input: OrderCancelInput) {
+orderCancel(input: $input)
+}
+''';
+
+const String orderDeleteMutation = r'''
+  mutation deleteOrder ($orderNum: String){
+    deleteOrder(orderNum: $orderNum)
   }
 ''';
