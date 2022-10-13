@@ -16,4 +16,5 @@ abstract class AppRoutes {
   static const resetPasswordStep1 = '/reset-password-step1';
   static const resetPasswordStep2 = '/reset-password-step2';
   static const subscriptionDetail = '/subscriptionDetail';
+  static const recipesPage = '/recipesPage';
 }

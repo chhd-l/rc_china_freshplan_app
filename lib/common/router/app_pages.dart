@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/pages/recipes_view.dart';
 import 'app_router.dart';
 
 import 'package:rc_china_freshplan_app/pages/index/view.dart';
@@ -25,7 +26,7 @@ import 'package:rc_china_freshplan_app/pages/subscriptionDetail/view.dart';
 class AppPages {
   static String initial = StorageUtil().getJSON('loginUser') == null
       ? AppRoutes.login
-      : AppRoutes.index;
+      : AppRoutes.recipesPage;
 
   static final routes = [
     GetPage(
@@ -99,6 +100,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.subscriptionDetail,
       page: () => SubscriptionDetailPage(),
+    ),
+    GetPage(
+      name: AppRoutes.recipesPage,
+      page: () => RecipesPage(),
     ),
   ];
 }
