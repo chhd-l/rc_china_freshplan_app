@@ -23,3 +23,5 @@ const String addressActionUrl = 'fc-mp-address/graphql';
 const String orderStatisticsUrl = "/fc-com-order-list/graphql";
 
 const String orderActionUrl="/fc-mp-order-action/graphql";
+
+const String subscriptionListUrl='/fc-mp-subscription/graphql';
