@@ -12,6 +12,9 @@ class CreatePetState {
   RxString recentPosture = ''.obs;
   RxDouble targetWeight = 0.0.obs;
   Rx<List<String>> recentHealth = Rx<List<String>>([]);
+  dynamic isSterilized=''.obs;
 
   RxList breedList=[].obs;
+
+  RxInt currentStep=1.obs;
 }

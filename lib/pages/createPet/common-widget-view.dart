@@ -136,3 +136,38 @@ Widget petAvatarPick(VoidCallback onPress, String petAvatar,
         )
       ]));
 }
+
+Widget buildProgressView(int currentStep) {
+  return SizedBox(
+    height: 60,
+    child: Stack(
+      children: [
+        // 下面的背景盒子
+        Container(
+          height: 8,
+          width: 400,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: Color.fromRGBO(206, 234, 158, 1),
+          ),
+        ),
+        // 上面的进度条盒子
+        Container(
+          height: 8,
+          width: 50 * currentStep.toDouble(), // 动态更改进度条盒子的宽度即可
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: Color.fromRGBO(150, 204, 57, 1),
+          ),
+        ),
+        Positioned(
+            left: 48 * currentStep.toDouble(),
+            top: 10,
+            child: Text(
+              '${13 * currentStep}%',
+              style: textSyle400(color: AppColors.tint),
+            ))
+      ],
+    ),
+  );
+}

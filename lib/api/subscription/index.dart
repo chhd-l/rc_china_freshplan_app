@@ -29,11 +29,11 @@ class SubscriptionEndPoint {
       EasyLoading.dismiss();
       print(value);
       var res = json.decode(value.toString());
-      if (res['data'] != null) {
+      if (res != null && res['data'] != null) {
         return res['data']['subscriptionFindByConsumerId'];
       } else {
         EasyLoading.showError('请求错误');
-        return false;
+        return [];
       }
     });
     return data;

@@ -11,7 +11,6 @@ import 'package:rc_china_freshplan_app/pages/pet_list/view.dart';
 import 'package:rc_china_freshplan_app/pages/pet_list/controller.dart';
 import 'package:rc_china_freshplan_app/pages/pet_detail/view.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/view.dart';
-import 'package:rc_china_freshplan_app/pages/createPet/create-pet_next_view.dart';
 import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 import 'package:rc_china_freshplan_app/pages/orderList/view.dart';
@@ -35,10 +34,6 @@ class AppPages {
     GetPage(
       name: AppRoutes.createPet,
       page: () => CreatePetPage(),
-    ),
-    GetPage(
-      name: AppRoutes.createPetNext,
-      page: () => CreatePetNextPage(),
     ),
     GetPage(
       name: AppRoutes.recommendRecipes,

@@ -69,6 +69,8 @@ dependencies:
   # 地址省市区选择
   city_pickers: ^1.1.3
 
+  flutter_pickers: ^2.1.9
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

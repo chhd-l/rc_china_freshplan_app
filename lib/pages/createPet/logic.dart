@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_pickers/style/picker_style.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/src/multipart_file.dart' as DIOMUL;
@@ -11,9 +12,11 @@ import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
+import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_pickers/pickers.dart';
 
 import 'state.dart';
 
@@ -23,8 +26,6 @@ class CreatePetLogic extends GetxController {
   final global = Get.put(GlobalConfigService());
 
   TextEditingController petNameController = TextEditingController();
-  TextEditingController recentWeightController = TextEditingController();
-  TextEditingController targetWeightController = TextEditingController();
 
   FocusNode petNameFocusNode = FocusNode();
 
@@ -43,25 +44,45 @@ class CreatePetLogic extends GetxController {
     petNameController.addListener(() {
       state.name.value = petNameController.text;
     });
-
-    recentWeightController.addListener(() {
-      state.recentWeight.value = recentWeightController.text != ''
-          ? double.parse(recentWeightController.text.toString())
-          : 0.0;
-    });
-
-    targetWeightController.addListener(() {
-      state.targetWeight.value = targetWeightController.text != ''
-          ? double.parse(targetWeightController.text.toString())
-          : 0.0;
-    });
   }
 
-  isCanNext() {
-    return state.name.value != '' &&
-        state.type.value != '' &&
-        state.breedName.value != '' &&
-        state.birthday.value != '';
+  isCanNext(showTip) {
+    switch (state.currentStep.value) {
+      case 2:
+        if (state.name.value == '' && showTip) {
+          EasyLoading.showInfo('请填写宠物昵称');
+        }
+        if (state.gender.value == '' && showTip) {
+          EasyLoading.showInfo('请选择宠物性别');
+        }
+        return state.name.value != '' && state.gender.value != '';
+      case 3:
+        if (state.breedName.value == '' && showTip) {
+          EasyLoading.showInfo('请选择宠物品种');
+        }
+        return state.breedName.value != '' && state.breedCode.value != '';
+      case 4:
+        return state.birthday.value != '';
+      case 5:
+        if (state.isSterilized.value == '' && showTip) {
+          EasyLoading.showInfo('请选择宠物绝育状态');
+        }
+        return state.isSterilized.value != '';
+      case 6:
+        if (state.recentWeight.value == 0.0 && showTip) {
+          EasyLoading.showInfo('请选择宠物近期体重');
+        }
+        if (state.recentPosture.value == '' && showTip) {
+          EasyLoading.showInfo('请选择宠物近期状态');
+        }
+        if (state.targetWeight.value == 0.0 && showTip) {
+          EasyLoading.showInfo('请选择宠物近期成年目标体重');
+        }
+        return state.recentWeight.value != 0.0 &&
+            state.targetWeight.value != 0.0 &&
+            state.recentPosture.value != '';
+    }
+    return true;
   }
 
   tapHeadIcon() async {
@@ -119,6 +140,14 @@ class CreatePetLogic extends GetxController {
     state.type.value = value;
     state.breedList.value =
         value == 'DOG' ? global.dogBreedList : global.catBreedList;
+    state.currentStep.value += 1;
+  }
+
+  void changeGender(value) {
+    state.gender.value = value;
+    if (state.name.value != '') {
+      state.currentStep.value += 1;
+    }
   }
 
   void selectBirthday() {
@@ -127,20 +156,44 @@ class CreatePetLogic extends GetxController {
         : DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
     Get.bottomSheet(
         Container(
-          height: 200,
-          color: Colors.white,
+          height: 350,
+          padding: const EdgeInsets.all(20),
           alignment: Alignment.center,
-          child: CupertinoDatePicker(
-            onDateTimeChanged: (dateTime) {
-              state.birthday.value =
-                  DateFormat("yyyy-MM-dd").format(dateTime).toString();
-            },
-            initialDateTime: DateTime.now(),
-            minuteInterval: 1,
-            mode: CupertinoDatePickerMode.date,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            color: Colors.white,
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              Text('选择爱宠生日', style: textSyle700(fontSize: 20)),
+              SizedBox(
+                  height: 180,
+                  child: CupertinoDatePicker(
+                    onDateTimeChanged: (dateTime) {
+                      state.birthday.value =
+                          DateFormat("yyyy-MM-dd").format(dateTime).toString();
+                    },
+                    initialDateTime: DateTime.now(),
+                    minuteInterval: 1,
+                    mode: CupertinoDatePickerMode.date,
+                  )),
+              const SizedBox(height: 20),
+              titleButton('确定', () {
+                state.currentStep.value += 1;
+                Get.back();
+              }, isCircle: true)
+            ],
           ),
         ),
         persistent: false);
+  }
+
+  void selectNormalBreed(breed) {
+    state.breedName.value = breed["name"];
+    state.breedCode.value = breed["code"];
+    state.currentStep.value += 1;
   }
 
   void selectBreed() {
@@ -194,5 +247,28 @@ class CreatePetLogic extends GetxController {
         val?.insert(0, item['value']);
       });
     }
+  }
+
+  void selectWeight(context, type) {
+    Pickers.showMultiPicker(
+      context,
+      data: [
+        List.generate(70, (index) => index.toString()).toList(),
+        ['·'],
+        List.generate(9, (index) => index.toString()).toList()
+      ],
+      selectData: [1, '·', 0],
+      onConfirm: (List index, List strData) {
+        print('longer >>> 返回数据类型：${strData[0]}');
+        if (type == 'now') {
+          state.recentWeight.value = double.parse(
+              '${jsonEncode(strData[0]).toString()}.${jsonEncode(strData[2]).toString()}');
+        }
+        if (type == 'target') {
+          state.targetWeight.value = double.parse(
+              '${jsonEncode(strData[0]).toString()}.${jsonEncode(strData[2]).toString()}');
+        }
+      },
+    );
   }
 }
