@@ -76,3 +76,9 @@ const String changePasswordMutation = r'''
     consumerChangePassword(input: $input)
   }
 ''';
+
+const String checkCodeMutation = r'''
+  mutation checkVerificationCode($input: CheckVerificationCodeInput!) {
+    checkVerificationCode(input: $input)
+  }
+''';

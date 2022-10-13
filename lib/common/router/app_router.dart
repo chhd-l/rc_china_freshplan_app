@@ -13,4 +13,6 @@ abstract class AppRoutes {
   static const orderList = '/orderList';
   static const orderDetails = '/orderDetails';
   static const register = '/register';
+  static const resetPasswordStep1 = '/reset-password-step1';
+  static const resetPasswordStep2 = '/reset-password-step2';
 }

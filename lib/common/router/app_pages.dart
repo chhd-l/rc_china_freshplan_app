@@ -17,6 +17,8 @@ import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 import 'package:rc_china_freshplan_app/pages/orderList/view.dart';
 import 'package:rc_china_freshplan_app/pages/OrderDetails/view.dart';
 import 'package:rc_china_freshplan_app/pages/register/view.dart';
+import 'package:rc_china_freshplan_app/pages/reset_password/verification.dart';
+import 'package:rc_china_freshplan_app/pages/reset_password/reset.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 
 class AppPages {
@@ -58,6 +60,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.register,
       page: () => const RegisterPage(),
+    ),
+    GetPage(
+      name: AppRoutes.resetPasswordStep1,
+      page: () => const ResetPasswordVerifyPage(),
+    ),
+    GetPage(
+      name: AppRoutes.resetPasswordStep2,
+      page: () => const ResetPasswordResetPage(),
     ),
     GetPage(
       name: AppRoutes.petList,

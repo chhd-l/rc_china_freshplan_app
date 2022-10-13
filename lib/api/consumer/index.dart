@@ -93,13 +93,63 @@ class ConsumerEndPoint {
           "password": password
         }
       }
-    }).onError((ErrorEntity error, stackTrace) {
-      EasyLoading.showError(error.message!);
     }).then((value) {
       EasyLoading.dismiss();
       var db = json.decode(value.toString());
       if (db['data'] != null && db['data']['consumerRegister'] != null) {
         return db['data']['consumerRegister'];
+      } else {
+        return false;
+      }
+    });
+    return data;
+  }
+
+  static dynamic checkVerificationCode(
+      String phone, String code, String codeType) async {
+    EasyLoading.show();
+    var data = await HttpUtil().post(wxAuthUrl, params: {
+      "query": checkCodeMutation,
+      "variables": {
+        "input": {
+          "sendType": "PHONE_VERIFICATION_CODE",
+          "receivingSubject": phone,
+          "verificationCodeType": codeType,
+          "verificationCode": code,
+          "storeId": storeId
+        }
+      }
+    }).then((value) {
+      EasyLoading.dismiss();
+      var db = json.decode(value.toString());
+      if (db['data'] != null && db['data']['checkVerificationCode'] != null) {
+        return db['data']['checkVerificationCode'];
+      } else {
+        return false;
+      }
+    });
+    return data;
+  }
+
+  static dynamic resetPassword(
+      String phone, String code, String password) async {
+    EasyLoading.show();
+    var data = await HttpUtil().post(wxAuthUrl, params: {
+      "query": changePasswordMutation,
+      "variables": {
+        "input": {
+          "changeMethodType": "PHONE_CHANGE_METHOD",
+          "changeSubject": phone,
+          "password": password,
+          "verificationCode": code,
+          "storeId": storeId
+        }
+      }
+    }).then((value) {
+      EasyLoading.dismiss();
+      var db = json.decode(value.toString());
+      if (db['data'] != null && db['data']['consumerChangePassword'] != null) {
+        return db['data']['consumerChangePassword'];
       } else {
         return false;
       }
