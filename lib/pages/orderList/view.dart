@@ -43,10 +43,7 @@ class _OrderListWidgetState extends State<OrderList> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            '订单列表',
-            selectionColor: Colors.black,
-          ),
+          title: const Text('订单列表'),
           centerTitle: true,
           backgroundColor: Colors.white,
           elevation: 0,
