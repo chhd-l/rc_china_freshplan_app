@@ -1,6 +1,10 @@
 const String appLoginQuery = r'''
-  query appLogin ($phone: String!, $storeId: String!) {
-    appLogin (phone: $phone, storeId: $storeId) {
+  query wxRegisterAndLogin($input: WxLoginInput!, $updateConsumerFiled: UpdateConsumerInput!, $operator: String) {
+    wxRegisterAndLogin(
+      input: $input,
+      updateConsumerFiled: $updateConsumerFiled,
+      operator: $operator
+    ) {
       userInfo {
         id,
         name,
@@ -25,7 +29,7 @@ const String appLoginQuery = r'''
         followStatus,
         followedTime,
         unfollowedTime,
-        storeId
+        storeId,
       }
     }
   }
@@ -52,5 +56,29 @@ const String changeTokenQuery = r'''
       },
       access_token
     }
+  }
+''';
+
+const String sendCodeMutation = r'''
+  mutation sendVerificationCode($input: SendVerificationCodeInput!) {
+    sendVerificationCode(input: $input)
+  }
+''';
+
+const String registerMutation = r'''
+  mutation consumerRegister($input: ConsumerRegisterInput!) {
+    consumerRegister(input: $input)
+  }
+''';
+
+const String changePasswordMutation = r'''
+  mutation consumerChangePassword($input: ConsumerChangePasswordInput!) {
+    consumerChangePassword(input: $input)
+  }
+''';
+
+const String checkCodeMutation = r'''
+  mutation checkVerificationCode($input: CheckVerificationCodeInput!) {
+    checkVerificationCode(input: $input)
   }
 ''';

@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   void _onPressLogin() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      var db = await ConsumerEndPoint.appLogin(consumer.phone!);
+      var db = await ConsumerEndPoint.appLogin(consumer.phone!, _password);
       if (db != false) {
         StorageUtil().setStr('accessToken', db['access_token']);
         consumer.id = db['userInfo']['id'];
@@ -76,9 +76,42 @@ class _LoginPageState extends State<LoginPage> {
             const Text(
               '登录',
               style: TextStyle(
-                  fontSize: 32,
-                  color: Color.fromARGB(255, 51, 51, 51),
-                  fontWeight: FontWeight.bold),
+                fontSize: 32,
+                color: Color.fromARGB(255, 51, 51, 51),
+              ),
+            ),
+            Container(
+              width: 64,
+              height: 8,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 228, 254, 183),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                const Text(
+                  '还没有账号，立即',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 153, 153, 153),
+                  ),
+                ),
+                GestureDetector(
+                  child: const Text(
+                    '注册',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 150, 204, 57),
+                    ),
+                  ),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.register);
+                  },
+                ),
+              ],
             ),
             const SizedBox(
               height: 30,
@@ -151,11 +184,11 @@ class _LoginPageState extends State<LoginPage> {
                       if (value == '') {
                         return '请输入密码';
                       }
-                      if (value != '1qaz2wsx' &&
-                          value != 'Qweruiop@123' &&
-                          value != 'Qweruiop@12345') {
-                        return '密码不正确';
-                      }
+                      // if (value != '1qaz2wsx' &&
+                      //     value != 'Qweruiop@123' &&
+                      //     value != 'Qweruiop@12345') {
+                      //   return '密码不正确';
+                      // }
                       return null;
                     },
                     onSaved: (value) {
@@ -164,6 +197,26 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  child: const Text(
+                    '忘记密码',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color.fromARGB(255, 51, 51, 51),
+                    ),
+                  ),
+                  onTap: () {
+                    Get.toNamed(AppRoutes.resetPasswordStep1);
+                  },
+                )
+              ],
             ),
             const SizedBox(
               height: 20,

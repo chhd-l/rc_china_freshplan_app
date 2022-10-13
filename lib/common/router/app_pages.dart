@@ -16,7 +16,11 @@ import 'package:rc_china_freshplan_app/pages/recommendRecipes/view.dart';
 import 'package:rc_china_freshplan_app/pages/checkout/view.dart';
 import 'package:rc_china_freshplan_app/pages/orderList/view.dart';
 import 'package:rc_china_freshplan_app/pages/OrderDetails/view.dart';
+import 'package:rc_china_freshplan_app/pages/register/view.dart';
+import 'package:rc_china_freshplan_app/pages/reset_password/verification.dart';
+import 'package:rc_china_freshplan_app/pages/reset_password/reset.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/pages/subscriptionDetail/view.dart';
 
 class AppPages {
   static String initial = StorageUtil().getJSON('loginUser') == null
@@ -55,6 +59,18 @@ class AppPages {
       page: () => const LoginPage(),
     ),
     GetPage(
+      name: AppRoutes.register,
+      page: () => const RegisterPage(),
+    ),
+    GetPage(
+      name: AppRoutes.resetPasswordStep1,
+      page: () => const ResetPasswordVerifyPage(),
+    ),
+    GetPage(
+      name: AppRoutes.resetPasswordStep2,
+      page: () => const ResetPasswordResetPage(),
+    ),
+    GetPage(
       name: AppRoutes.petList,
       page: () => const PetListPage(),
       binding: BindingsBuilder(
@@ -66,7 +82,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.addressManage,
-      page: () => AddRessManage(),
+      page: () => AddressManage(),
     ),
     GetPage(
       name: AppRoutes.newAddress,
@@ -79,6 +95,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.orderDetails,
       page: () => const OrderDetails(),
+    ),
+    GetPage(
+      name: AppRoutes.subscriptionDetail,
+      page: () => SubscriptionDetailPage(),
     ),
   ];
 }

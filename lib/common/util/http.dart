@@ -75,8 +75,8 @@ class HttpUtil {
 
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options, handler) {
-      print(baseUrl + options.path);
-      print(options.data);
+      // print(baseUrl + options.path);
+      // print(options.data);
 
       // dynamic data = mockDataWithPath(options.path);
       // if (data != null) {
@@ -101,16 +101,18 @@ class HttpUtil {
             error: ErrorEntity(
                 code: response.statusCode, message: response.data['message'])));
       } else {
-        print('success....');
-        print(response);
         var jsonView = json.decode(response.toString());
         if (jsonView['errors'] != null) {
+          var errorList = List<dynamic>.from(jsonView['errors']);
+          var err = json.decode(errorList[0]?['extensions']?['details']);
+          print(err);
+
           handler.reject(DioError(
             requestOptions: response.requestOptions,
             type: DioErrorType.response,
             error: ErrorEntity(
               code: 500,
-              message: 'Unknown error',
+              message: err['Message'] ?? 'Unknown error',
             ),
           ));
         } else {
@@ -239,7 +241,7 @@ class HttpUtil {
     try {
       var tokenOptions = options ?? getLocalOptions();
       var response = await dio.post(path,
-          data: params, options: tokenOptions, cancelToken: cancelToken);
+          data: params, options: tokenOptions, cancelToken: CancelToken());
       return response.data;
     } on DioError catch (e) {
       if (e.type != DioErrorType.cancel) throw createErrorEntity(e);

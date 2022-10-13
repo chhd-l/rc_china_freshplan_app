@@ -4,7 +4,10 @@ import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/pages/index/subscription-list-view.dart';
 
+import '../../common/util/storage.dart';
+import '../../data/consumer.dart';
 import '../createPet/common-widget-view.dart';
 import 'logic.dart';
 
@@ -15,6 +18,12 @@ class IndexPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Consumer? consumer = StorageUtil().getJSON("loginUser") != null
+        ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
+        : null;
+    if (consumer != null) {
+      logic.getSubscriptionList();
+    }
     return Scaffold(
       backgroundColor: AppColors.primaryBackground,
       body: SafeArea(
@@ -25,41 +34,10 @@ class IndexPage extends StatelessWidget {
         Expanded(
             child: SingleChildScrollView(
           child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 24, right: 36, top: 24),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset('assets/images/pet.png'),
-                  const SizedBox(width: 10),
-                  Expanded(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('为爱宠探索定制鲜食体验',
-                          style: textSyle900(fontSize: 24, height: 1)),
-                      const SizedBox(height: 12),
-                      Text(
-                        '新鲜完整的食材，用心将鲜食做到极致，精准定制方案',
-                        style: textSyle400(fontSize: 17.5),
-                      ),
-                      const SizedBox(height: 12),
-                      Text('仅需30秒哦~', style: textSyle400(fontSize: 14)),
-                    ],
-                  )),
-                ],
-              ),
-            ),
-            Image.asset('assets/images/fresh-plan-1.png'),
-            // Expanded(
-            //     child: Swiper.children(
-            //         autoplay: true,
-            //         containerHeight: 100,
-            //         scrollDirection: Axis.horizontal,
-            //         children: [
-            //       Image.asset('assets/images/fresh-plan-1.png'),
-            //       Image.asset('assets/images/fresh-plan-2.png'),
-            //     ])),
+            const SizedBox(height: 24),
+            Obx(() => logic.subscriptionList.isEmpty
+                ? buildNoSubscriptionView()
+                : buildSubscriptionListView(logic.subscriptionList)),
             Padding(
               padding: const EdgeInsets.only(top: 24, bottom: 24),
               child: Image.asset('assets/images/arrow-bottom.png'),

@@ -26,6 +26,7 @@ Widget titleButton(String title, VoidCallback? onPressed,
             BorderRadius.all(Radius.circular(isCircle ? height / 2.0 : 4)),
         color: bgColor),
     child: MaterialButton(
+      materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

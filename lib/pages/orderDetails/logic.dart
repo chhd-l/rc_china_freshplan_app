@@ -34,9 +34,18 @@ class OrderDetailsLogic extends GetxController {
   // 买家留言
   var remark = ''.obs;
 
-  void getOrderList(String orderNum) {
+  dynamic delivery;
+
+  void getOrderDetail(String orderNum) {
     OrderUtil.getOrderDetail(orderNum).then((value) {
       orderDetails = value;
+
+      print(22222);
+      print(value["delivery"]);
+
+      delivery=value["delivery"]["trackingId"]!=null?value["delivery"]:null;
+
+      print(delivery);
 
       orderNumber.value = value['orderNumber'];
       subscriptionNo.value = value['subscriptionNo'];
