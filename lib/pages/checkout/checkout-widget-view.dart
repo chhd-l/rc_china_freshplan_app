@@ -42,7 +42,7 @@ Widget addressContainer(VoidCallback onPress, AddRess address) {
                           Text(address.receiverName!,
                               style: textSyle700(
                                   fontSize: 15,
-                                  color: const Color.fromRGBO(34, 34, 34, 1))),
+                                  color: AppColors.text222)),
                           const SizedBox(width: 8),
                           Text(address.phone!,
                               style: textSyle700(

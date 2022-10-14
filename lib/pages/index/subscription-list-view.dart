@@ -41,7 +41,7 @@ Widget buildSubscriptionListView(List subscriptionList) {
                     Text('的专属鲜食食谱',
                         style: textSyle400(
                             fontSize: 24,
-                            color: const Color.fromRGBO(34, 34, 34, 1))),
+                            color: AppColors.text222)),
                   ],
                 ),
                 const SizedBox(height: 28),
