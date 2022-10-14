@@ -386,18 +386,20 @@ Widget buildOrderPayInfoView(
   );
 }
 
-Widget buildOrderOperatorView(orderState, totalPrice, context, delivery,orderNum) {
+Widget buildOrderOperatorView(
+    orderState, totalPrice, context, delivery, orderNum) {
   return Container(
     padding: const EdgeInsets.all(12.0),
     width: double.infinity,
     decoration: const BoxDecoration(
       color: Colors.white,
     ),
-    child: orderOperatorItem(orderState, totalPrice, context, delivery,orderNum),
+    child:
+        orderOperatorItem(orderState, totalPrice, context, delivery, orderNum),
   );
 }
 
-Widget orderOperatorItem(orderState, totalPrice, context, delivery,orderNum) {
+Widget orderOperatorItem(orderState, totalPrice, context, delivery, orderNum) {
   switch (orderState) {
     case "UNPAID":
       return Row(
@@ -426,24 +428,7 @@ Widget orderOperatorItem(orderState, totalPrice, context, delivery,orderNum) {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           titleButton('催发货', () {
-            showCupertinoDialog(
-                context: context,
-                builder: (context) {
-                  return CupertinoAlertDialog(
-                    title: const Text('提示'),
-                    content: const Text('已提醒发货，请耐心等待'),
-                    actions: [
-                      CupertinoDialogAction(
-                        child: Text('确定',
-                            style: textSyle700(color: AppColors.tint)),
-                        onPressed: () async {
-                          Get.back();
-                        },
-                      ),
-                    ],
-                    insetAnimationDuration: const Duration(seconds: 2),
-                  );
-                });
+            OrderUtil.toShipTip(context);
           },
               borderColor: const Color.fromRGBO(195, 195, 195, 1),
               fontColor: AppColors.primaryText,
@@ -506,7 +491,7 @@ Widget orderOperatorItem(orderState, totalPrice, context, delivery,orderNum) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          titleButton('删除订单', () async{
+          titleButton('删除订单', () async {
             await OrderUtil.deleteOrder(orderNum);
           },
               borderColor: const Color.fromRGBO(195, 195, 195, 1),
