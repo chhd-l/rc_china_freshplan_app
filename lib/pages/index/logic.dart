@@ -39,7 +39,7 @@ class IndexLogic extends GetxController {
 
   void customizedFreshFood() {
     if (isLogin.value) {
-      Get.toNamed(AppRoutes.createPet);
+      Get.toNamed(AppRoutes.choosePet);
     } else {
       EasyLoading.showToast('您还没有登录哦~~~');
     }

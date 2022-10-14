@@ -39,7 +39,7 @@ Widget noOrderListView() {
             textColor: const Color(0xFF96CC39),
             child: const Text('开始定制'),
             onPressed: () async {
-              Get.toNamed(AppRoutes.createPet);
+              Get.toNamed(AppRoutes.choosePet);
             },
           ),
         )

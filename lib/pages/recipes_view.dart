@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
 import '../common/widgets/factor.dart';
 
@@ -23,7 +25,14 @@ class RecipesPage extends StatelessWidget {
                 child: Image.asset('assets/images/recipes_page.png'))),
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 40, 20, 8),
-          child: titleButton('定制鲜粮', () {}),
+          child: titleButton('定制鲜粮', () {
+            Get.toNamed(AppRoutes.choosePet);
+          },
+              isCircle: true,
+              icon: Container(
+                padding: const EdgeInsets.only(right: 12),
+                child: Image.asset('assets/images/time.png'),
+              )),
         )
       ],
     )));

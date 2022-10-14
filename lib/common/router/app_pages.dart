@@ -21,6 +21,7 @@ import 'package:rc_china_freshplan_app/pages/reset_password/verification.dart';
 import 'package:rc_china_freshplan_app/pages/reset_password/reset.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/pages/subscriptionDetail/view.dart';
+import 'package:rc_china_freshplan_app/pages/createPet/choosePet/view.dart';
 
 class AppPages {
   static String initial = StorageUtil().getJSON('loginUser') == null
@@ -99,6 +100,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.recipesPage,
       page: () => RecipesPage(),
+    ),
+    GetPage(
+      name: AppRoutes.choosePet,
+      page: () => ChoosePetPage(),
     ),
   ];
 }

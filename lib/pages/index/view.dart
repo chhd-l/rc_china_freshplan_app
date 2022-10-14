@@ -69,7 +69,7 @@ class IndexPage extends StatelessWidget {
               transform: Matrix4.translationValues(0, -84, 0),
               padding: const EdgeInsets.fromLTRB(64, 19, 56, 0),
               child: titleButton('查看饮食', () {
-                logic.customizedFreshFood();
+                Get.toNamed(AppRoutes.recipesPage);
               }, isCircle: true),
             ),
             titleLine('专业的科研团队\n 时刻守护您的爱宠健康'),
