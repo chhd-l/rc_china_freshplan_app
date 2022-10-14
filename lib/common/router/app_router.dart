@@ -17,4 +17,5 @@ abstract class AppRoutes {
   static const subscriptionDetail = '/subscriptionDetail';
   static const recipesPage = '/recipesPage';
   static const choosePet='/choose-pet';
+  static const breedPick='/breed-pick';
 }
