@@ -3,6 +3,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 
 import '../../common/router/app_router.dart';
@@ -40,8 +41,7 @@ Widget buildSubscriptionListView(List subscriptionList) {
                             textSyle400(fontSize: 24, color: AppColors.tint)),
                     Text('的专属鲜食食谱',
                         style: textSyle400(
-                            fontSize: 24,
-                            color: AppColors.text222)),
+                            fontSize: 24, color: AppColors.text222)),
                   ],
                 ),
                 const SizedBox(height: 28),
@@ -105,7 +105,12 @@ Widget buildSubscriptionListView(List subscriptionList) {
                                         style: textSyle400(
                                             fontSize: 13, color: Colors.white)),
                                     const SizedBox(width: 10),
-                                    Text(item["pet"]["age"] ?? '',
+                                    Text(
+                                        getAgeYear(DateFormat('yyyy-MM-dd')
+                                                .format(DateTime.parse(
+                                                    item["pet"]
+                                                        ["birthday"]))) ??
+                                            '',
                                         style: textSyle400(
                                             fontSize: 13, color: Colors.white)),
                                   ],
@@ -280,7 +285,7 @@ Widget buildSubscriptionListView(List subscriptionList) {
           }));
 }
 
-Widget buildNoSubscriptionView(){
+Widget buildNoSubscriptionView() {
   return SizedBox(
       height: 600,
       child: Swiper(

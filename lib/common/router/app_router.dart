@@ -18,4 +18,5 @@ abstract class AppRoutes {
   static const recipesPage = '/recipesPage';
   static const choosePet='/choose-pet';
   static const breedPick='/breed-pick';
+  static const planDetail='/plan-detail';
 }

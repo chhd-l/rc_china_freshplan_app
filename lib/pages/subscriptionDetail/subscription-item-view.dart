@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 
@@ -196,7 +198,7 @@ Widget buildSubRecommendProductView(recommendProductList) {
   );
 }
 
-Widget buildSubDeliveryHouseView(deliveryTime) {
+Widget buildSubDeliveryHouseView(deliveryTime, isCancel) {
   return subCommonBox(
     "assets/images/delivery-house-icon.png",
     "发货驿站",
@@ -204,10 +206,12 @@ Widget buildSubDeliveryHouseView(deliveryTime) {
       children: [
         Row(
           children: [
-            Image.asset('assets/images/delivery-house.png'),
+            Image.asset(isCancel
+                ? 'assets/images/cancel-delivery-house-icon.png'
+                : 'assets/images/delivery-house.png'),
             const SizedBox(width: 10),
             Text(
-              '下一次将在$deliveryTime发货，请注意查收!',
+              isCancel ? "本次Fresh plan已取消" : '下一次将在$deliveryTime发货，请注意查收!',
               style: textSyle700(color: AppColors.text222),
             )
           ],
@@ -215,7 +219,9 @@ Widget buildSubDeliveryHouseView(deliveryTime) {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            titleButton("计划进度", () {},
+            titleButton(isCancel ? "查看详情" : "计划进度", () {
+              Get.toNamed(AppRoutes.planDetail);
+            },
                 width: 100,
                 height: 36,
                 bgColor: Colors.white,

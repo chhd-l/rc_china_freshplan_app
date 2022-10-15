@@ -23,6 +23,7 @@ import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/pages/subscriptionDetail/view.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/choosePet/view.dart';
 import 'package:rc_china_freshplan_app/pages/breedPicker/view.dart';
+import 'package:rc_china_freshplan_app/pages/planDetail/view.dart';
 
 class AppPages {
   static String initial = StorageUtil().getJSON('loginUser') == null
@@ -109,6 +110,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.breedPick,
       page: () =>  BreedListPickerPage(),
+    ),
+    GetPage(
+      name: AppRoutes.planDetail,
+      page: () =>  PlanDetailPage(),
     ),
   ];
 }

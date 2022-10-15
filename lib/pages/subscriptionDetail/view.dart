@@ -1,15 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
-import 'package:rc_china_freshplan_app/pages/checkout/checkout-widget-view.dart';
-import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
 import 'package:rc_china_freshplan_app/pages/subscriptionDetail/subscription-item-view.dart';
 
 import 'logic.dart';
@@ -52,7 +44,7 @@ class SubscriptionDetailPage extends StatelessWidget {
                   {"variants": {}}
                 ]),
                 const SizedBox(height: 15),
-                buildSubDeliveryHouseView('2022-08-23'),
+                buildSubDeliveryHouseView('2022-08-23',true),
                 const SizedBox(height: 15),
                 buildSubPayInfoView(''),
                 const SizedBox(height: 15),
