@@ -33,40 +33,41 @@ class PlanDetailPage extends StatelessWidget {
                       AppColors.bgLinearGradient2
                     ]),
               ),
-              child: Column(children: [
-                Visibility(
-                    visible: logic.planDetail["status"] == 'VOID',
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/images/plan-cancel-icon.png'),
-                          const SizedBox(width: 10),
-                          Text('计划已取消',
-                              style: textSyle700(
-                                  fontSize: 16, color: Colors.white))
-                        ],
+              child: Obx(() => Column(children: [
+                    Visibility(
+                        visible: logic.planDetail.value["status"] == 'VOID',
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/plan-cancel-icon.png'),
+                              const SizedBox(width: 10),
+                              Text('计划已取消',
+                                  style: textSyle700(
+                                      fontSize: 16, color: Colors.white))
+                            ],
+                          ),
+                        )),
+                    buildPlanProductView(logic.planDetail.value, context,
+                        logic.planDetail.value["price"] ?? {}),
+                    buildDeliveryInfoView(
+                        logic.planDetail.value["status"] == 'VOID',
+                        handleDateFromApi(
+                            logic.planDetail.value["createNextDeliveryTime"]),
+                        logic.planDetail.value["address"] ?? {}),
+                    Visibility(
+                      visible: logic.planDetail.value["status"] != 'VOID',
+                      child: Text(
+                        '温馨提示: 修改地址以外其他信息请联系人工客服',
+                        style:
+                            textSyle700(fontSize: 13, color: AppColors.text999),
                       ),
-                    )),
-                buildPlanProductView(
-                    logic.planDetail, context, logic.planDetail["price"] ?? {}),
-                buildDeliveryInfoView(
-                    logic.planDetail["status"] == 'VOID',
-                    handleDateFromApi(
-                        logic.planDetail["createNextDeliveryTime"]),
-                    logic.planDetail["address"] ?? {}),
-                Visibility(
-                  visible: logic.planDetail["status"] != 'VOID',
-                  child: Text(
-                    '温馨提示: 修改地址以外其他信息请联系人工客服',
-                    style: textSyle700(fontSize: 13, color: AppColors.text999),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                buildHistoryOrderView(
-                    logic.planDetail["completedDeliveries"] ?? []),
-              ]),
+                    ),
+                    const SizedBox(height: 15),
+                    buildHistoryOrderView(
+                        logic.planDetail.value["completedDeliveries"] ?? []),
+                  ])),
             ),
           ),
         ));

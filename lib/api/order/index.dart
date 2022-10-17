@@ -14,7 +14,7 @@ Consumer? consumer = StorageUtil().getJSON("loginUser") != null
 class OrderEndPoint {
   static const String storeId = '39b6444b-683b-4915-8b75-5d8403f40a02';
 
-  static dynamic getOrders(limit, offset, sample) async {
+  static dynamic getOrders(offset, sample) async {
     if (consumer == null) {
       return false;
     }
@@ -24,9 +24,9 @@ class OrderEndPoint {
       "query": orderListQuery,
       "variables": {
         "input": {
-          "sample": sample,
+          "sample": {...sample, "consumerId": consumerId},
           'withTotal': true,
-          "limit": limit,
+          "limit": 10,
           "offset": offset,
           "storeId": consumer?.storeId,
         }

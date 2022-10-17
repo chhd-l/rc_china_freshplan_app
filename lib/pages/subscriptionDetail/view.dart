@@ -34,26 +34,31 @@ class SubscriptionDetailPage extends StatelessWidget {
                       AppColors.bgLinearGradient2
                     ]),
               ),
-              child: Column(children: [
-                buildSubPetView(logic.subscriptionDetail["pet"] ?? {}),
-                buildSubPlanProductView(logic.subscriptionDetail["no"],
-                    logic.subscriptionDetail["productList"] ?? []),
-                Visibility(
-                    visible:
-                        (logic.subscriptionDetail["benefits"] ?? []).length > 0,
-                    child: buildSubRecommendProductView(
-                        logic.subscriptionDetail["benefits"] ?? [])),
-                buildSubDeliveryHouseView(
-                    handleDateFromApi(
-                        logic.subscriptionDetail["createNextDeliveryTime"]),
-                    logic.subscriptionDetail["status"] == 'VOID',
-                    logic.subscriptionDetail["id"]),
-                buildSubPayInfoView(
-                    logic.subscriptionDetail["source"],
-                    logic.subscriptionDetail["consumer"] != null
-                        ? logic.subscriptionDetail["consumer"]["phone"]
-                        : ''),
-              ])),
+              child: Obx(() => Column(children: [
+                    buildSubPetView(
+                        logic.subscriptionDetail.value["pet"] ?? {}),
+                    buildSubPlanProductView(
+                        logic.subscriptionDetail.value["no"],
+                        logic.subscriptionDetail.value["productList"] ?? []),
+                    Visibility(
+                        visible:
+                            (logic.subscriptionDetail.value["benefits"] ?? [])
+                                    .length >
+                                0,
+                        child: buildSubRecommendProductView(
+                            logic.subscriptionDetail.value["benefits"] ?? [])),
+                    buildSubDeliveryHouseView(
+                        handleDateFromApi(logic.subscriptionDetail
+                            .value["createNextDeliveryTime"]),
+                        logic.subscriptionDetail.value["status"] == 'VOID',
+                        logic.subscriptionDetail.value["id"]),
+                    buildSubPayInfoView(
+                        logic.subscriptionDetail.value["source"],
+                        logic.subscriptionDetail.value["consumer"] != null
+                            ? logic.subscriptionDetail.value["consumer"]
+                                ["phone"]
+                            : ''),
+                  ]))),
         ),
       ),
     );

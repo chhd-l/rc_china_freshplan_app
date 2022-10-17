@@ -8,7 +8,7 @@ import 'state.dart';
 class SubscriptionDetailLogic extends GetxController {
   final state = SubscriptionDetailState();
 
-  var subscriptionDetail={};
+  Rx<Map> subscriptionDetail=Rx<Map>({});
 
   final global = Get.put(GlobalConfigService());
 
@@ -26,7 +26,7 @@ class SubscriptionDetailLogic extends GetxController {
       print(2222);
       print(value);
       if (value != false) {
-        subscriptionDetail = value;
+        subscriptionDetail.value = value;
       }
     });
   }

@@ -7,7 +7,7 @@ import 'state.dart';
 class PlanDetailLogic extends GetxController {
   final state = PlanDetailState();
 
-  var planDetail = {};
+  Rx<Map> planDetail=Rx<Map>({});
 
   final global = Get.put(GlobalConfigService());
 
@@ -23,7 +23,7 @@ class PlanDetailLogic extends GetxController {
       print(2222);
       print(value);
       if (value != false) {
-        planDetail = value;
+        planDetail.value = value;
       }
     });
   }

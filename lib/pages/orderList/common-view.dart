@@ -149,7 +149,7 @@ Widget orderListItem(order, context) {
           ),
           const Divider(color: Color.fromARGB(255, 231, 231, 231)),
           orderOperateBtn(order['orderState']['orderState'], false,
-              order['orderNumber'], context, order["delivery"],order),
+              order['orderNumber'], context, order["delivery"], order),
         ],
       ),
     ),
@@ -194,8 +194,8 @@ Widget invoiceBtn(bool isInvoice) {
       fontColor: AppColors.primaryText);
 }
 
-Widget orderOperateBtn(
-    String orderState, bool isInvoice, String orderNum, context, delivery,order) {
+Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
+    context, delivery, order) {
   switch (orderState) {
     case 'UNPAID':
       return Row(
@@ -465,5 +465,30 @@ Widget orderDeliveryItem(delivery) {
             : 0,
       ))
     ],
+  );
+}
+
+Widget listTabItem(VoidCallback pressed, bool isSelected,String title) {
+  return GestureDetector(
+    onTap: () {
+      pressed();
+    },
+    child: Container(
+      padding: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: isSelected
+              ? const BorderSide(color: Color(0xFF96CC39), width: 2)
+              : BorderSide.none,
+        ),
+      ),
+      child: Text(title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: isSelected ? const Color(0xFF96CC39) : Colors.black,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              fontSize: 15)),
+    ),
   );
 }
