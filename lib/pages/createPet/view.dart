@@ -212,12 +212,12 @@ class CreatePetPage extends StatelessWidget {
                                   genderBox(
                                       state.isSterilized.value == false, '未绝育',
                                       () {
-                                    logic.changeGender('MALE');
+                                    logic.changeIsSterilized(false);
                                   }),
                                   genderBox(
                                       state.isSterilized.value == true, '已绝育',
                                       () {
-                                    logic.changeGender('FEMALE');
+                                    logic.changeIsSterilized(true);
                                   }),
                                 ],
                               ),

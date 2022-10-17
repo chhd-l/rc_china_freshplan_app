@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
+import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'util.dart';
 import 'tabs.dart';
 import 'pet.dart';
@@ -207,7 +209,7 @@ class PetDetailPage extends StatelessWidget {
                         }),
                         ''),
                     buildPetItem(
-                        '性别是',
+                        '${petCtl.name.value}是',
                         buildGenderItem(
                             Obx(() => Container(
                                   padding: const EdgeInsets.symmetric(
@@ -253,22 +255,91 @@ class PetDetailPage extends StatelessWidget {
                         }),
                         ''),
                     buildPetItem(
-                        '品种是',
-                        buildBreedItem(
-                            Obx(() => Text(
-                                  petCtl.breedName.value,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                  ),
-                                )),
-                            petCtl.type.value == 'CAT'
-                                ? global.catBreedList
-                                : global.dogBreedList,
-                            (String name, String code) {
-                          petCtl.changeBreed(name, code);
-                        }),
+                        '${petCtl.name.value}的品种是',
+                        Padding(
+                          padding: const EdgeInsets.only(top: 26, bottom: 32),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  height: 200,
+                                  child: GridView.builder(
+                                      itemCount: 9,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 3,
+                                              crossAxisSpacing: 10,
+                                              mainAxisSpacing: 10,
+                                              childAspectRatio: 2.2),
+                                      itemBuilder: (context, index) {
+                                        final breed = petCtl.type.value == 'DOG'
+                                            ? global.dogBreedList[index]
+                                            : global.catBreedList[index];
+                                        return GestureDetector(
+                                            onTap: () {
+                                              petCtl.breedName.value =
+                                                  breed["name"];
+                                              petCtl.breedCode.value =
+                                                  breed["code"];
+                                            },
+                                            child: Container(
+                                              width: 110,
+                                              height: 20,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                  color:
+                                                      petCtl.breedName.value ==
+                                                              breed["name"]
+                                                          ? AppColors.tint
+                                                          : Colors.white,
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(15))),
+                                              child: Text(
+                                                breed["name"],
+                                                style: textSyle700(
+                                                    fontSize: 15,
+                                                    color: petCtl.breedName
+                                                                .value ==
+                                                            breed["name"]
+                                                        ? Colors.white
+                                                        : AppColors
+                                                            .primaryText),
+                                              ),
+                                            ));
+                                      })),
+                              selectBox(
+                                  value: petCtl.breedName.value,
+                                  onPressed: () {
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
+                                    petCtl.selectBreed();
+                                  },
+                                  bgColor: petCtl.breedName.value == ''
+                                      ? Colors.white
+                                      : AppColors.tint)
+                            ],
+                          ),
+                        ),
                         ''),
+                    buildPetItem(
+                        '${petCtl.name.value}绝育状态',
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16, bottom: 32),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              genderBox(petCtl.isSterilized == false, '未绝育',
+                                  () {
+                                print(111);
+                                petCtl.changeIsSterilized(false);
+                              }),
+                              genderBox(petCtl.isSterilized == true, '已绝育', () {
+                                petCtl.changeIsSterilized(true);
+                              }),
+                            ],
+                          ),
+                        ),
+                        '')
                   ],
                 ),
               )),
@@ -279,10 +350,11 @@ class PetDetailPage extends StatelessWidget {
                   children: [
                     buildPetItem(
                         '近期体重',
-                        buildInputNumberItem(petCtl.recentWeightController,
-                            inputType: const TextInputType.numberWithOptions(
-                                decimal: true),
-                            handleChange: (value) {}),
+                        selectBox(
+                            value: petCtl.recentWeight.value.toString(),
+                            onPressed: () {
+                              petCtl.selectWeight(context, 'now');
+                            }),
                         '(kg)'),
                     buildPetItem(
                         '近期状态',
@@ -391,10 +463,11 @@ class PetDetailPage extends StatelessWidget {
                         ''),
                     buildPetItem(
                         '成年目标体重',
-                        buildInputNumberItem(petCtl.targetWeightController,
-                            inputType: const TextInputType.numberWithOptions(
-                                decimal: true),
-                            handleChange: (value) {}),
+                        selectBox(
+                            value: petCtl.targetWeight.value.toString(),
+                            onPressed: () {
+                              petCtl.selectWeight(context, 'target');
+                            }),
                         '(kg)'),
                     buildPetItem(
                         '近期健康状况',
@@ -576,20 +649,7 @@ class PetDetailPage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('档案详情'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-          ),
-          onTap: () {
-            Get.toNamed(AppRoutes.petList);
-          },
-        ),
-      ),
+      appBar: commonAppBar('档案详情'),
       backgroundColor: const Color.fromARGB(255, 249, 249, 249),
       body: Column(
         children: [
