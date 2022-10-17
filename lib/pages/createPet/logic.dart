@@ -12,6 +12,7 @@ import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
+import 'package:rc_china_freshplan_app/common/values/values.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/global.dart';
@@ -286,25 +287,119 @@ class CreatePetLogic extends GetxController {
   }
 
   void selectWeight(context, type) {
-    Pickers.showMultiPicker(
-      context,
-      data: [
-        List.generate(70, (index) => index.toString()).toList(),
-        ['·'],
-        List.generate(9, (index) => index.toString()).toList()
-      ],
-      selectData: [1, '·', 0],
-      onConfirm: (List index, List strData) {
-        print('longer >>> 返回数据类型：${strData[0]}');
-        if (type == 'now') {
-          state.recentWeight.value = double.parse(
-              '${jsonEncode(strData[0]).toString()}.${jsonEncode(strData[2]).toString()}');
-        }
-        if (type == 'target') {
-          state.targetWeight.value = double.parse(
-              '${jsonEncode(strData[0]).toString()}.${jsonEncode(strData[2]).toString()}');
-        }
-      },
+    Get.bottomSheet(
+        Container(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+            height: 350,
+            color: Colors.white,
+            alignment: Alignment.center,
+            child: SafeArea(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  "选择爱宠近期体重(公斤)",
+                  style: TextStyle(
+                    color: AppColors.primaryText,
+                    fontSize: 17,
+                  ),
+                ),
+                Expanded(
+                    child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Row(children: [
+                        Expanded(
+                            child: _cupertinoCountPicker(71, (i) {
+                          state.weight1 = i;
+                        })),
+                        Expanded(
+                            child: _cupertinoCountPicker(10, (i) {
+                          state.weight2 = i;
+                        })),
+                      ]),
+                      const Text(
+                        ".",
+                        style: TextStyle(
+                          color: AppColors.primaryText,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+                titleButton("确定", () {
+                  if (type == 'now') {
+                    state.recentWeight.value = double.parse(
+                        '${state.weight1.toString()}.${state.weight2.toString()}');
+                  }
+                  if (type == 'target') {
+                    state.targetWeight.value = double.parse(
+                        '${state.weight1.toString()}.${state.weight2.toString()}');
+                  }
+                  Get.back();
+                }, isCircle: true)
+              ],
+            ))),
+        persistent: false);
+
+    // Pickers.showMultiPicker(
+    //   context,
+    //   data: [
+    //     List.generate(70, (index) => index.toString()).toList(),
+    //     ['·'],
+    //     List.generate(9, (index) => index.toString()).toList()
+    //   ],
+    //   selectData: [1, '·', 0],
+    //   onConfirm: (List index, List strData) {
+    //     print('longer >>> 返回数据类型：${strData[0]}');
+    //     if (type == 'now') {
+    //       state.recentWeight.value = double.parse(
+    //           '${jsonEncode(strData[0]).toString()}.${jsonEncode(strData[2]).toString()}');
+    //     }
+    //     if (type == 'target') {
+    //       state.targetWeight.value = double.parse(
+    //           '${jsonEncode(strData[0]).toString()}.${jsonEncode(strData[2]).toString()}');
+    //     }
+    //   },
+    // );
+  }
+
+  Widget _cupertinoCountPicker(int count, Function(int)? callback) {
+    return CupertinoPicker(
+      selectionOverlay: _selectionOverlay(),
+      magnification: 1.22,
+      squeeze: 1.2,
+      useMagnifier: true,
+      itemExtent: 32.0,
+      onSelectedItemChanged: callback,
+      children: List<Widget>.generate(count, (int index) {
+        return Center(
+          child: Text((index).toString()),
+        );
+      }),
+    );
+  }
+
+  _selectionOverlay() {
+    return Padding(
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: const [
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+          Spacer(),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+        ],
+      ),
     );
   }
 }
