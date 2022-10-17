@@ -53,6 +53,7 @@ dependencies:
 
   #支付宝
   tobias: ^2.4.1
+  fluwx: ^3.9.2
 
   #loading
   flutter_easyloading: ^3.0.3
