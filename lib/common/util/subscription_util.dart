@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/api/subscription/index.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
+import 'package:rc_china_freshplan_app/common/values/const.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 
 class SubscriptionUtil {
@@ -48,7 +50,11 @@ class SubscriptionUtil {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     titleButton('确定', () async {
-                      await cancelSubscription(subscriptionId);
+                      await cancelSubscription(subscriptionId).then((value){
+                        if(value==true){
+                          EventBus().sendBroadcast(updateSubscription);
+                        }
+                      });
                       Get.back();
                     },
                         width: 96,

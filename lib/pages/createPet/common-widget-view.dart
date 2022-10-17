@@ -34,14 +34,14 @@ Widget commonTitle(String title, {String? description, String? subTitle}) {
   );
 }
 
-Widget selectBox({VoidCallback? onPressed, String? value}) {
+Widget selectBox({VoidCallback? onPressed, String? value,Color? bgColor}) {
   return GestureDetector(
     onTap: onPressed ?? () {},
     child: Container(
       padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
-          color: AppColors.baseGray,
-          borderRadius: BorderRadius.all(Radius.circular(15))),
+      decoration:  BoxDecoration(
+          color: bgColor ?? AppColors.baseGray,
+          borderRadius: const BorderRadius.all(Radius.circular(15))),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
           value != null && value != '' ? value : '请选择',

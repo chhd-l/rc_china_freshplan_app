@@ -201,19 +201,22 @@ Widget buildSubscriptionListView(List subscriptionList) {
                                         color: const Color.fromRGBO(
                                             34, 34, 34, 1))),
                                 const SizedBox(height: 10),
-                                Text(
-                                    item["productList"] != null &&
-                                            item["productList"].length > 0
-                                        ? (item["productList"][0]
-                                                ["description"])
-                                            .replaceAll('<p>', '')
-                                            .replaceAll('</p>', '')
-                                            .replaceAll('<br>', '')
-                                            .replaceAll('</br>', '')
-                                        : '',
-                                    style: textSyle400(
-                                        fontSize: 11,
-                                        color: AppColors.text666)),
+                                SizedBox(
+                                  width: 180,
+                                  child: Text(
+                                      item["productList"] != null &&
+                                              item["productList"].length > 0
+                                          ? (item["productList"][0]
+                                                  ["description"])
+                                              .replaceAll('<p>', '')
+                                              .replaceAll('</p>', '')
+                                              .replaceAll('<br>', '')
+                                              .replaceAll('</br>', '')
+                                          : '',
+                                      style: textSyle400(
+                                          fontSize: 11,
+                                          color: AppColors.text666)),
+                                ),
                               ],
                             ),
                           ],

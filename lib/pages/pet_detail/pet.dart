@@ -1,7 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
+import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +13,7 @@ import 'package:rc_china_freshplan_app/common/util/http.dart';
 import 'package:dio/src/multipart_file.dart' as DIOMUL;
 import 'package:dio/src/form_data.dart' as DIOFORM;
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
+import 'package:rc_china_freshplan_app/pages/breedPicker/view.dart';
 
 class PetController extends GetxController {
   var name = "".obs;
@@ -22,6 +27,10 @@ class PetController extends GetxController {
   var recentPosture = "".obs;
   var targetWeight = 0.0.obs;
   var recentHealth = Rx<List<String>>([]);
+  dynamic isSterilized = ''.obs;
+
+  int weight1 = 0;
+  int weight2 = 0;
 
   var nameController = TextEditingController();
   var recentWeightController = TextEditingController();
@@ -154,5 +163,115 @@ class PetController extends GetxController {
       image.value = json.decode(value.toString())["url"];
       print(image.value);
     });
+  }
+
+  void selectBreed() {
+    Get.to(() => BreedListPickerPage(), fullscreenDialog: true, arguments: {
+      'petType': type.value,
+      "callback": (name, code) {
+        breedName.value = name;
+        breedCode.value = code;
+      }
+    });
+  }
+
+  void changeIsSterilized(value) {
+    isSterilized = value;
+  }
+
+  void selectWeight(context, type) {
+    Get.bottomSheet(
+        Container(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+            height: 350,
+            color: Colors.white,
+            alignment: Alignment.center,
+            child: SafeArea(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  "选择爱宠近期体重(公斤)",
+                  style: TextStyle(
+                    color: AppColors.primaryText,
+                    fontSize: 17,
+                  ),
+                ),
+                Expanded(
+                    child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Row(children: [
+                        Expanded(
+                            child: _cupertinoCountPicker(71, (i) {
+                          weight1 = i;
+                        })),
+                        Expanded(
+                            child: _cupertinoCountPicker(10, (i) {
+                          weight2 = i;
+                        })),
+                      ]),
+                      const Text(
+                        ".",
+                        style: TextStyle(
+                          color: AppColors.primaryText,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+                titleButton("确定", () {
+                  if (type == 'now') {
+                    recentWeight.value = double.parse(
+                        '${weight1.toString()}.${weight2.toString()}');
+                  }
+                  if (type == 'target') {
+                    targetWeight.value = double.parse(
+                        '${weight1.toString()}.${weight2.toString()}');
+                  }
+                  Get.back();
+                }, isCircle: true)
+              ],
+            ))),
+        persistent: false);
+  }
+
+  Widget _cupertinoCountPicker(int count, Function(int)? callback) {
+    return CupertinoPicker(
+      selectionOverlay: _selectionOverlay(),
+      magnification: 1.22,
+      squeeze: 1.2,
+      useMagnifier: true,
+      itemExtent: 32.0,
+      onSelectedItemChanged: callback,
+      children: List<Widget>.generate(count, (int index) {
+        return Center(
+          child: Text((index).toString()),
+        );
+      }),
+    );
+  }
+
+  _selectionOverlay() {
+    return Padding(
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: const [
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+          Spacer(),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    );
   }
 }

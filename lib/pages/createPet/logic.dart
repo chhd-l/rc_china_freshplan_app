@@ -208,6 +208,11 @@ class CreatePetLogic extends GetxController {
     }
   }
 
+  void changeIsSterilized(value) {
+    state.isSterilized.value = value;
+    state.currentStep.value += 1;
+  }
+
   void selectBirthday() {
     state.birthday.value = state.birthday.value != ''
         ? state.birthday.value

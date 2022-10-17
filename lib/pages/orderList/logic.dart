@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 
 import 'package:rc_china_freshplan_app/common/util/order_util.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:rc_china_freshplan_app/common/values/const.dart';
 
 class OrderLogic extends GetxController {
   var tagType = 'ALL'.obs;
@@ -15,6 +17,11 @@ class OrderLogic extends GetxController {
   void onInit() {
     var args = Get.arguments ?? 'ALL';
     onChangeTagType(args.toString());
+
+    EventBus().addListener(updateOrder, (arg) {
+      getOrderList(curPageNum.value, tagType.value);
+    });
+
     super.onInit();
   }
 
