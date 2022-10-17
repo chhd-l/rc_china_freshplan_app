@@ -292,7 +292,7 @@ orderShip(input: $input)
 }
 ''';
 
-const String orderCompletedMutation =  r'''
+const String orderCompletedMutation = r'''
 mutation orderCompleted ($input: OrderCompletedInput){
 orderCompleted(input:$input)
 }
@@ -308,4 +308,27 @@ const String orderDeleteMutation = r'''
   mutation deleteOrder ($orderNum: String){
     deleteOrder(orderNum: $orderNum)
   }
+''';
+
+const String paymentStartMutation = r'''
+mutation paymentStart($input: PayInput!) {
+paymentStart(input: $input) {
+isSuccess,
+wxPaymentRequest {
+timeStamp,
+nonceStr,
+package,
+signType,
+paySign
+},
+aliPaymentRequest {
+payWayOrderId,
+orderStr
+},
+payment {
+status
+id
+}
+}
+}
 ''';

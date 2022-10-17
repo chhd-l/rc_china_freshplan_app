@@ -183,4 +183,40 @@ class OrderEndPoint {
     });
     return data;
   }
+
+  //继续支付
+  static dynamic orderContinuePay(order) async {
+    if (consumer == null) {
+      return false;
+    }
+    EasyLoading.show();
+    var data = await HttpUtil().post(paymentUrl, params: {
+      "query": paymentStartMutation,
+      "variables": {
+        "input": {
+          "consumerId": order["consumer"]["consumerId"],
+          "consumerOpenId": order["consumer"]["openId"],
+          "orderId": order["_id"],
+          "orderNo": order["orderNumber"],
+          "orderDescription": '订单支付',
+          "payWayId": 'ALI_PAY_APP',
+          "amount": order["orderPrice"]["totalPrice"] * 100,
+          "currency": 'CNY',
+          "storeId": storeId,
+        }
+      }
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      var res = json.decode(value.toString());
+      if (res['data']['paymentStart'] != null) {
+        return res['data']['paymentStart'];
+      } else {
+        EasyLoading.showError('请求错误');
+        return false;
+      }
+    });
+    return data;
+  }
 }

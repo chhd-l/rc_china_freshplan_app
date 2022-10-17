@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/api/order/index.dart';
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
+import 'package:tobias/tobias.dart' as tobias;
 
 class OrderUtil {
   static Future getOrders(String text) async {
@@ -46,6 +48,14 @@ class OrderUtil {
     return data;
   }
 
+  static Future orderContinuePay(order) async {
+    var data = await OrderEndPoint.orderContinuePay(order);
+    if (data == false) {
+      return false;
+    }
+    return data;
+  }
+
   //催发货
   static toShipTip(context) {
     showCupertinoDialog(
@@ -79,5 +89,20 @@ class OrderUtil {
             insetAnimationDuration: const Duration(seconds: 2),
           );
         });
+  }
+
+  static orderPay(order) async {
+    await orderContinuePay(order).then((value) async {
+      if (value == false) return;
+      var payInfo = value["aliPaymentRequest"]["orderStr"];
+      print(payInfo);
+      var result = await tobias.aliPay(payInfo);
+      print(result);
+      if (result["resultStatus"].toString() == '9000' ||
+          result["resultStatus"].toString() == '6001') {
+        //9000 订单支付成功  6000 用户中途取消
+        Get.offAllNamed(AppRoutes.orderList);
+      }
+    });
   }
 }

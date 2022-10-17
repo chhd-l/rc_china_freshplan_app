@@ -83,7 +83,8 @@ class OrderDetails extends StatelessWidget {
           logic.totalPrice.value,
           context,
           logic.delivery,
-          logic.orderNumber.value)),
+          logic.orderNumber.value,
+          logic.orderDetails)),
     );
   }
 }
