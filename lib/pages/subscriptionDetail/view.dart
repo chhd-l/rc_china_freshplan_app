@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/pages/subscriptionDetail/subscription-item-view.dart';
@@ -32,23 +34,31 @@ class SubscriptionDetailPage extends StatelessWidget {
                       AppColors.bgLinearGradient2
                     ]),
               ),
-              child: Column(children: [
-                buildSubPetView({}),
-                const SizedBox(height: 15),
-                buildSubPlanProductView(null, [
-                  {"variants": {}}
-                ]),
-                const SizedBox(height: 15),
-                buildSubRecommendProductView([
-                  {"variants": {}},
-                  {"variants": {}}
-                ]),
-                const SizedBox(height: 15),
-                buildSubDeliveryHouseView('2022-08-23',true),
-                const SizedBox(height: 15),
-                buildSubPayInfoView(''),
-                const SizedBox(height: 15),
-              ])),
+              child: Obx(() => Column(children: [
+                    buildSubPetView(
+                        logic.subscriptionDetail.value["pet"] ?? {}),
+                    buildSubPlanProductView(
+                        logic.subscriptionDetail.value["no"],
+                        logic.subscriptionDetail.value["productList"] ?? []),
+                    Visibility(
+                        visible:
+                            (logic.subscriptionDetail.value["benefits"] ?? [])
+                                    .length >
+                                0,
+                        child: buildSubRecommendProductView(
+                            logic.subscriptionDetail.value["benefits"] ?? [])),
+                    buildSubDeliveryHouseView(
+                        handleDateFromApi(logic.subscriptionDetail
+                            .value["createNextDeliveryTime"]),
+                        logic.subscriptionDetail.value["status"] == 'VOID',
+                        logic.subscriptionDetail.value["id"]),
+                    buildSubPayInfoView(
+                        logic.subscriptionDetail.value["source"],
+                        logic.subscriptionDetail.value["consumer"] != null
+                            ? logic.subscriptionDetail.value["consumer"]
+                                ["phone"]
+                            : ''),
+                  ]))),
         ),
       ),
     );

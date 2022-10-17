@@ -76,6 +76,9 @@ dependencies:
 
   lpinyin: ^2.0.3
 
+  # 刷新
+  pull_to_refresh_flutter3: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
