@@ -22,11 +22,11 @@ getAgeYear(birthdayStr) {
   if (birthdayStr == '' || birthdayStr == null) {
     return '';
   }
-  var birthday = json.decode(birthdayStr.split('-').toString());
+  var birthday = DateTime.parse(birthdayStr);
   // 新建日期对象
   var date = DateTime.now();
 
   var ageStr =
-      date.year - birthday[0] > 0 ? '${date.year - birthday[0]}岁' : '不到1岁';
+      date.year - birthday.year > 0 ? '${date.year - birthday.year}岁' : '不到1岁';
   return ageStr;
 }
