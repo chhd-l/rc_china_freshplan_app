@@ -84,25 +84,41 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
-            title: const Text('提示'),
-            content: const Text('确定要删除这个地址吗？'),
+            title: const Text(''),
+            content: Column(
+              children: [
+                Image.asset('assets/images/dialog-tip-icon.png'),
+                const SizedBox(height: 24),
+                Text(
+                  '您确定要删除这个地址吗？',
+                  style: textSyle700(color: AppColors.text333),
+                )
+              ],
+            ),
             actions: [
-              CupertinoDialogAction(
-                child: Text('确定', style: textSyle700(color: AppColors.tint)),
-                onPressed: () async {
-                  Get.back();
-                  var deleteFlag = await AddRessUtil.removeAddRess(id);
-                  if (deleteFlag) {
-                    getData();
-                  }
-                },
-              ),
-              CupertinoDialogAction(
-                child: Text('取消', style: textSyle700(color: AppColors.text999)),
-                onPressed: () {
-                  Get.back();
-                },
-              ),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    titleButton('确定', () async {
+                      Get.back();
+                      var deleteFlag = await AddRessUtil.removeAddRess(id);
+                      if (deleteFlag) {
+                        getData();
+                      }
+                    },
+                        width: 96,
+                        height: 30,
+                        isCircle: true,
+                        bgColor: const Color.fromRGBO(200, 227, 153, 1),
+                        fontSize: 12),
+                    titleButton('我在想想', () {
+                      Get.back();
+                    }, width: 112, height: 30, isCircle: true, fontSize: 12),
+                  ],
+                ),
+              )
             ],
             insetAnimationDuration: const Duration(seconds: 2),
           );

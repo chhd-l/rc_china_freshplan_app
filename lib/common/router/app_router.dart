@@ -7,7 +7,6 @@ abstract class AppRoutes {
   static const addressManage = '/address-list';
   static const newAddress = '/new-address';
   static const createPet = '/create-pet';
-  static const createPetNext = '/create-pet-next';
   static const recommendRecipes = '/recommend-recipes';
   static const checkout = '/checkout';
   static const orderList = '/orderList';
@@ -17,4 +16,7 @@ abstract class AppRoutes {
   static const resetPasswordStep2 = '/reset-password-step2';
   static const subscriptionDetail = '/subscriptionDetail';
   static const recipesPage = '/recipesPage';
+  static const choosePet='/choose-pet';
+  static const breedPick='/breed-pick';
+  static const planDetail='/plan-detail';
 }

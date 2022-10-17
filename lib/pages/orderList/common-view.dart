@@ -39,7 +39,7 @@ Widget noOrderListView() {
             textColor: const Color(0xFF96CC39),
             child: const Text('开始定制'),
             onPressed: () async {
-              Get.toNamed(AppRoutes.createPet);
+              Get.toNamed(AppRoutes.choosePet);
             },
           ),
         )
@@ -225,24 +225,7 @@ Widget orderOperateBtn(
         invoiceBtn(isInvoice),
         const SizedBox(width: 10),
         titleButton('催发货', () {
-          showCupertinoDialog(
-              context: context,
-              builder: (context) {
-                return CupertinoAlertDialog(
-                  title: const Text('提示'),
-                  content: const Text('已提醒发货，请耐心等待'),
-                  actions: [
-                    CupertinoDialogAction(
-                      child:
-                          Text('确定', style: textSyle700(color: AppColors.tint)),
-                      onPressed: () async {
-                        Get.back();
-                      },
-                    ),
-                  ],
-                  insetAnimationDuration: const Duration(seconds: 2),
-                );
-              });
+          OrderUtil.toShipTip(context);
         },
             width: 90,
             height: 34,
@@ -295,7 +278,7 @@ Widget orderOperateBtn(
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          titleButton('删除订单', () async{
+          titleButton('删除订单', () async {
             await OrderUtil.deleteOrder(orderNum);
           },
               bgColor: Colors.white,

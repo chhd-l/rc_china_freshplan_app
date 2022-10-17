@@ -17,6 +17,7 @@ import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_pickers/pickers.dart';
+import 'package:rc_china_freshplan_app/pages/breedPicker/view.dart';
 
 import 'state.dart';
 
@@ -253,34 +254,13 @@ class CreatePetLogic extends GetxController {
   }
 
   void selectBreed() {
-    state.breedName.value = state.breedName.value != ''
-        ? state.breedName.value
-        : state.breedList[0]['name'];
-    state.breedCode.value = state.breedCode.value != ''
-        ? state.breedCode.value
-        : state.breedList[0]['code'];
-    Get.bottomSheet(
-        Container(
-            height: 200,
-            color: Colors.white,
-            alignment: Alignment.center,
-            child: CupertinoPicker(
-              magnification: 1.22,
-              squeeze: 1.2,
-              useMagnifier: true,
-              itemExtent: 32.0,
-              onSelectedItemChanged: (int selectedItem) {
-                state.breedName.value = state.breedList[selectedItem]['name'];
-                state.breedCode.value = state.breedList[selectedItem]['code'];
-              },
-              children:
-                  List<Widget>.generate(state.breedList.length, (int index) {
-                return Center(
-                  child: Text(state.breedList[index]["name"]),
-                );
-              }),
-            )),
-        persistent: false);
+    Get.to(() => BreedListPickerPage(), fullscreenDialog: true, arguments: {
+      'petType': state.type.value,
+      "callback": (name, code) {
+        state.breedName.value = name;
+        state.breedCode.value = code;
+      }
+    });
   }
 
   void changeRecentHealth(int index) {
