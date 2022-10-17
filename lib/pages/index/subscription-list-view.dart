@@ -106,11 +106,8 @@ Widget buildSubscriptionListView(List subscriptionList) {
                                             fontSize: 13, color: Colors.white)),
                                     const SizedBox(width: 10),
                                     Text(
-                                        getAgeYear(DateFormat('yyyy-MM-dd')
-                                                .format(DateTime.parse(
-                                                    item["pet"]
-                                                        ["birthday"]))) ??
-                                            '',
+                                        getAgeYear(handleDateFromApi(
+                                            item["pet"]["birthday"])),
                                         style: textSyle400(
                                             fontSize: 13, color: Colors.white)),
                                   ],
@@ -143,7 +140,7 @@ Widget buildSubscriptionListView(List subscriptionList) {
                         padding: const EdgeInsets.only(top: 22, left: 36),
                         child: titleButton('管理计划', () {
                           Get.toNamed(AppRoutes.subscriptionDetail,
-                              arguments: item["id"]);
+                              arguments: item["id"] ?? '');
                         },
                             bgColor: Colors.white,
                             fontSize: 13,
@@ -261,10 +258,8 @@ Widget buildSubscriptionListView(List subscriptionList) {
                                       children: [
                                         const TextSpan(text: '下一次将在'),
                                         TextSpan(
-                                          text: DateFormat('yyyy-MM-dd').format(
-                                              DateTime.parse(item[
-                                                      "createNextDeliveryTime"] ??
-                                                  DateTime.now().toString())),
+                                          text: handleDateFromApi(
+                                              item["createNextDeliveryTime"]),
                                           style: const TextStyle(
                                               color: Color.fromRGBO(
                                                   246, 156, 50, 1)),

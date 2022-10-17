@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/api/pet/index.dart';
@@ -19,8 +20,7 @@ class PetUtil {
       breedName: data['breedName'],
       image: data['image'],
       isSterilized: data['isSterilized'],
-      birthday:
-          DateFormat('yyyy-MM-dd').format(DateTime.parse(data['birthday'])),
+      birthday: handleDateFromApi(data['birthday']),
       recentWeight: double.tryParse(data['recentWeight'].toString()) ?? 0.0,
       targetWeight: double.tryParse(data['targetWeight'].toString()) ?? 0.0,
       recentPosture: data['recentPosture'],

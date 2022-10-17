@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/api/order/index.dart';
 import 'package:rc_china_freshplan_app/common/util/order_util.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
+import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 
 class AccountController extends GetxController {
@@ -10,6 +12,17 @@ class AccountController extends GetxController {
   RxInt unpaidOrderQuantity = 0.obs;
   RxInt toShipOrderQuantity = 0.obs;
   RxInt shippedOrderQuantity = 0.obs;
+
+  void onInit(){
+    Consumer? consumer = StorageUtil().getJSON("loginUser") != null
+        ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
+        : null;
+    if (consumer != null) {
+      getPetList();
+      getOrderStatistics();
+    }
+    super.onInit();
+  }
 
   void getPetList() {
     PetUtil.getPetList().then((value) {
@@ -27,4 +40,5 @@ class AccountController extends GetxController {
       shippedOrderQuantity.value = value["ShippedOrderQuantity"];
     });
   }
+
 }

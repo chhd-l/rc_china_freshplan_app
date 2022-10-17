@@ -7,7 +7,7 @@ import 'state.dart';
 class PlanDetailLogic extends GetxController {
   final state = PlanDetailState();
 
-  dynamic planDetail;
+  var planDetail = {};
 
   final global = Get.put(GlobalConfigService());
 

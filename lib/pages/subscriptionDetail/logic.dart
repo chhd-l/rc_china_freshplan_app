@@ -8,7 +8,7 @@ import 'state.dart';
 class SubscriptionDetailLogic extends GetxController {
   final state = SubscriptionDetailState();
 
-  dynamic subscriptionDetail = {"pet": {}};
+  var subscriptionDetail={};
 
   final global = Get.put(GlobalConfigService());
 
@@ -19,6 +19,8 @@ class SubscriptionDetailLogic extends GetxController {
   }
 
   getSubscriptionDetail() async {
+    print('dddddd');
+    print(Get.arguments);
     var subscriptionId = Get.arguments ?? '';
     await SubscriptionUtil.getSubscription(subscriptionId).then((value) {
       print(2222);

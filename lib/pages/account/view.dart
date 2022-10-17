@@ -20,10 +20,10 @@ class AccountPage extends GetView<AccountController> {
     Consumer? consumer = StorageUtil().getJSON("loginUser") != null
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
-    if (consumer != null) {
-      controller.getPetList();
-      controller.getOrderStatistics();
-    }
+    // if (consumer != null) {
+    //   controller.getPetList();
+    //   controller.getOrderStatistics();
+    // }
 
     Widget loginSection = Container(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),

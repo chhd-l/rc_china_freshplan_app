@@ -12,6 +12,7 @@ Widget subCommonBox(String icon, String title, Widget child,
     {String? subTitle = ''}) {
   return Container(
     padding: const EdgeInsets.all(15),
+    margin: EdgeInsets.only(bottom: 15),
     decoration: const BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -130,10 +131,7 @@ Widget buildSubPetView(pet) {
                 Text(pet["breedName"] ?? '英国短毛猫',
                     style: textSyle400(fontSize: 12, color: AppColors.text999)),
                 const SizedBox(width: 10),
-                Text(
-                    getAgeYear(DateFormat('yyyy-MM-dd')
-                            .format(DateTime.parse(pet["birthday"]))) ??
-                        '',
+                Text(getAgeYear(handleDateFromApi(pet["birthday"])) ?? '',
                     style: textSyle400(fontSize: 12, color: AppColors.text999)),
               ],
             ),
@@ -197,7 +195,7 @@ Widget buildSubRecommendProductView(recommendProductList) {
   );
 }
 
-Widget buildSubDeliveryHouseView(deliveryTime, isCancel,subId) {
+Widget buildSubDeliveryHouseView(deliveryTime, isCancel, subId) {
   return subCommonBox(
     "assets/images/delivery-house-icon.png",
     "发货驿站",
@@ -219,7 +217,7 @@ Widget buildSubDeliveryHouseView(deliveryTime, isCancel,subId) {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             titleButton(isCancel ? "查看详情" : "计划进度", () {
-              Get.toNamed(AppRoutes.planDetail,arguments: subId);
+              Get.toNamed(AppRoutes.planDetail, arguments: subId);
             },
                 width: 100,
                 height: 36,

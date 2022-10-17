@@ -12,6 +12,7 @@ import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 Widget planCommonBox(Widget child) {
   return Container(
     padding: const EdgeInsets.all(15),
+    margin: const EdgeInsets.only(bottom: 15),
     decoration: const BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -65,7 +66,7 @@ Widget planProductItem(pic, name, price, quantity) {
   );
 }
 
-Widget buildPlanProductView(planDetail, context) {
+Widget buildPlanProductView(planDetail, context, price) {
   return planCommonBox(Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -79,7 +80,7 @@ Widget buildPlanProductView(planDetail, context) {
       ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: planDetail["productList"].length,
+          itemCount: (planDetail["productList"] ?? []).length,
           itemBuilder: (BuildContext ctx, int i) {
             var item = planDetail["productList"][i];
             return Padding(
@@ -95,9 +96,7 @@ Widget buildPlanProductView(planDetail, context) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('商品金额', style: textSyle700(color: AppColors.text666)),
-          Text(
-              handlePrice(planDetail["price"]["productPrice"] +
-                  planDetail["price"]["deliveryPrice"]),
+          Text(handlePrice(price["productPrice"]),
               style: textSyle700(color: AppColors.text333))
         ],
       ),
@@ -106,7 +105,7 @@ Widget buildPlanProductView(planDetail, context) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('促销折扣', style: textSyle700(color: AppColors.text666)),
-          Text(handlePrice(planDetail["price"]["discountsPrice"]),
+          Text(handlePrice(price["discountsPrice"] ?? 0),
               style: textSyle700(color: AppColors.text333))
         ],
       ),
@@ -115,7 +114,7 @@ Widget buildPlanProductView(planDetail, context) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('运费', style: textSyle700(color: AppColors.text666)),
-          Text(handlePrice(planDetail["price"]["deliveryPrice"]),
+          Text(handlePrice(price["deliveryPrice"] ?? 0),
               style: textSyle700(color: AppColors.text333))
         ],
       ),
@@ -124,7 +123,7 @@ Widget buildPlanProductView(planDetail, context) {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text('商品小计：', style: textSyle700(color: AppColors.text333)),
-          Text(handlePrice(planDetail["price"]["totalPrice"]),
+          Text(handlePrice(price["totalPrice"] ?? 0),
               style: textSyle700(
                   fontSize: 15, color: const Color.fromRGBO(212, 157, 40, 1)))
         ],
@@ -197,7 +196,8 @@ Widget buildDeliveryInfoView(isCancel, deliveryDate, address) {
           Text('收货地址', style: textSyle700(color: AppColors.text666)),
           const SizedBox(width: 10),
           Text(
-              '${address["receiverName"]} ${address["phone"]}\n${address["province"]}${address["city"]}${address["region"]} ${address["province"]}',
+              '${address["receiverName"]} ${address["phone"]}\n${address["province"]}${address["city"]}${address["region"]} ${address["province"]}' ??
+                  '',
               style: textSyle700(color: AppColors.text666)),
         ],
       ),
@@ -289,8 +289,7 @@ Widget buildHistoryOrderView(orderList) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                          '发货日期:${DateFormat('yyyy-MM-dd').format(DateTime.parse(item["shipmentDate"]))}',
+                      Text('发货日期:${handleDateFromApi(item["shipmentDate"])}',
                           style: textSyle700(
                               fontSize: 12, color: AppColors.text666))
                     ],
