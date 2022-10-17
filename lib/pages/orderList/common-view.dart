@@ -149,7 +149,7 @@ Widget orderListItem(order, context) {
           ),
           const Divider(color: Color.fromARGB(255, 231, 231, 231)),
           orderOperateBtn(order['orderState']['orderState'], false,
-              order['orderNumber'], context, order["delivery"]),
+              order['orderNumber'], context, order["delivery"],order),
         ],
       ),
     ),
@@ -195,7 +195,7 @@ Widget invoiceBtn(bool isInvoice) {
 }
 
 Widget orderOperateBtn(
-    String orderState, bool isInvoice, String orderNum, context, delivery) {
+    String orderState, bool isInvoice, String orderNum, context, delivery,order) {
   switch (orderState) {
     case 'UNPAID':
       return Row(
@@ -211,7 +211,9 @@ Widget orderOperateBtn(
               borderColor: const Color.fromARGB(255, 205, 205, 205),
               fontColor: AppColors.primaryText),
           const SizedBox(width: 10),
-          titleButton('付款', () {},
+          titleButton('付款', () {
+            OrderUtil.orderPay(order);
+          },
               width: 90,
               height: 34,
               isCircle: true,

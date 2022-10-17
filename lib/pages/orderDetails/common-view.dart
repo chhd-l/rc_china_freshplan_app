@@ -387,7 +387,7 @@ Widget buildOrderPayInfoView(
 }
 
 Widget buildOrderOperatorView(
-    orderState, totalPrice, context, delivery, orderNum) {
+    orderState, totalPrice, context, delivery, orderNum,order) {
   return Container(
     padding: const EdgeInsets.all(12.0),
     width: double.infinity,
@@ -395,11 +395,11 @@ Widget buildOrderOperatorView(
       color: Colors.white,
     ),
     child:
-        orderOperatorItem(orderState, totalPrice, context, delivery, orderNum),
+        orderOperatorItem(orderState, totalPrice, context, delivery, orderNum,order),
   );
 }
 
-Widget orderOperatorItem(orderState, totalPrice, context, delivery, orderNum) {
+Widget orderOperatorItem(orderState, totalPrice, context, delivery, orderNum,order) {
   switch (orderState) {
     case "UNPAID":
       return Row(
@@ -413,7 +413,11 @@ Widget orderOperatorItem(orderState, totalPrice, context, delivery, orderNum) {
                       color: const Color.fromRGBO(212, 157, 40, 1)))),
           titleButton(
             '去支付',
-            () {},
+            () {
+              print(1111);
+              print(order);
+              OrderUtil.orderPay(order);
+            },
             width: 114,
             height: 36,
             isCircle: true,
