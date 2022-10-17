@@ -143,7 +143,7 @@ Widget buildSubscriptionListView(List subscriptionList) {
                         padding: const EdgeInsets.only(top: 22, left: 36),
                         child: titleButton('管理计划', () {
                           Get.toNamed(AppRoutes.subscriptionDetail,
-                              arguments: item["no"]);
+                              arguments: item["id"]);
                         },
                             bgColor: Colors.white,
                             fontSize: 13,

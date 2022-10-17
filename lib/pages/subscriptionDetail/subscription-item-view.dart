@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 
@@ -75,12 +77,11 @@ Widget subProductItem(item) {
               style: textSyle400(fontSize: 15, color: AppColors.text333)),
           const SizedBox(height: 10),
           Text(
-              item["description"] ??
-                  '牛肉、土豆、鸡蛋、胡萝卜、豌豆'
-                      .replaceAll('<p>', '')
-                      .replaceAll('</p>', '')
-                      .replaceAll('<br>', '')
-                      .replaceAll('</br>', ''),
+              (item["description"] ?? '牛肉、土豆、鸡蛋、胡萝卜、豌豆')
+                  .replaceAll('<p>', '')
+                  .replaceAll('</p>', '')
+                  .replaceAll('<br>', '')
+                  .replaceAll('</br>', ''),
               style: textSyle400(fontSize: 13, color: AppColors.text666)),
         ],
       ),
@@ -89,7 +90,8 @@ Widget subProductItem(item) {
 }
 
 Widget buildSubPetView(pet) {
-  print(pet);
+  final defaultImage =
+      pet["type"] == 'CAT' ? 'assets/images/cat.png' : 'assets/images/dog.png';
   return subCommonBox(
     "assets/images/petfoot-icon.png",
     '我的宠物',
@@ -99,14 +101,8 @@ Widget buildSubPetView(pet) {
         ClipOval(
           child: CachedNetworkImage(
             imageUrl: pet["image"],
-            placeholder: (context, url) => Image.asset(
-              pet["type"] == 'CAT'
-                  ? 'assets/images/cat.png'
-                  : 'assets/images/dog.png',
-            ),
-            errorWidget: (context, url, error) => Image.asset(
-              pet == 'CAT' ? 'assets/images/cat.png' : 'assets/images/dog.png',
-            ),
+            placeholder: (context, url) => Image.asset(defaultImage),
+            errorWidget: (context, url, error) => Image.asset(defaultImage),
             width: 61,
             height: 61,
             fit: BoxFit.cover,
@@ -134,7 +130,10 @@ Widget buildSubPetView(pet) {
                 Text(pet["breedName"] ?? '英国短毛猫',
                     style: textSyle400(fontSize: 12, color: AppColors.text999)),
                 const SizedBox(width: 10),
-                Text(pet["age"] ?? '不到一岁',
+                Text(
+                    getAgeYear(DateFormat('yyyy-MM-dd')
+                            .format(DateTime.parse(pet["birthday"]))) ??
+                        '',
                     style: textSyle400(fontSize: 12, color: AppColors.text999)),
               ],
             ),
@@ -198,7 +197,7 @@ Widget buildSubRecommendProductView(recommendProductList) {
   );
 }
 
-Widget buildSubDeliveryHouseView(deliveryTime, isCancel) {
+Widget buildSubDeliveryHouseView(deliveryTime, isCancel,subId) {
   return subCommonBox(
     "assets/images/delivery-house-icon.png",
     "发货驿站",
@@ -220,7 +219,7 @@ Widget buildSubDeliveryHouseView(deliveryTime, isCancel) {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             titleButton(isCancel ? "查看详情" : "计划进度", () {
-              Get.toNamed(AppRoutes.planDetail);
+              Get.toNamed(AppRoutes.planDetail,arguments: subId);
             },
                 width: 100,
                 height: 36,
@@ -235,7 +234,7 @@ Widget buildSubDeliveryHouseView(deliveryTime, isCancel) {
   );
 }
 
-Widget buildSubPayInfoView(deliveryTime) {
+Widget buildSubPayInfoView(source, phone) {
   return subCommonBox(
     "assets/images/pay-info-icon.png",
     "签约信息",
@@ -246,7 +245,7 @@ Widget buildSubPayInfoView(deliveryTime) {
             Image.asset('assets/images/pay-way-icon.png'),
             const SizedBox(width: 10),
             Text(
-              '签约平台：支付宝',
+              '签约平台：${source == 'WECHAT_MINI_PROGRAM' ? '微信' : '支付宝'}',
               style: textSyle700(color: AppColors.text222),
             )
           ],
@@ -257,7 +256,7 @@ Widget buildSubPayInfoView(deliveryTime) {
             Image.asset('assets/images/pay-user-icon.png'),
             const SizedBox(width: 10),
             Text(
-              '签约账户：132****23',
+              '签约账户：$phone',
               style: textSyle700(color: AppColors.text222),
             )
           ],

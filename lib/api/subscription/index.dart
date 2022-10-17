@@ -18,7 +18,6 @@ class SubscriptionEndPoint {
     if (consumer == null) {
       return false;
     }
-    String consumerId = ConsumerEndPoint.getLoggedConsumerId();
     EasyLoading.show();
     var data = await HttpUtil().post(subscriptionListUrl, params: {
       "query": subscriptionFindByConsumerIdQuery,
@@ -34,6 +33,87 @@ class SubscriptionEndPoint {
       } else {
         EasyLoading.showError('请求错误');
         return [];
+      }
+    });
+    return data;
+  }
+
+  static dynamic getSubscription(String subscriptionId) async {
+    if (consumer == null) {
+      return false;
+    }
+    EasyLoading.show();
+    var data = await HttpUtil().post(subscriptionUrl, params: {
+      "query": subscriptionGetQuery,
+      "variables": {"id": subscriptionId}
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      print(value);
+      var res = json.decode(value.toString());
+      if (res != null && res['data'] != null) {
+        return res['data']['subscriptionGet'];
+      } else {
+        EasyLoading.showError('请求错误');
+        return false;
+      }
+    });
+    return data;
+  }
+
+  static dynamic cancelSubscription(String subscriptionId) async {
+    if (consumer == null) {
+      return false;
+    }
+    EasyLoading.show();
+    var data = await HttpUtil().post(subscriptionActionUrl, params: {
+      "query": subscriptionCancelMutation,
+      "variables": {
+        'subscriptionId': subscriptionId,
+        'subscriptionType': 'FRESH_PLAN',
+        'agreementNo': '',
+        'aliPayUserId': ''
+      }
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      print(value);
+      var res = json.decode(value.toString());
+      if (res != null && res['data'] != null) {
+        return res['data']['subscriptionCancel'];
+      } else {
+        EasyLoading.showError('请求错误');
+        return false;
+      }
+    });
+    return data;
+  }
+
+  static dynamic updateSubscriptionAddress(
+      String subscriptionId, address) async {
+    if (consumer == null) {
+      return false;
+    }
+    EasyLoading.show();
+    var data = await HttpUtil().post(subscriptionActionUrl, params: {
+      "query": subscriptionUpdateAddressMutation,
+      "variables": {
+        'id': subscriptionId,
+        'address': address,
+      }
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      print(value);
+      var res = json.decode(value.toString());
+      if (res != null && res['data'] != null) {
+        return res['data']['subscriptionUpdateAddress'];
+      } else {
+        EasyLoading.showError('请求错误');
+        return false;
       }
     });
     return data;

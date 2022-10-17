@@ -1,15 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
-import 'package:rc_china_freshplan_app/pages/checkout/checkout-widget-view.dart';
-import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
 import 'package:rc_china_freshplan_app/pages/planDetail/plan-item-view.dart';
 
 import 'logic.dart';
@@ -41,7 +34,7 @@ class PlanDetailPage extends StatelessWidget {
               ),
               child: Obx(() => Column(children: [
                     Visibility(
-                        visible: state.isCanceled.value,
+                        visible: logic.planDetail["status"] == 'VOID',
                         child: Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 20),
                           child: Row(
@@ -55,18 +48,16 @@ class PlanDetailPage extends StatelessWidget {
                             ],
                           ),
                         )),
-                    buildPlanProductView(
-                        state.isCanceled.value,
-                        [
-                          {"variants": {}},
-                          {"variants": {}}
-                        ],
-                        context),
+                    buildPlanProductView(logic.planDetail, context),
                     const SizedBox(height: 15),
-                    buildDeliveryInfoView(state.isCanceled.value),
+                    buildDeliveryInfoView(
+                        logic.planDetail["status"] == 'VOID',
+                        DateFormat('yyyy-MM-dd').format(DateTime.parse(
+                            logic.planDetail["createNextDeliveryTime"])),
+                        logic.planDetail["address"]),
                     const SizedBox(height: 15),
                     Visibility(
-                      visible: !state.isCanceled.value,
+                      visible: logic.planDetail["status"] != 'VOID',
                       child: Text(
                         '温馨提示: 修改地址以外其他信息请联系人工客服',
                         style:
@@ -74,13 +65,8 @@ class PlanDetailPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    buildHistoryOrderView([
-                      {
-                        "products": [
-                          {"variants": {}}
-                        ]
-                      }
-                    ]),
+                    buildHistoryOrderView(
+                        logic.planDetail["completedDeliveries"] ?? []),
                     const SizedBox(height: 15),
                   ])),
             ),
