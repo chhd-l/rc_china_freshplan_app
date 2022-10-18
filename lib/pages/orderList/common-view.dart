@@ -167,14 +167,14 @@ Widget moreOperate(bool isInvoice, context) {
           )
         ];
       },
-      color: Colors.red,
-      offset: Offset(0, 10),
+      // color: Colors.red,
+      offset: const Offset(0, 10),
       position: PopupMenuPosition.under,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: BorderSide(
+        side: const BorderSide(
           width: 2,
-          color: Colors.red,
+          color: Colors.white,
           style: BorderStyle.solid,
         ),
       ),
