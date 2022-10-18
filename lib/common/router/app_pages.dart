@@ -89,7 +89,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.orderList,
-      page: () => const OrderList(),
+      page: () => OrderList(),
     ),
     GetPage(
       name: AppRoutes.orderDetails,
@@ -109,11 +109,11 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.breedPick,
-      page: () =>  BreedListPickerPage(),
+      page: () => BreedListPickerPage(),
     ),
     GetPage(
       name: AppRoutes.planDetail,
-      page: () =>  PlanDetailPage(),
+      page: () => PlanDetailPage(),
     ),
   ];
 }

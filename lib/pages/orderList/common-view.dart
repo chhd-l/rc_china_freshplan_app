@@ -156,32 +156,29 @@ Widget orderListItem(order, context) {
   );
 }
 
-Widget moreOperate(bool isInvoice) {
-  var showMore = false;
-  return SizedBox(
-    child: Stack(children: [
-      GestureDetector(
-        onTap: () {
-          showMore = true;
-        },
-        child: Text('更多',
-            style: textSyle400(color: const Color.fromRGBO(57, 57, 58, 1))),
-      ),
-      Positioned(
-          top: 10,
-          left: 25,
-          height: 25,
-          child: Visibility(
-              visible: showMore,
-              child: Container(
-                width: 80,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/invoice-tip.png'))),
-                child: Text(isInvoice ? '查看发票' : '申请开票'),
-              )))
-    ]),
-  );
+Widget moreOperate(bool isInvoice, context) {
+  var showMore = true;
+  return PopupMenuButton(
+      itemBuilder: (BuildContext context) {
+        return [
+          const PopupMenuItem(
+            child: Text("DOTA"),
+            value: "dota",
+          )
+        ];
+      },
+      color: Colors.red,
+      position:PopupMenuPosition.under,
+      child: Text('更多',
+          style: textSyle400(color: const Color.fromRGBO(57, 57, 58, 1))),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(
+          width: 2,
+          color: Colors.red,
+          style: BorderStyle.solid,
+        ),
+      ));
 }
 
 Widget invoiceBtn(bool isInvoice) {
@@ -200,7 +197,7 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
     case 'UNPAID':
       return Row(
         children: [
-          Expanded(child: moreOperate(isInvoice)),
+          Expanded(child: moreOperate(isInvoice, context)),
           titleButton('取消', () async {
             await OrderEndPoint.cancelOrder(orderNum);
           },
@@ -223,8 +220,8 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
         ],
       );
     case 'TO_SHIP':
-      return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-        moreOperate(true),
+      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        moreOperate(true, context),
         invoiceBtn(isInvoice),
         const SizedBox(width: 10),
         titleButton('催发货', () {
@@ -239,7 +236,7 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
       ]);
     case 'SHIPPED':
       return Row(children: [
-        Expanded(child: moreOperate(isInvoice)),
+        Expanded(child: moreOperate(isInvoice, context)),
         titleButton('查看物流', () {
           showOrderDeliveryBottomSheet(context, delivery);
         },

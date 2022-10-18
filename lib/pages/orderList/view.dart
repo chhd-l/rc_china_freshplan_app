@@ -1,42 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
+import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'common-view.dart';
 import 'logic.dart';
 
-class OrderList extends StatefulWidget {
-  const OrderList({Key? key}) : super(key: key);
+class OrderList extends StatelessWidget {
+  OrderList({Key? key}) : super(key: key);
+
+  final OrderLogic logic = Get.put(OrderLogic());
 
   @override
-  _OrderListWidgetState createState() => _OrderListWidgetState();
-}
-
-class _OrderListWidgetState extends State<OrderList> {
-  final OrderLogic logic = Get.put(OrderLogic());
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('订单列表'),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.arrow_back_ios,
-            ),
-            onTap: () {
-              Get.toNamed(AppRoutes.account);
-            },
-          ),
-        ),
+        appBar: commonAppBar('订单列表'),
         backgroundColor: const Color.fromARGB(255, 249, 249, 249),
         body: Column(children: [
           Container(
+            height: 56,
             color: Colors.white,
-            padding: const EdgeInsets.all(12),
-            child: textFiled(borderRadius: 45),
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Expanded(
+                    child: textFiled(
+                        borderRadius: 45,
+                        controller: logic.nameOrNumController,
+                        focusNode: logic.nameOrNumFocus,
+                        hintText: '输入商品名称/订单编号搜索订单',
+                        verticalPadding: 8,
+                        hintStyle: textSyle700(
+                            fontSize: 14,
+                            color: const Color.fromRGBO(202, 203, 206, 1)),
+                        icon: 'assets/images/search-icon.png')),
+                Obx(() => Visibility(
+                    visible: logic.showSearchBtn.value,
+                    child: titleButton('搜索', () {}, width: 80, isCircle: true)))
+              ],
+            ),
           ),
           Obx(() => Row(
                 children: [
