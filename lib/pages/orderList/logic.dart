@@ -27,6 +27,8 @@ class OrderLogic extends GetxController {
 
   void getOrderList(int offset, String orderState) {
     OrderUtil.getOrders(offset, orderState).then((value) {
+      refreshController.loadComplete();
+      refreshController.refreshCompleted();
       if (value != false) {
         orderLists.clear();
         orderLists.addAll(value["records"]);

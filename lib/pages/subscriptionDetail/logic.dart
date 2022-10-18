@@ -20,7 +20,7 @@ class SubscriptionDetailLogic extends GetxController {
   void onReady() {
     getSubscriptionDetail();
 
-    EventBus().addListener(updateSubscription, (arg) {
+    EventBus().addListener(cancelSubscription, (arg) {
       getSubscriptionDetail();
     });
 

@@ -44,6 +44,7 @@ class Pet {
     recentPosture = json['recentPosture'];
     targetWeight = json['targetWeight'];
     recentHealth = json['recentHealth'].cast<String>();
+    subscriptionNo=json['subscriptionNo'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +62,7 @@ class Pet {
     data['recentPosture'] = this.recentPosture;
     data['targetWeight'] = this.targetWeight;
     data['recentHealth'] = this.recentHealth;
+    data['subscriptionNo']=this.subscriptionNo;
     return data;
   }
 }

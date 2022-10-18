@@ -12,4 +12,5 @@ class PlanDetailState {
   int deliveryPrice = 0; //运费
 
   RxBool isCanceled = false.obs;
+  RxBool isUpdateAddress=false.obs;
 }

@@ -25,6 +25,8 @@ class PetDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var args = Get.arguments;
     var pet = PetUtil.getPet(args.toString());
+    print(3333);
+    print(pet.toJson());
     WidgetsBinding.instance.addPostFrameCallback((_) {
       c.changeTab(0);
       petCtl.initData(pet);
@@ -69,25 +71,43 @@ class PetDetailPage extends StatelessWidget {
             context: context,
             builder: (context) {
               return CupertinoAlertDialog(
-                title: const Text('提示'),
-                content: const Text('确定要删除这个宠物吗？'),
+                title: const Text(''),
+                content: Column(
+                  children: [
+                    Image.asset('assets/images/dialog-tip-icon.png'),
+                    const SizedBox(height: 24),
+                    Text('您确定要删除这个宠物吗？',
+                        style: textSyle700(color: AppColors.text333))
+                  ],
+                ),
                 actions: [
-                  CupertinoDialogAction(
-                    child: const Text('确定'),
-                    onPressed: () async {
-                      Get.back();
-                      var deleteFlag = await PetUtil.removePet(pet);
-                      if (deleteFlag) {
-                        Get.toNamed(AppRoutes.petList);
-                      }
-                    },
-                  ),
-                  CupertinoDialogAction(
-                    child: const Text('取消'),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        titleButton('确定', () async {
+                          Get.back();
+                          var deleteFlag = await PetUtil.removePet(pet);
+                          if (deleteFlag) {
+                            Get.toNamed(AppRoutes.petList);
+                          }
+                        },
+                            width: 96,
+                            height: 30,
+                            isCircle: true,
+                            bgColor: const Color.fromRGBO(200, 227, 153, 1),
+                            fontSize: 12),
+                        titleButton('我在想想', () {
+                          Get.back();
+                        },
+                            width: 112,
+                            height: 30,
+                            isCircle: true,
+                            fontSize: 12),
+                      ],
+                    ),
+                  )
                 ],
                 insetAnimationDuration: const Duration(seconds: 2),
               );
@@ -294,17 +314,18 @@ class PetDetailPage extends StatelessWidget {
                                                   borderRadius:
                                                       const BorderRadius.all(
                                                           Radius.circular(15))),
-                                              child: Text(
-                                                breed["name"],
-                                                style: textSyle700(
-                                                    fontSize: 15,
-                                                    color: petCtl.breedName
-                                                                .value ==
-                                                            breed["name"]
-                                                        ? Colors.white
-                                                        : AppColors
-                                                            .primaryText),
-                                              ),
+                                              child: Text(breed["name"],
+                                                  style: textSyle700(
+                                                      fontSize: 15,
+                                                      color: petCtl.breedName
+                                                                  .value ==
+                                                              breed["name"]
+                                                          ? Colors.white
+                                                          : AppColors
+                                                              .primaryText),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
                                             ));
                                       })),
                               selectBox(
@@ -634,21 +655,47 @@ class PetDetailPage extends StatelessWidget {
         color: Colors.white,
       ),
       child: Row(
+        mainAxisAlignment:
+            pet.subscriptionNo != null && pet.subscriptionNo!.isEmpty
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.center,
         children: [
-          Expanded(
-              child: MaterialButton(
-            color: const Color.fromARGB(255, 150, 204, 57),
-            textColor: Colors.white,
-            onPressed: () {
-              _handlePressSave();
-            },
-            elevation: 0,
-            height: 44,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(22)),
-            ),
-            child: const Text('保存编辑'),
-          )),
+          titleButton('保存编辑', () {
+            _handlePressSave();
+          },
+              height: 46,
+              isCircle: true,
+              width: pet.subscriptionNo != null && pet.subscriptionNo!.isEmpty
+                  ? 155
+                  : 280,
+              icon: Padding(
+                padding: const EdgeInsets.only(right: 10, top: 4),
+                child: Image.asset(
+                  'assets/images/save-edit-icon.png',
+                  width: 22,
+                  height: 22,
+                  fit: BoxFit.cover,
+                ),
+              )),
+          Visibility(
+              visible:
+                  pet.subscriptionNo != null && pet.subscriptionNo!.isEmpty,
+              child: titleButton('开始定制', () {
+                Get.put(GlobalConfigService()).checkoutPet.value = pet;
+                Get.toNamed(AppRoutes.recommendRecipes);
+              },
+                  width: 155,
+                  height: 46,
+                  isCircle: true,
+                  icon: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Image.asset(
+                      'assets/images/time.png',
+                      width: 22,
+                      height: 22,
+                      fit: BoxFit.cover,
+                    ),
+                  )))
         ],
       ),
     );

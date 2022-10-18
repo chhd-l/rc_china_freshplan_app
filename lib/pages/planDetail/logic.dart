@@ -18,8 +18,13 @@ class PlanDetailLogic extends GetxController {
   @override
   void onReady() {
     getSubscriptionDetail();
-    EventBus().addListener(updateSubscription, (arg) {
+    EventBus().addListener(cancelSubscription, (arg) {
+      print(00000);
       getSubscriptionDetail();
+    });
+    EventBus().addListener(updatePlanAddress, (arg) {
+      print(11111);
+      updateSubscriptionAddress();
     });
     super.onReady();
   }
@@ -28,6 +33,17 @@ class PlanDetailLogic extends GetxController {
     await SubscriptionUtil.getSubscription(subscriptionId).then((value) {
       if (value != false) {
         planDetail.value = value;
+      }
+    });
+  }
+
+  updateSubscriptionAddress() async {
+    print(2222222);
+    await SubscriptionUtil.updateSubscriptionAddress(
+            subscriptionId, global.planDetailAddress.value.clonePayAddressToJson())
+        .then((value) {
+      if (value != false) {
+        getSubscriptionDetail();
       }
     });
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/util/address-util.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
+import 'package:rc_china_freshplan_app/common/values/const.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/address.dart';
@@ -18,24 +20,7 @@ class AddressManage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '地址管理',
-            style: textSyle700(fontSize: 18),
-          ),
-          centerTitle: false,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.arrow_back_ios,
-            ),
-            onTap: () {
-              Get.back();
-            },
-          ),
-        ),
-        body: const MyStatefulWidget());
+        appBar: commonAppBar('地址管理'), body: const MyStatefulWidget());
   }
 }
 
@@ -142,7 +127,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               onTap: () {
                                 final global = Get.put(GlobalConfigService());
                                 if (global.isCheckoutSelectAddress.value) {
+                                  global.isCheckoutSelectAddress.value = false;
                                   global.checkoutAddress.value = addressList[i];
+                                  Get.back();
+                                }
+                                if (global.isPlanDetailSelectAddress.value) {
+                                  print(111111);
+                                  global.isPlanDetailSelectAddress.value =
+                                      false;
+                                  EventBus().sendBroadcast(updatePlanAddress);
+                                  global.planDetailAddress.value =
+                                      addressList[i];
                                   Get.back();
                                 }
                               },
