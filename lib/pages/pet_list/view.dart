@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'controller.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 
@@ -123,24 +124,11 @@ class PetListPage extends GetView<PetListController> {
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: MaterialButton(
-                    color: const Color.fromARGB(255, 150, 204, 57),
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.createPet);
-                    },
-                    elevation: 0,
-                    height: 44,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(22)),
-                    ),
-                    child: const Text('添加宠物'),
-                  )),
-                ],
-              ),
+              child: titleButton('添加宠物', () {
+                Get.toNamed(AppRoutes.createPet);
+              },
+                  isCircle: true,
+                  icon: Image.asset('assets/images/pet-circle.png')),
             ),
           ],
         ),

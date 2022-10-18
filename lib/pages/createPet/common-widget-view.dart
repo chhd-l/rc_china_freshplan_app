@@ -34,26 +34,37 @@ Widget commonTitle(String title, {String? description, String? subTitle}) {
   );
 }
 
-Widget selectBox({VoidCallback? onPressed, String? value,Color? bgColor}) {
+Widget selectBox(
+    {VoidCallback? onPressed,
+    String? value,
+    Color? bgColor,
+    Color? fontColor}) {
   return GestureDetector(
     onTap: onPressed ?? () {},
     child: Container(
       padding: const EdgeInsets.all(16),
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
           color: bgColor ?? AppColors.baseGray,
           borderRadius: const BorderRadius.all(Radius.circular(15))),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
           value != null && value != '' ? value : '请选择',
-          style: textSyle700(fontSize: 15),
+          style: textSyle700(
+              fontSize: 15, color: fontColor ?? AppColors.primaryText),
         ),
-        Image.asset('assets/images/arrow-right.png'),
+        // Image.asset('assets/images/arrow-right.png'),
+        Icon(
+          Icons.arrow_forward_ios,
+          size: 15,
+          color: fontColor ?? AppColors.primaryText,
+        )
       ]),
     ),
   );
 }
 
-Widget genderBox(bool isSelected, String gender, VoidCallback onPressed) {
+Widget genderBox(bool isSelected, String gender, VoidCallback onPressed,
+    {Color? bgColor}) {
   return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -61,7 +72,7 @@ Widget genderBox(bool isSelected, String gender, VoidCallback onPressed) {
         height: 50,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: isSelected ? AppColors.tint : AppColors.baseGray,
+            color: isSelected ? AppColors.tint : bgColor ?? AppColors.baseGray,
             borderRadius: const BorderRadius.all(Radius.circular(15))),
         child: Text(gender,
             style: textSyle700(

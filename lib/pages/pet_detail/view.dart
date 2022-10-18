@@ -316,13 +316,16 @@ class PetDetailPage extends StatelessWidget {
                                   },
                                   bgColor: petCtl.breedName.value == ''
                                       ? Colors.white
-                                      : AppColors.tint)
+                                      : AppColors.tint,
+                                  fontColor: petCtl.breedName.value == ''
+                                      ? AppColors.primaryText
+                                      : Colors.white)
                             ],
                           ),
                         ),
                         ''),
                     buildPetItem(
-                        '${petCtl.name.value}绝育状态',
+                        '${petCtl.name.value}的绝育状态',
                         Padding(
                           padding: const EdgeInsets.only(top: 16, bottom: 32),
                           child: Row(
@@ -332,10 +335,10 @@ class PetDetailPage extends StatelessWidget {
                                   () {
                                 print(111);
                                 petCtl.changeIsSterilized(false);
-                              }),
+                              }, bgColor: Colors.white),
                               genderBox(petCtl.isSterilized == true, '已绝育', () {
                                 petCtl.changeIsSterilized(true);
-                              }),
+                              }, bgColor: Colors.white),
                             ],
                           ),
                         ),
@@ -349,15 +352,16 @@ class PetDetailPage extends StatelessWidget {
                 child: Column(
                   children: [
                     buildPetItem(
-                        '近期体重',
+                        '${petCtl.name.value}近期体重',
                         selectBox(
                             value: petCtl.recentWeight.value.toString(),
                             onPressed: () {
                               petCtl.selectWeight(context, 'now');
-                            }),
+                            },
+                            bgColor: Colors.white),
                         '(kg)'),
                     buildPetItem(
-                        '近期状态',
+                        '${petCtl.name.value}近期状态',
                         buildPostureItem(
                             Obx(() => Container(
                                   padding:
@@ -462,15 +466,16 @@ class PetDetailPage extends StatelessWidget {
                         }),
                         ''),
                     buildPetItem(
-                        '成年目标体重',
+                        '${petCtl.name.value}成年目标体重',
                         selectBox(
                             value: petCtl.targetWeight.value.toString(),
                             onPressed: () {
                               petCtl.selectWeight(context, 'target');
-                            }),
+                            },
+                            bgColor: Colors.white),
                         '(kg)'),
                     buildPetItem(
-                        '近期健康状况',
+                        '${petCtl.name.value}近期健康状况',
                         buildHealthItem(
                             Obx(() => Container(
                                   margin: const EdgeInsets.only(bottom: 10),
