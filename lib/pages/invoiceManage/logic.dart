@@ -1,15 +1,22 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/api/consumer/index.dart';
 import 'package:rc_china_freshplan_app/common/util/httpForThree.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class PlanDetailLogic extends GetxController {
   final appSecret = '5ate975gpiv9we6p';
   final appKey = 'N790KtqEKXZujq08';
 
   RxString url = ''.obs;
+  RxString title = '发票管理'.obs;
+  RxBool canGoBack = true.obs;
+
+  late WebViewController webViewController;
 
   @override
   void onReady() {
@@ -33,10 +40,28 @@ class PlanDetailLogic extends GetxController {
       print(value);
       print(value["content"]["accessToken"]);
       url.value =
-          'https://fapiao-h5.easyapi.com?accessToken=4ej9r9psboydrx5ywr8c6ouppkopt7w5}';
+          'https://fapiao-h5.easyapi.com?accessToken=${value["content"]["accessToken"]}';
       if (value["code"] != 1) {
         EasyLoading.showError(value["message"] ?? '获取token失败');
       }
     });
+  }
+
+  /// 获取当前加载页面的 title
+  Future<void> loadTitle() async {
+    final String temp = await webViewController.getTitle() ?? '发票管理';
+    print('title:' + temp);
+    title.value = temp;
+  }
+
+  Set<JavascriptChannel> loadJavascriptChannel(BuildContext context) {
+    final Set<JavascriptChannel> channels = Set<JavascriptChannel>();
+    JavascriptChannel toastChannel = JavascriptChannel(
+        name: 'Toaster',
+        onMessageReceived: (JavascriptMessage message) {
+          SnackBar(content: Text(message.message));
+        });
+    channels.add(toastChannel);
+    return channels;
   }
 }
