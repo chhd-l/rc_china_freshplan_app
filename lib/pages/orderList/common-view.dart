@@ -161,9 +161,9 @@ Widget moreOperate(bool isInvoice, context) {
       itemBuilder: (BuildContext context) {
         return [
           const PopupMenuItem(
-            child: Text("DOTA"),
             value: "dota",
             height: 20,
+            child: Text("DOTA"),
           )
         ];
       },
