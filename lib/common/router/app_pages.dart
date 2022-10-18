@@ -109,11 +109,11 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.breedPick,
-      page: () =>  BreedListPickerPage(),
+      page: () => BreedListPickerPage(),
     ),
     GetPage(
       name: AppRoutes.planDetail,
-      page: () =>  PlanDetailPage(),
+      page: () => PlanDetailPage(),
     ),
   ];
 }
