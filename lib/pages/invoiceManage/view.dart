@@ -15,10 +15,61 @@ class InvoiceManagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: commonAppBar('发票管理', bgColor: AppColors.bgLinearGradient1),
-      body: Obx(() => logic.url.value != ''
-          ? WebView(initialUrl: logic.url.value)
-          : Container()),
+      body: Column(
+        children: [
+          PreferredSize(
+              preferredSize: const Size.fromHeight(70.0),
+              child: Container(
+                padding: const EdgeInsets.only(top: 60.0),
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    IconButton(
+                        icon: Image.asset('assets/images/arrow-left.png'),
+                        onPressed: () {
+                          logic.webViewController.canGoBack().then((value) {
+                            if (value) {
+                              logic.webViewController.goBack();
+                            } else {
+                              Get.back();
+                            }
+                          });
+                        }),
+                    Obx(() => Text(logic.title.value,
+                        style: textSyle400(fontSize: 18))),
+                    const SizedBox(width: 30),
+                  ],
+                ),
+              )),
+          Expanded(
+              child: Obx(() => logic.url.value != ''
+                  ? WebView(
+                      initialUrl: logic.url.value,
+                      onWebViewCreated: (WebViewController controller) {
+                        //页面加载的时候可以获取到controller可以用来reload等操作
+                        logic.webViewController = controller;
+                      },
+                      javascriptChannels: logic.loadJavascriptChannel(context),
+                      onPageFinished: (String url) {
+                        print(1111);
+                        print(logic.webViewController.getTitle());
+                        logic.loadTitle();
+                      },
+                      onPageStarted: (String url) {
+                        print(1111);
+                        print(logic.webViewController.getTitle());
+                        logic.loadTitle();
+                      },
+                      javascriptMode: JavascriptMode.unrestricted,
+                      gestureNavigationEnabled: true,
+                      navigationDelegate: (NavigationRequest request) {
+                        logic.loadTitle();
+                        return NavigationDecision.navigate;
+                      },
+                    )
+                  : Container())),
+        ],
+      ),
     );
   }
 }
