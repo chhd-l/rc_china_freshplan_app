@@ -160,10 +160,13 @@ Widget moreOperate(bool isInvoice, context) {
   return PopupMenuButton(
       itemBuilder: (BuildContext context) {
         return [
-          const PopupMenuItem(
+          PopupMenuItem(
             value: "dota",
-            height: 20,
-            child: Text("DOTA"),
+            height: 25,
+            child: const Center(
+              child: Text("查看发票"),
+            ),
+            onTap: () {},
           )
         ];
       },
