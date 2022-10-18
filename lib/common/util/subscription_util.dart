@@ -52,7 +52,7 @@ class SubscriptionUtil {
                     titleButton('确定', () async {
                       await cancelSubscription(subscriptionId).then((value){
                         if(value==true){
-                          EventBus().sendBroadcast(updateSubscription);
+                          EventBus().sendBroadcast(cancelSubscription);
                         }
                       });
                       Get.back();

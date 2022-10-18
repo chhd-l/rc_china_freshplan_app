@@ -15,7 +15,9 @@ class GlobalConfigService extends GetxService {
   RxList recipesList = [].obs;
   Rx<Pet> checkoutPet = Rx<Pet>(Pet());
   Rx<AddRess> checkoutAddress = Rx<AddRess>(AddRess());
+  Rx<AddRess> planDetailAddress = Rx<AddRess>(AddRess());
   RxBool isCheckoutSelectAddress = false.obs;
+  RxBool isPlanDetailSelectAddress = false.obs;
 
   final List userList = [
     {'name': '好球', 'mobile': '15095806060'},

@@ -8,6 +8,7 @@ import 'package:rc_china_freshplan_app/common/util/subscription_util.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
+import 'package:rc_china_freshplan_app/global.dart';
 
 Widget planCommonBox(Widget child) {
   return Container(
@@ -208,6 +209,7 @@ Widget buildDeliveryInfoView(isCancel, deliveryDate, address) {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   titleButton('修改地址', () {
+                    Get.put(GlobalConfigService()).isPlanDetailSelectAddress.value=true;
                     Get.toNamed(AppRoutes.addressManage);
                   },
                       width: 100,

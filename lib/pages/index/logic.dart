@@ -4,6 +4,7 @@ import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:rc_china_freshplan_app/common/util/subscription_util.dart';
+import 'package:rc_china_freshplan_app/common/values/const.dart';
 
 class IndexLogic extends GetxController {
   RxBool isLogin = false.obs;
@@ -17,6 +18,10 @@ class IndexLogic extends GetxController {
     isLogin.value = StorageUtil().getJSON("loginUser") != null;
     bus.addListener('user-login', (arg) {
       isLogin.value = true;
+      getSubscriptionList();
+    });
+    EventBus().addListener(cancelSubscription, (arg) {
+      print(00000);
       getSubscriptionList();
     });
     getSubscriptionList();
