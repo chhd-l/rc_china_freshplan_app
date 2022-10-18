@@ -158,7 +158,10 @@ Column buildOrderItem(String img, String label, int quantity) {
 Widget buildEmpltyPetListRegion() {
   return Row(
     children: [
-      addPetIconView(),
+      Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: addPetIconView(),
+      ),
       GestureDetector(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -85,7 +85,7 @@ class HttpUtil {
       // }
       return handler.next(options);
     }, onResponse: (response, handler) {
-      print(response);
+      // print(response);
       //上传图片的statusCode是201
       if (response.statusCode != 200 && response.statusCode != 201) {
         print('error....');

@@ -66,10 +66,10 @@ class CreatePetLogic extends GetxController {
       case 4:
         return state.birthday.value != '';
       case 5:
-        if (state.isSterilized.value == '' && showTip) {
+        if (state.isSterilized == '' && showTip) {
           EasyLoading.showInfo('请选择宠物绝育状态');
         }
-        return state.isSterilized.value != '';
+        return state.isSterilized != '';
       case 6:
         if (state.recentWeight.value == 0.0 && showTip) {
           EasyLoading.showInfo('请选择宠物近期体重');
@@ -209,7 +209,7 @@ class CreatePetLogic extends GetxController {
   }
 
   void changeIsSterilized(value) {
-    state.isSterilized.value = value;
+    state.isSterilized = value;
     state.currentStep.value += 1;
   }
 
@@ -289,6 +289,7 @@ class CreatePetLogic extends GetxController {
         val?.insert(0, item['value']);
       });
     }
+    print(state.recentHealth.value);
   }
 
   void selectWeight(context, type) {
@@ -302,9 +303,9 @@ class CreatePetLogic extends GetxController {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  "选择爱宠近期体重(公斤)",
-                  style: TextStyle(
+                Text(
+                  type == 'now' ? "选择爱宠近期体重(公斤)" : "选择爱宠近期成年目标体重(公斤)",
+                  style: const TextStyle(
                     color: AppColors.primaryText,
                     fontSize: 17,
                   ),
@@ -350,27 +351,6 @@ class CreatePetLogic extends GetxController {
               ],
             ))),
         persistent: false);
-
-    // Pickers.showMultiPicker(
-    //   context,
-    //   data: [
-    //     List.generate(70, (index) => index.toString()).toList(),
-    //     ['·'],
-    //     List.generate(9, (index) => index.toString()).toList()
-    //   ],
-    //   selectData: [1, '·', 0],
-    //   onConfirm: (List index, List strData) {
-    //     print('longer >>> 返回数据类型：${strData[0]}');
-    //     if (type == 'now') {
-    //       state.recentWeight.value = double.parse(
-    //           '${jsonEncode(strData[0]).toString()}.${jsonEncode(strData[2]).toString()}');
-    //     }
-    //     if (type == 'target') {
-    //       state.targetWeight.value = double.parse(
-    //           '${jsonEncode(strData[0]).toString()}.${jsonEncode(strData[2]).toString()}');
-    //     }
-    //   },
-    // );
   }
 
   Widget _cupertinoCountPicker(int count, Function(int)? callback) {
