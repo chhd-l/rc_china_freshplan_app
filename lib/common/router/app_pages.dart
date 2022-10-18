@@ -28,7 +28,7 @@ import 'package:rc_china_freshplan_app/pages/planDetail/view.dart';
 class AppPages {
   static String initial = StorageUtil().getJSON('loginUser') == null
       ? AppRoutes.login
-      : AppRoutes.index;
+      : AppRoutes.account;
 
   static final routes = [
     GetPage(

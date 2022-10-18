@@ -128,7 +128,10 @@ class PetListPage extends GetView<PetListController> {
                 Get.toNamed(AppRoutes.createPet);
               },
                   isCircle: true,
-                  icon: Image.asset('assets/images/pet-circle.png')),
+                  icon: Padding(
+                    padding: const EdgeInsets.only(right: 10, top: 2),
+                    child: Image.asset('assets/images/pet-circle.png'),
+                  )),
             ),
           ],
         ),

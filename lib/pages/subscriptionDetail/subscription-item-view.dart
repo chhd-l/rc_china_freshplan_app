@@ -96,53 +96,57 @@ Widget buildSubPetView(pet) {
   return subCommonBox(
     "assets/images/petfoot-icon.png",
     '我的宠物',
-    Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ClipOval(
-          child: CachedNetworkImage(
-            imageUrl: pet["image"],
-            placeholder: (context, url) => Image.asset(defaultImage),
-            errorWidget: (context, url, error) => Image.asset(defaultImage),
-            width: 61,
-            height: 61,
-            fit: BoxFit.cover,
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    GestureDetector(
+        onTap: () {
+          Get.toNamed(AppRoutes.petDetail, arguments: pet["id"] ?? '');
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Text(pet["name"] ?? '球球',
-                    style: textSyle400(fontSize: 15, color: AppColors.text222)),
-                Icon(
-                  pet["gender"] == 'MALE' ? Icons.male : Icons.female,
-                  size: 30,
-                  color: const Color.fromRGBO(255, 227, 185, 1),
-                )
-              ],
+            ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: pet["image"],
+                placeholder: (context, url) => Image.asset(defaultImage),
+                errorWidget: (context, url, error) => Image.asset(defaultImage),
+                width: 61,
+                height: 61,
+                fit: BoxFit.cover,
+              ),
             ),
-            const SizedBox(height: 7),
-            Row(
+            const SizedBox(width: 10),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(pet["breedName"] ?? '英国短毛猫',
-                    style: textSyle400(fontSize: 12, color: AppColors.text999)),
-                const SizedBox(width: 10),
-                Text(getAgeYear(handleDateFromApi(pet["birthday"])) ?? '',
-                    style: textSyle400(fontSize: 12, color: AppColors.text999)),
+                Row(
+                  children: [
+                    Text(pet["name"] ?? '球球',
+                        style: textSyle400(
+                            fontSize: 15, color: AppColors.text222)),
+                    Icon(
+                      pet["gender"] == 'MALE' ? Icons.male : Icons.female,
+                      size: 30,
+                      color: const Color.fromRGBO(255, 227, 185, 1),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 7),
+                Row(
+                  children: [
+                    Text(pet["breedName"] ?? '英国短毛猫',
+                        style: textSyle400(
+                            fontSize: 12, color: AppColors.text999)),
+                    const SizedBox(width: 10),
+                    Text(getAgeYear(handleDateFromApi(pet["birthday"])) ?? '',
+                        style: textSyle400(
+                            fontSize: 12, color: AppColors.text999)),
+                  ],
+                ),
               ],
-            ),
+            )),
+            Image.asset('assets/images/arrow-right.png'),
           ],
         )),
-        GestureDetector(
-          onTap: () {},
-          child: Image.asset('assets/images/arrow-right.png'),
-        )
-      ],
-    ),
   );
 }
 
