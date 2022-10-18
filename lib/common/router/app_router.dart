@@ -19,4 +19,5 @@ abstract class AppRoutes {
   static const choosePet='/choose-pet';
   static const breedPick='/breed-pick';
   static const planDetail='/plan-detail';
+  static const invoiceManage='/invoice-manage';
 }
