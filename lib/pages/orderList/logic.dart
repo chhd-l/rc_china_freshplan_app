@@ -11,8 +11,8 @@ class OrderLogic extends GetxController {
   RxInt curPageNum = 1.obs;
   RxInt total = 0.obs;
 
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  // RefreshController refreshController =
+  //     RefreshController(initialRefresh: false);
 
   void onInit() {
     var args = Get.arguments ?? 'ALL';
@@ -55,7 +55,7 @@ class OrderLogic extends GetxController {
       curPageNum.value += 1;
       getOrderList(curPageNum.value, tagType.value);
     } else {
-      refreshController.loadNoData();
+      // refreshController.loadNoData();
     }
   }
 }

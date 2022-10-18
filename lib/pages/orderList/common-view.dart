@@ -224,6 +224,7 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
       );
     case 'TO_SHIP':
       return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        moreOperate(true),
         invoiceBtn(isInvoice),
         const SizedBox(width: 10),
         titleButton('催发货', () {
@@ -468,7 +469,7 @@ Widget orderDeliveryItem(delivery) {
   );
 }
 
-Widget listTabItem(VoidCallback pressed, bool isSelected,String title) {
+Widget listTabItem(VoidCallback pressed, bool isSelected, String title) {
   return GestureDetector(
     onTap: () {
       pressed();
