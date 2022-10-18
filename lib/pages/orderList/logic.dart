@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 
@@ -10,9 +11,13 @@ class OrderLogic extends GetxController {
   var orderLists = [].obs;
   RxInt curPageNum = 1.obs;
   RxInt total = 0.obs;
+  RxBool showSearchBtn=false.obs;
 
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
+
+  TextEditingController nameOrNumController=TextEditingController();
+  FocusNode nameOrNumFocus=FocusNode();
 
   void onInit() {
     var args = Get.arguments ?? 'ALL';
@@ -22,11 +27,24 @@ class OrderLogic extends GetxController {
       getOrderList(curPageNum.value, tagType.value);
     });
 
+    nameOrNumFocus.addListener(() {
+      print(nameOrNumFocus.hasFocus);
+      showSearchBtn.value = nameOrNumFocus.hasFocus;
+    });
+
     super.onInit();
   }
 
+  @override
+  void onClose(){
+    refreshController.dispose();
+    nameOrNumController.dispose();
+    nameOrNumFocus.dispose();
+    super.onClose();
+  }
+
   void getOrderList(int offset, String orderState) {
-    OrderUtil.getOrders(offset, orderState).then((value) {
+    OrderUtil.getOrders(offset, orderState,nameOrNumController.text).then((value) {
       refreshController.loadComplete();
       refreshController.refreshCompleted();
       if (value != false) {

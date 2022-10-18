@@ -9,7 +9,7 @@ import '../../account/common-view.dart';
 Widget petItem(Pet pet, Pet selectPet) {
   return SizedBox(
     height: 80,
-    width: 90,
+    width: 80,
     child: Column(
       children: [
         Stack(

@@ -6,19 +6,22 @@ import 'package:rc_china_freshplan_app/global.dart';
 import 'state.dart';
 
 class ChoosePetLogic extends GetxController {
-  final state=ChoosePetState();
+  final state = ChoosePetState();
 
   @override
   void onInit() {
-    super.onInit();
-
     getPetList();
+    super.onInit();
   }
 
   void getPetList() {
     PetUtil.getPetList().then((value) {
-      state.petList.value.clear();
-      state.petList.value=value;
+      state.petList.value = [];
+      for (var element in value) {
+        if (element.subscriptionNo!.isEmpty) {
+          state.petList.value.add(element);
+        }
+      }
       if (state.petList.value.isNotEmpty) {
         state.currentPet.value = state.petList.value[0];
       }

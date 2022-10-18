@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:flutter/services.dart';
+import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/pages/orderDetails/logic.dart';
 
 import 'common-view.dart';
@@ -25,20 +26,7 @@ class OrderDetails extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('订单详情'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-          ),
-          onTap: () {
-            Get.toNamed(AppRoutes.orderList);
-          },
-        ),
-      ),
+      appBar: commonAppBar('订单详情'),
       body: SingleChildScrollView(
           child: Obx(() => Column(
                 children: [

@@ -28,7 +28,11 @@ class MyApp extends StatelessWidget {
         builder: (c, w) => GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                FocusScope.of(context).requestFocus(FocusNode());
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus &&
+                    currentFocus.focusedChild != null) {
+                  FocusManager.instance.primaryFocus!.unfocus();
+                }
               },
               child: GetMaterialApp(
                 // translations: Languages(), // 加载翻译初始化

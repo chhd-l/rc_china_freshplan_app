@@ -7,10 +7,14 @@ import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:tobias/tobias.dart' as tobias;
 
 class OrderUtil {
-  static Future getOrders(int currentPage,String orderState) async {
+  static Future getOrders(
+      int currentPage, String orderState, String nameOrNum) async {
     var params = {};
     if (orderState != 'ALL') {
       params['orderState'] = orderState;
+    }
+    if (nameOrNum != '') {
+      params["queryParameters"] = {"fieldName": "", "fieldValue": nameOrNum};
     }
     var data = await OrderEndPoint.getOrders(currentPage, params);
     return data;

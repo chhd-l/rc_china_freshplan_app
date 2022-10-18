@@ -209,13 +209,11 @@ class CreatePetPage extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  genderBox(
-                                      state.isSterilized.value == false, '未绝育',
+                                  genderBox(state.isSterilized == false, '未绝育',
                                       () {
                                     logic.changeIsSterilized(false);
                                   }),
-                                  genderBox(
-                                      state.isSterilized.value == true, '已绝育',
+                                  genderBox(state.isSterilized == true, '已绝育',
                                       () {
                                     logic.changeIsSterilized(true);
                                   }),
@@ -296,8 +294,7 @@ class CreatePetPage extends StatelessWidget {
                           visible: state.currentStep.value == 7,
                           child: Column(
                             children: [
-                              commonTitle(
-                                  '${logic.petNameController.text}近期的健康情况'),
+                              commonTitle('${state.name.value}近期的健康情况'),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 26, bottom: 32),
@@ -307,45 +304,48 @@ class CreatePetPage extends StatelessWidget {
                                     shrinkWrap: true,
                                     itemCount: logic.healthList.length,
                                     itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 15),
-                                        child: GestureDetector(
-                                            onTap: () {
-                                              logic.changeRecentHealth(index);
-                                            },
-                                            child: Container(
-                                              height: 50,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                  color: state
-                                                          .recentHealth.value
-                                                          .contains(logic
-                                                                  .healthList[
-                                                              index]['value'])
-                                                      ? AppColors.tint
-                                                      : AppColors.baseGray,
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                    Radius.circular(15),
-                                                  )),
-                                              child: Text(
-                                                  logic
-                                                          .healthList[index]
-                                                      ['name'],
-                                                  style: textSyle700(
-                                                      fontSize: 15,
-                                                      color: state.recentHealth
-                                                              .value
+                                      return Obx(() => Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 15),
+                                            child: GestureDetector(
+                                                onTap: () {
+                                                  logic.changeRecentHealth(
+                                                      index);
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      color: state
+                                                              .recentHealth.value
                                                               .contains(
                                                                   logic.healthList[
                                                                           index]
                                                                       ['value'])
-                                                          ? Colors.white
-                                                          : AppColors
-                                                              .primaryText)),
-                                            )),
-                                      );
+                                                          ? AppColors.tint
+                                                          : AppColors.baseGray,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                        Radius.circular(15),
+                                                      )),
+                                                  child: Text(
+                                                      logic.healthList[index]
+                                                          ['name'],
+                                                      style: textSyle700(
+                                                          fontSize: 15,
+                                                          color: state
+                                                                  .recentHealth
+                                                                  .value
+                                                                  .contains(logic
+                                                                              .healthList[
+                                                                          index]
+                                                                      ['value'])
+                                                              ? Colors.white
+                                                              : AppColors
+                                                                  .primaryText)),
+                                                )),
+                                          ));
                                     }),
                               ),
                             ],
@@ -354,7 +354,7 @@ class CreatePetPage extends StatelessWidget {
               ),
             ),
             Obx(() => Visibility(
-                visible: state.currentStep.value > 1,
+                visible: (state.currentStep.value > 1),
                 child: fixBottomContainer(
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
