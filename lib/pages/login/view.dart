@@ -1,3 +1,6 @@
+// ignore_for_file: sort_child_properties_last
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -10,6 +13,8 @@ import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/util/address-util.dart';
 import 'package:rc_china_freshplan_app/api/consumer/index.dart';
 
+import 'logic.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -20,6 +25,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final global = Get.put(GlobalConfigService());
+  final LoginLogic logic = Get.put(LoginLogic());
 
   Consumer consumer = Consumer(
       name: '测试用户',
@@ -240,6 +246,27 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
+            const SizedBox(height: 200),
+            Row(children: const [
+              SizedBox(width: 10),
+              Expanded(child: Divider()),
+              SizedBox(width: 10),
+              Text('其他方式登录', style: TextStyle(fontSize: 12)),
+              SizedBox(width: 10),
+              Expanded(child: Divider()),
+              SizedBox(width: 10),
+            ]),
+            const SizedBox(height: 5),
+            Center(
+                child: CupertinoButton(
+                    child: const Image(
+                      image: AssetImage('assets/images/ali_logo.png'),
+                      height: 40,
+                    ),
+                    onPressed: (() {
+                      logic.pay();
+                    }))),
+            const SizedBox(height: 32),
           ],
         ),
       )),

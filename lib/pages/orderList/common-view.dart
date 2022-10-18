@@ -157,28 +157,29 @@ Widget orderListItem(order, context) {
 }
 
 Widget moreOperate(bool isInvoice, context) {
-  var showMore = true;
   return PopupMenuButton(
       itemBuilder: (BuildContext context) {
         return [
           const PopupMenuItem(
             child: Text("DOTA"),
             value: "dota",
+            height: 20,
           )
         ];
       },
-      color: Colors.red,
-      position:PopupMenuPosition.under,
-      child: Text('更多',
-          style: textSyle400(color: const Color.fromRGBO(57, 57, 58, 1))),
+      // color: Colors.red,
+      offset: const Offset(0, 10),
+      position: PopupMenuPosition.under,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: BorderSide(
+        side: const BorderSide(
           width: 2,
-          color: Colors.red,
+          color: Colors.white,
           style: BorderStyle.solid,
         ),
-      ));
+      ),
+      child: Text('更多',
+          style: textSyle400(color: const Color.fromRGBO(57, 57, 58, 1))));
 }
 
 Widget invoiceBtn(bool isInvoice) {
