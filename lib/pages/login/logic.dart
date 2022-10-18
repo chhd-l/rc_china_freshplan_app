@@ -11,7 +11,7 @@ class LoginLogic extends GetxController {
   //支付
   pay() async {
     var result = await tobias.aliPayAuth(
-        "app_id=2021003147642386&auth_type=AUTHACCOUNT&method=alipay.open.auth.sdk.code.get&pid=2088702440004003&product_id=APP_FAST_LOGIN&scope=auth_user&target_id=test0001&apiname=com.alipay.account.auth&biz_type=openservice&sign_type=RSA2&app_name=mc&sign=b5r9QdsgvCPFjBBWRASypzL58SmIaJ2n1aQtlbiHHOBjQ6CNBafftiBymPnlgSKKMNULiBBWg73Fq5ESNQnVqn1ED/7knHi8AG9uUd06FT+GxJZzVXj1ci6JJpzS7V9HAtOeDGTlMSGZj4kRrtOek0DpMl0CEDLn0SmpH6fT9etYb5Y3AOKSet50XjCde+29+scaicU4grv08xNY47IhLx2xcNglgZMxXGTMBMWVzqKe2nxmJDGaezjrsDFVbxwP6UEWWWSXd8EciygAgIs1+JKvoJRrxCCHaHLijsauctj2aCmzHKPEuLXQIk3S07QirA8X8Sa9JvabGx+zlel+3w==");
+        "product_id=APP_FAST_LOGIN&scope=auth_user&apiname=com.alipay.account.auth&auth_type=AUTHACCOUNT&biz_type=openservice&pid=2088212966649221&sign_type=RSA2&target_id=test0001&app_id=2021003115605408&app_name=mc&method=alipay.open.auth.sdk.code.getsign=X06V5tjPgXPUWmB3jXQWkXwsmJABni0l3As8eFDOudqVxzOplSNUB7QVPRoVjXqwEQ6ixLgo7tz/2q3n6qnEjj2vGd1ihNUbgUMAmzG0wGFuYD7KQa6cULhbpdrH21E30Bm91GW5ZloaJIPyFLssMaB0E5nHJvTyWrlAiwtk+wmaFluGkVnOHz62Z2je/amBdjeaMvDiGlYB1F5h3WplTqY3v7sqdJUFpdUcKN5Hr/GN+YiOXLqnYDUStPbqF/ACi9LCHmKDBdS5yzsSgyCbmiAD2Sckonv3944xO8WRyEgPH4qb9t1eajg98Oc2x0ntdaTG2jqeMkOXmKC106rndw==");
     print(result);
     // var payParams = {};
 

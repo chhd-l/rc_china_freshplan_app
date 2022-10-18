@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
         automaticallyImplyLeading: false,
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: SingleChildScrollView(
           child: Container(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Column(
@@ -246,20 +246,23 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-            const Spacer(),
+            const SizedBox(height: 200),
             Row(children: const [
               SizedBox(width: 10),
               Expanded(child: Divider()),
               SizedBox(width: 10),
-              Text('其他方式登录'),
+              Text('其他方式登录', style: TextStyle(fontSize: 12)),
               SizedBox(width: 10),
               Expanded(child: Divider()),
               SizedBox(width: 10),
             ]),
+            const SizedBox(height: 5),
             Center(
                 child: CupertinoButton(
                     child: const Image(
-                        image: AssetImage('assets/images/ali_logo.png')),
+                      image: AssetImage('assets/images/ali_logo.png'),
+                      height: 40,
+                    ),
                     onPressed: (() {
                       logic.pay();
                     }))),
