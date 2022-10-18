@@ -256,7 +256,7 @@ class AccountPage extends GetView<AccountController> {
           '发票管理',
         ),
         onTap: () {
-          Get.toNamed(AppRoutes.addressManage);
+          Get.toNamed(AppRoutes.invoiceManage);
         },
       ),
     );
