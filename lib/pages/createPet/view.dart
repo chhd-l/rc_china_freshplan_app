@@ -385,7 +385,7 @@ class CreatePetPage extends StatelessWidget {
                                 logic.recommendedRecipes();
                               }
                             },
-                              bgColor: state.recentHealth.value.isEmpty
+                              bgColor: !logic.isCanNext(false)
                                   ? const Color.fromRGBO(194, 229, 134, 1)
                                   : AppColors.tint,
                               width: 120,

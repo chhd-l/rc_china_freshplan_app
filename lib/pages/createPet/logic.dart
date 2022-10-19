@@ -78,6 +78,9 @@ class CreatePetLogic extends GetxController {
         }
         return state.breedName.value != '' && state.breedCode.value != '';
       case 4:
+        if (state.birthday.value == '' && showTip) {
+          EasyLoading.showInfo('请选择宠物生日');
+        }
         return state.birthday.value != '';
       case 5:
         if (state.isSterilized == '' && showTip) {
@@ -97,6 +100,11 @@ class CreatePetLogic extends GetxController {
         return state.recentWeight.value != 0.0 &&
             state.targetWeight.value != 0.0 &&
             state.recentPosture.value != '';
+      case 7:
+        if (state.recentHealth.value.isEmpty && showTip) {
+          EasyLoading.showInfo('请选择健康状况');
+        }
+        return state.recentHealth.value.isNotEmpty;
     }
     return true;
   }

@@ -311,7 +311,8 @@ class PetUtil {
                       date =
                           DateFormat("yyyy-MM-dd").format(dateTime).toString();
                     },
-                    initialDateTime: DateTime.now(),
+                    maximumDate: DateTime.now(),
+                    initialDateTime: DateTime.parse(date),
                     minuteInterval: 1,
                     mode: CupertinoDatePickerMode.date,
                   )),

@@ -45,7 +45,7 @@ class CheckoutLogic extends GetxController {
   //支付
   pay() async {
     if (global.checkoutAddress.value.id == null) {
-      EasyLoading.showInfo('please select your address');
+      EasyLoading.showInfo('请先选择收货地址');
       return;
     }
 
