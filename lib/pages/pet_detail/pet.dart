@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -7,10 +6,8 @@ import 'package:get/state_manager.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
-import 'package:rc_china_freshplan_app/common/values/colors.dart';
-import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
-import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/pages/breedPicker/view.dart';
 
 class PetController extends GetxController {
@@ -29,12 +26,7 @@ class PetController extends GetxController {
 
   var pet = PetUtil.getPet((Get.arguments ?? '').toString());
 
-  int weight1 = 0;
-  int weight2 = 0;
-
   var nameController = TextEditingController();
-  var recentWeightController = TextEditingController();
-  var targetWeightController = TextEditingController();
 
   void initData(Pet pet) {
     name.value = pet.name!;
@@ -50,8 +42,6 @@ class PetController extends GetxController {
     recentHealth.value = pet.recentHealth!;
 
     nameController.text = pet.name ?? '';
-    recentWeightController.text = pet.recentWeight.toString();
-    targetWeightController.text = pet.targetWeight.toString();
   }
 
   @override
@@ -79,16 +69,6 @@ class PetController extends GetxController {
     nameController.addListener(() {
       name.value = nameController.text;
     });
-
-    recentWeightController.addListener(() {
-      recentWeight.value =
-          double.tryParse(recentWeightController.text.toString()) ?? 0.0;
-    });
-
-    targetWeightController.addListener(() {
-      targetWeight.value =
-          double.tryParse(targetWeightController.text.toString()) ?? 0.0;
-    });
   }
 
   @override
@@ -106,16 +86,10 @@ class PetController extends GetxController {
     recentPosture.value = "";
     recentHealth.value = [];
     nameController.clear();
-    recentWeightController.clear();
-    targetWeightController.clear();
   }
 
   void changeName(String text) {
     name.value = text;
-  }
-
-  void changeBirthDay(DateTime d) {
-    birthday.value = DateFormat('yyyy-MM-dd').format(d);
   }
 
   void changeGender(String sex) {
@@ -187,47 +161,12 @@ class PetController extends GetxController {
     if (pet.subscriptionNo != null && pet.subscriptionNo!.isNotEmpty) {
       EasyLoading.showToast('定制计划中，暂无法删除');
     } else {
-      showCupertinoDialog(
-          context: context,
-          builder: (context) {
-            return CupertinoAlertDialog(
-              title: const Text(''),
-              content: Column(
-                children: [
-                  Image.asset('assets/images/dialog-tip-icon.png'),
-                  const SizedBox(height: 24),
-                  Text('您确定要删除这个宠物吗？',
-                      style: textSyle700(color: AppColors.text333))
-                ],
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      titleButton('确定', () async {
-                        Get.back();
-                        var deleteFlag = await PetUtil.removePet(pet);
-                        if (deleteFlag) {
-                          Get.toNamed(AppRoutes.petList);
-                        }
-                      },
-                          width: 96,
-                          height: 30,
-                          isCircle: true,
-                          bgColor: const Color.fromRGBO(200, 227, 153, 1),
-                          fontSize: 12),
-                      titleButton('我在想想', () {
-                        Get.back();
-                      }, width: 112, height: 30, isCircle: true, fontSize: 12),
-                    ],
-                  ),
-                )
-              ],
-              insetAnimationDuration: const Duration(seconds: 2),
-            );
-          });
+      showTipAlertDialog(context, '您确定要删除这个宠物吗？', () async {
+        var deleteFlag = await PetUtil.removePet(pet);
+        if (deleteFlag) {
+          Get.toNamed(AppRoutes.petList);
+        }
+      });
     }
   }
 }

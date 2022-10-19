@@ -161,25 +161,19 @@ class CreatePetLogic extends GetxController {
   }
 
   void changeRecentHealth(int index) {
-    print(111);
-    final item = healthList[index];
-    if (item['value'] == 'NONE' && !state.recentHealth.value.contains('NONE')) {
+    final health = healthList[index]["value"];
+    if (health == 'NONE') {
+      state.recentHealth.value = ['NONE'];
+    } else if (state.recentHealth.value.contains(health)) {
       state.recentHealth.update((val) {
-        val?.removeRange(0, state.recentHealth.value.length);
-        val?.insert(0, item['value']);
-      });
-    } else if (state.recentHealth.value.contains(item['value'])) {
-      state.recentHealth.update((val) {
-        val?.remove(item['value']);
+        val?.remove("NONE");
+        val?.remove(health);
       });
     } else {
       state.recentHealth.update((val) {
-        if (state.recentHealth.value.contains('NONE')) {
-          val?.remove('NONE');
-        }
-        val?.insert(0, item['value']);
+        val?.remove("NONE");
+        val?.add(health);
       });
     }
-    print(state.recentHealth.value);
   }
 }
