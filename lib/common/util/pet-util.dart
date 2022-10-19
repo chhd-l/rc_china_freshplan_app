@@ -255,7 +255,7 @@ class PetUtil {
         persistent: false);
   }
 
-  static  Widget _cupertinoCountPicker(int count, Function(int)? callback) {
+  static Widget _cupertinoCountPicker(int count, Function(int)? callback) {
     return CupertinoPicker(
       selectionOverlay: Padding(
         padding: EdgeInsets.zero,
@@ -287,4 +287,42 @@ class PetUtil {
   }
 //select pet weight end
 
+  //select pet birthday
+  static selectBirthday() {
+    var date = DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
+    Get.bottomSheet(
+        Container(
+          height: 350,
+          padding: const EdgeInsets.all(20),
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            color: Colors.white,
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              Text('选择爱宠生日', style: textSyle700(fontSize: 20)),
+              SizedBox(
+                  height: 180,
+                  child: CupertinoDatePicker(
+                    onDateTimeChanged: (dateTime) {
+                      date =
+                          DateFormat("yyyy-MM-dd").format(dateTime).toString();
+                    },
+                    initialDateTime: DateTime.now(),
+                    minuteInterval: 1,
+                    mode: CupertinoDatePickerMode.date,
+                  )),
+              const SizedBox(height: 20),
+              titleButton('确定', () {
+                EventBus().sendBroadcast('pet-birthday-update', date);
+                Get.back();
+              }, isCircle: true)
+            ],
+          ),
+        ),
+        persistent: false);
+  }
 }

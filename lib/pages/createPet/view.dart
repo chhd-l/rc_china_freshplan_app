@@ -5,6 +5,7 @@ import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
+import 'package:rc_china_freshplan_app/data/pet.dart';
 
 import 'common-widget-view.dart';
 import 'logic.dart';
@@ -189,7 +190,7 @@ class CreatePetPage extends StatelessWidget {
                                   onPressed: () {
                                     FocusScope.of(context)
                                         .requestFocus(FocusNode());
-                                    logic.selectBirthday();
+                                    PetUtil.selectBirthday();
                                   }),
                             ),
                           ],

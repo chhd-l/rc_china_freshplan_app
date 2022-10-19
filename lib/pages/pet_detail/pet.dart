@@ -11,11 +11,6 @@ import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:intl/intl.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:rc_china_freshplan_app/common/util/http.dart';
-import 'package:dio/src/multipart_file.dart' as DIOMUL;
-import 'package:dio/src/form_data.dart' as DIOFORM;
-import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:rc_china_freshplan_app/pages/breedPicker/view.dart';
 
 class PetController extends GetxController {
@@ -69,6 +64,9 @@ class PetController extends GetxController {
     });
     EventBus().addListener('pet-target-weight-update', (arg) {
       targetWeight.value = arg;
+    });
+    EventBus().addListener('pet-birthday-update', (arg) {
+      birthday.value = arg;
     });
     super.onReady();
   }
@@ -149,16 +147,6 @@ class PetController extends GetxController {
     }
   }
 
-  void changeRecentWeight(String text) {
-    double? v = double.tryParse(text);
-    recentWeight.value = v ?? 0.0;
-  }
-
-  void changeTargetWeight(String text) {
-    double? v = double.tryParse(text);
-    targetWeight.value = v ?? 0.0;
-  }
-
   void selectBreed() {
     Get.to(() => BreedListPickerPage(), fullscreenDialog: true, arguments: {
       'petType': type.value,
@@ -232,11 +220,7 @@ class PetController extends GetxController {
                           fontSize: 12),
                       titleButton('我在想想', () {
                         Get.back();
-                      },
-                          width: 112,
-                          height: 30,
-                          isCircle: true,
-                          fontSize: 12),
+                      }, width: 112, height: 30, isCircle: true, fontSize: 12),
                     ],
                   ),
                 )

@@ -122,17 +122,13 @@ class PetDetailPage extends StatelessWidget {
                         ''),
                     buildPetItem(
                         '宠物生日',
-                        buildDateTimeItem(
-                            context,
-                            Obx(() => Text(
-                                  petCtl.birthday.value,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                  ),
-                                )), (d) {
-                          petCtl.changeBirthDay(d);
-                        }),
+                        selectBox(
+                            value: petCtl.birthday.value,
+                            onPressed: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              PetUtil.selectBirthday();
+                            },
+                            bgColor: Colors.white),
                         ''),
                     buildPetItem(
                         '${petCtl.name.value}是',

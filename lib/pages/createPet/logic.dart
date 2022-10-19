@@ -48,6 +48,9 @@ class CreatePetLogic extends GetxController {
     EventBus().addListener('pet-target-weight-update', (arg) {
       state.targetWeight.value = arg;
     });
+    EventBus().addListener('pet-birthday-update', (arg) {
+      state.birthday.value = arg;
+    });
     super.onReady();
   }
 
@@ -139,46 +142,6 @@ class CreatePetLogic extends GetxController {
   void changeIsSterilized(value) {
     state.isSterilized = value;
     state.currentStep.value += 1;
-  }
-
-  void selectBirthday() {
-    state.birthday.value = state.birthday.value != ''
-        ? state.birthday.value
-        : DateFormat("yyyy-MM-dd").format(DateTime.now()).toString();
-    Get.bottomSheet(
-        Container(
-          height: 350,
-          padding: const EdgeInsets.all(20),
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              Text('选择爱宠生日', style: textSyle700(fontSize: 20)),
-              SizedBox(
-                  height: 180,
-                  child: CupertinoDatePicker(
-                    onDateTimeChanged: (dateTime) {
-                      state.birthday.value =
-                          DateFormat("yyyy-MM-dd").format(dateTime).toString();
-                    },
-                    initialDateTime: DateTime.now(),
-                    minuteInterval: 1,
-                    mode: CupertinoDatePickerMode.date,
-                  )),
-              const SizedBox(height: 20),
-              titleButton('确定', () {
-                state.currentStep.value += 1;
-                Get.back();
-              }, isCircle: true)
-            ],
-          ),
-        ),
-        persistent: false);
   }
 
   void selectNormalBreed(breed) {
