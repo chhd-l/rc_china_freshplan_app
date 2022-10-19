@@ -26,7 +26,7 @@ Widget titleButton(String title, VoidCallback? onPressed,
             BorderRadius.all(Radius.circular(isCircle ? height / 2.0 : 4)),
         color: bgColor),
     child: MaterialButton(
-      materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -151,7 +151,8 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
     Color bgColor = Colors.white}) {
   return PreferredSize(
       preferredSize: const Size.fromHeight(70.0),
-      child: Padding(
+      child: Container(
+        color: bgColor,
         padding: const EdgeInsets.only(top: 10.0),
         child: AppBar(
           backgroundColor: bgColor,

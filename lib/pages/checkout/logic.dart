@@ -21,6 +21,7 @@ class CheckoutLogic extends GetxController {
   final global = Get.put(GlobalConfigService());
 
   TextEditingController remarkController = TextEditingController();
+  FocusNode remarkFocusNode = FocusNode();
 
   @override
   void onReady() {
@@ -40,6 +41,13 @@ class CheckoutLogic extends GetxController {
           state.newDiscountPrice -
           state.deliveryPrice);
     }
+  }
+
+  @override
+  void onClose() {
+    remarkFocusNode.dispose();
+    remarkController.dispose();
+    super.onClose();
   }
 
   //支付

@@ -21,7 +21,6 @@ class CheckoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: commonAppBar('确认订单', bgColor: AppColors.bgLinearGradient1),
         body: SafeArea(
           child: Column(children: [
@@ -95,6 +94,7 @@ class CheckoutPage extends StatelessWidget {
                                   alignment: Alignment.centerRight,
                                   child: textFiled(
                                       controller: logic.remarkController,
+                                      focusNode: logic.remarkFocusNode,
                                       fillColor: Colors.white,
                                       hintStyle: const TextStyle(
                                           fontSize: 16,
@@ -129,7 +129,7 @@ class CheckoutPage extends StatelessWidget {
                   }, width: 114, isCircle: true, height: 36)
                 ],
               ),
-            )
+            ),
           ]),
         ));
   }
