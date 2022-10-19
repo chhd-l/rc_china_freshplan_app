@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 
+import '../../common/router/app_router.dart';
 import '../../common/util/order_util.dart';
 import '../../common/widgets/factor.dart';
 import '../orderList/common-view.dart';
@@ -387,19 +388,20 @@ Widget buildOrderPayInfoView(
 }
 
 Widget buildOrderOperatorView(
-    orderState, totalPrice, context, delivery, orderNum,order) {
+    orderState, totalPrice, context, delivery, orderNum, order) {
   return Container(
     padding: const EdgeInsets.all(12.0),
     width: double.infinity,
     decoration: const BoxDecoration(
       color: Colors.white,
     ),
-    child:
-        orderOperatorItem(orderState, totalPrice, context, delivery, orderNum,order),
+    child: orderOperatorItem(
+        orderState, totalPrice, context, delivery, orderNum, order),
   );
 }
 
-Widget orderOperatorItem(orderState, totalPrice, context, delivery, orderNum,order) {
+Widget orderOperatorItem(
+    orderState, totalPrice, context, delivery, orderNum, order) {
   switch (orderState) {
     case "UNPAID":
       return Row(
@@ -414,8 +416,6 @@ Widget orderOperatorItem(orderState, totalPrice, context, delivery, orderNum,ord
           titleButton(
             '去支付',
             () {
-              print(1111);
-              print(order);
               OrderUtil.orderPay(order);
             },
             width: 114,
@@ -446,7 +446,13 @@ Widget orderOperatorItem(orderState, totalPrice, context, delivery, orderNum,ord
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          titleButton('申请开票', () {},
+          titleButton(
+              order["invoice"]["status"] == 'DELIVERY_STATE' ||
+                      order["invoice"]["status"] == 'PRINT_STATE'
+                  ? '查看发票'
+                  : '申请开票', () {
+            Get.toNamed(AppRoutes.invoiceDetail, arguments: orderNum);
+          },
               borderColor: const Color.fromRGBO(195, 195, 195, 1),
               fontColor: AppColors.primaryText,
               width: 114,
@@ -482,7 +488,13 @@ Widget orderOperatorItem(orderState, totalPrice, context, delivery, orderNum,ord
               isCircle: true,
               bgColor: Colors.white),
           const SizedBox(width: 10),
-          titleButton('查看发票', () {},
+          titleButton(
+              order["invoice"]["status"] == 'DELIVERY_STATE' ||
+                      order["invoice"]["status"] == 'PRINT_STATE'
+                  ? '查看发票'
+                  : '申请开票', () {
+            Get.toNamed(AppRoutes.invoiceDetail, arguments: orderNum);
+          },
               borderColor: const Color.fromRGBO(195, 195, 195, 1),
               fontColor: AppColors.primaryText,
               width: 114,

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/api/order/index.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
+import 'package:rc_china_freshplan_app/common/values/const.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:tobias/tobias.dart' as tobias;
 
@@ -40,10 +42,24 @@ class OrderUtil {
     return data;
   }
 
+  static Future cancelOrder(String orderNum) async {
+    var data = await OrderEndPoint.cancelOrder(orderNum);
+    if (data == false) {
+      return false;
+    }
+    if (data) {
+      EventBus().sendBroadcast(updateOrder);
+    }
+    return data;
+  }
+
   static Future completeOrder(String orderNum) async {
     var data = await OrderEndPoint.completeOrder(orderNum);
     if (data == false) {
       return false;
+    }
+    if (data) {
+      EventBus().sendBroadcast(updateOrder);
     }
     return data;
   }
@@ -52,6 +68,9 @@ class OrderUtil {
     var data = await OrderEndPoint.deleteOrder(orderNum);
     if (data == false) {
       return false;
+    }
+    if (data) {
+      EventBus().sendBroadcast(updateOrder);
     }
     return data;
   }
@@ -79,7 +98,7 @@ class OrderUtil {
       if (result["resultStatus"].toString() == '9000' ||
           result["resultStatus"].toString() == '6001') {
         //9000 订单支付成功  6000 用户中途取消
-        Get.offAllNamed(AppRoutes.orderList);
+        EventBus().sendBroadcast(updateOrder);
       }
     });
   }

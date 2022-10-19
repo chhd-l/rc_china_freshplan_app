@@ -4,8 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/api/order/index.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/order_util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
+import 'package:rc_china_freshplan_app/common/values/const.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 
 import '../../common/router/app_router.dart';
@@ -212,7 +214,7 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
         children: [
           Expanded(child: moreOperate(isInvoice, context, orderNum)),
           titleButton('取消', () async {
-            await OrderEndPoint.cancelOrder(orderNum);
+            await OrderUtil.cancelOrder(orderNum);
           },
               bgColor: Colors.white,
               width: 90,
