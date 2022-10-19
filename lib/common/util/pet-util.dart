@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
@@ -190,4 +192,99 @@ class PetUtil {
     }
   }
   //select pet avatar end
+
+  //select pet weight start
+  static selectWeight(context, type) {
+    int weight1 = 0;
+    int weight2 = 0;
+    Get.bottomSheet(
+        Container(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
+            height: 350,
+            color: Colors.white,
+            alignment: Alignment.center,
+            child: SafeArea(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "选择爱宠近期体重(公斤)",
+                  style: textSyle700(fontSize: 17),
+                ),
+                Expanded(
+                    child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Row(children: [
+                        Expanded(
+                            child: _cupertinoCountPicker(71, (i) {
+                          weight1 = i;
+                        })),
+                        Expanded(
+                            child: _cupertinoCountPicker(10, (i) {
+                          weight2 = i;
+                        })),
+                      ]),
+                      Text(
+                        ".",
+                        style: textSyle700(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                )),
+                titleButton("确定", () {
+                  if (type == 'now') {
+                    EventBus().sendBroadcast(
+                        'pet-recent-weight-update',
+                        double.parse(
+                            '${weight1.toString()}.${weight2.toString()}'));
+                  }
+                  if (type == 'target') {
+                    EventBus().sendBroadcast(
+                        'pet-target-weight-update',
+                        double.parse(
+                            '${weight1.toString()}.${weight2.toString()}'));
+                  }
+                  Get.back();
+                }, isCircle: true)
+              ],
+            ))),
+        persistent: false);
+  }
+
+  static  Widget _cupertinoCountPicker(int count, Function(int)? callback) {
+    return CupertinoPicker(
+      selectionOverlay: Padding(
+        padding: EdgeInsets.zero,
+        child: Column(
+          children: const [
+            Divider(
+              height: 1,
+              color: Colors.grey,
+            ),
+            Spacer(),
+            Divider(
+              height: 1,
+              color: Colors.grey,
+            ),
+          ],
+        ),
+      ),
+      magnification: 1.22,
+      squeeze: 1.2,
+      useMagnifier: true,
+      itemExtent: 32.0,
+      onSelectedItemChanged: callback,
+      children: List<Widget>.generate(count, (int index) {
+        return Center(
+          child: Text((index).toString()),
+        );
+      }),
+    );
+  }
+//select pet weight end
+
 }

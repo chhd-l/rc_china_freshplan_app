@@ -64,6 +64,12 @@ class PetController extends GetxController {
     EventBus().addListener('pet-avatar-update', (arg) {
       image.value = arg;
     });
+    EventBus().addListener('pet-recent-weight-update', (arg) {
+      recentWeight.value = arg;
+    });
+    EventBus().addListener('pet-target-weight-update', (arg) {
+      targetWeight.value = arg;
+    });
     super.onReady();
   }
 
@@ -165,102 +171,6 @@ class PetController extends GetxController {
 
   void changeIsSterilized(value) {
     isSterilized = value;
-  }
-
-  void selectWeight(context, type) {
-    Get.bottomSheet(
-        Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 5),
-            height: 350,
-            color: Colors.white,
-            alignment: Alignment.center,
-            child: SafeArea(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  "选择爱宠近期体重(公斤)",
-                  style: TextStyle(
-                    color: AppColors.primaryText,
-                    fontSize: 17,
-                  ),
-                ),
-                Expanded(
-                    child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Row(children: [
-                        Expanded(
-                            child: _cupertinoCountPicker(71, (i) {
-                          weight1 = i;
-                        })),
-                        Expanded(
-                            child: _cupertinoCountPicker(10, (i) {
-                          weight2 = i;
-                        })),
-                      ]),
-                      const Text(
-                        ".",
-                        style: TextStyle(
-                          color: AppColors.primaryText,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
-                titleButton("确定", () {
-                  if (type == 'now') {
-                    recentWeight.value = double.parse(
-                        '${weight1.toString()}.${weight2.toString()}');
-                  }
-                  if (type == 'target') {
-                    targetWeight.value = double.parse(
-                        '${weight1.toString()}.${weight2.toString()}');
-                  }
-                  Get.back();
-                }, isCircle: true)
-              ],
-            ))),
-        persistent: false);
-  }
-
-  Widget _cupertinoCountPicker(int count, Function(int)? callback) {
-    return CupertinoPicker(
-      selectionOverlay: _selectionOverlay(),
-      magnification: 1.22,
-      squeeze: 1.2,
-      useMagnifier: true,
-      itemExtent: 32.0,
-      onSelectedItemChanged: callback,
-      children: List<Widget>.generate(count, (int index) {
-        return Center(
-          child: Text((index).toString()),
-        );
-      }),
-    );
-  }
-
-  _selectionOverlay() {
-    return Padding(
-      padding: EdgeInsets.zero,
-      child: Column(
-        children: const [
-          Divider(
-            height: 1,
-            color: Colors.grey,
-          ),
-          Spacer(),
-          Divider(
-            height: 1,
-            color: Colors.grey,
-          ),
-        ],
-      ),
-    );
   }
 
   void handlePressSave() async {

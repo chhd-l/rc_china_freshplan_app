@@ -5,6 +5,7 @@ import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
+import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'util.dart';
 import 'tabs.dart';
 import 'pet.dart';
@@ -255,7 +256,7 @@ class PetDetailPage extends StatelessWidget {
                         selectBox(
                             value: petCtl.recentWeight.value.toString(),
                             onPressed: () {
-                              petCtl.selectWeight(context, 'now');
+                              PetUtil.selectWeight(context, 'now');
                             },
                             bgColor: Colors.white),
                         '(kg)'),
@@ -300,7 +301,7 @@ class PetDetailPage extends StatelessWidget {
                         selectBox(
                             value: petCtl.targetWeight.value.toString(),
                             onPressed: () {
-                              petCtl.selectWeight(context, 'target');
+                              PetUtil.selectWeight(context, 'target');
                             },
                             bgColor: Colors.white),
                         '(kg)'),

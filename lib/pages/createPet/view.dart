@@ -233,7 +233,7 @@ class CreatePetPage extends StatelessWidget {
                                 child: selectBox(
                                     value: state.recentWeight.value.toString(),
                                     onPressed: () {
-                                      logic.selectWeight(context, 'now');
+                                      PetUtil.selectWeight(context, 'now');
                                     }),
                               ),
                               commonTitle('${state.name.value}近期状态'),
@@ -296,7 +296,7 @@ class CreatePetPage extends StatelessWidget {
                                 child: selectBox(
                                     value: state.targetWeight.value.toString(),
                                     onPressed: () {
-                                      logic.selectWeight(context, 'target');
+                                      PetUtil.selectWeight(context, 'target');
                                     }),
                               ),
                             ],
