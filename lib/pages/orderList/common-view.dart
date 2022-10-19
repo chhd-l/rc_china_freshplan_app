@@ -148,27 +148,34 @@ Widget orderListItem(order, context) {
             ),
           ),
           const Divider(color: Color.fromARGB(255, 231, 231, 231)),
-          orderOperateBtn(order['orderState']['orderState'], false,
-              order['orderNumber'], context, order["delivery"], order),
+          orderOperateBtn(
+              order['orderState']['orderState'],
+              order["invoice"]["status"] == 'DELIVERY_STATE' ||
+                  order["invoice"]["status"] == 'PRINT_STATE',
+              order['orderNumber'],
+              context,
+              order["delivery"],
+              order),
         ],
       ),
     ),
   );
 }
 
-Widget moreOperate(bool isInvoice, context) {
+Widget moreOperate(bool isInvoice, context, String orderNum) {
   return PopupMenuButton(
       itemBuilder: (BuildContext context) {
         return [
           PopupMenuItem(
-            value: "dota",
-            height: 25,
-            child: const Center(
-              child: Text("查看发票"),
-            ),
-            onTap: () {},
-          )
+              value: "dota",
+              height: 25,
+              child: Center(
+                child: Text(isInvoice ? "查看发票" : '申请开票'),
+              ))
         ];
+      },
+      onSelected: (item) {
+        Get.toNamed(AppRoutes.invoiceDetail, arguments: orderNum);
       },
       // color: Colors.red,
       offset: const Offset(0, 10),
@@ -185,8 +192,10 @@ Widget moreOperate(bool isInvoice, context) {
           style: textSyle400(color: const Color.fromRGBO(57, 57, 58, 1))));
 }
 
-Widget invoiceBtn(bool isInvoice) {
-  return titleButton(isInvoice ? '查看发票' : '申请开票', () {},
+Widget invoiceBtn(bool isInvoice, String orderNum) {
+  return titleButton(isInvoice ? '查看发票' : '申请开票', () {
+    Get.toNamed(AppRoutes.invoiceDetail, arguments: orderNum);
+  },
       bgColor: Colors.white,
       width: 116,
       height: 34,
@@ -201,7 +210,7 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
     case 'UNPAID':
       return Row(
         children: [
-          Expanded(child: moreOperate(isInvoice, context)),
+          Expanded(child: moreOperate(isInvoice, context, orderNum)),
           titleButton('取消', () async {
             await OrderEndPoint.cancelOrder(orderNum);
           },
@@ -224,9 +233,8 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
         ],
       );
     case 'TO_SHIP':
-      return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        moreOperate(true, context),
-        invoiceBtn(isInvoice),
+      return Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        invoiceBtn(isInvoice, orderNum),
         const SizedBox(width: 10),
         titleButton('催发货', () {
           OrderUtil.toShipTip(context);
@@ -240,7 +248,7 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
       ]);
     case 'SHIPPED':
       return Row(children: [
-        Expanded(child: moreOperate(isInvoice, context)),
+        Expanded(child: moreOperate(isInvoice, context, orderNum)),
         titleButton('查看物流', () {
           showOrderDeliveryBottomSheet(context, delivery);
         },
@@ -275,7 +283,7 @@ Widget orderOperateBtn(String orderState, bool isInvoice, String orderNum,
               borderColor: const Color.fromARGB(255, 205, 205, 205),
               fontColor: AppColors.primaryText),
           const SizedBox(width: 10),
-          invoiceBtn(isInvoice),
+          invoiceBtn(isInvoice, orderNum),
         ],
       );
     case "VOID":

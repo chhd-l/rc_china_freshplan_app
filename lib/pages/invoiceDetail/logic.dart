@@ -11,6 +11,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class PlanDetailLogic extends GetxController {
   final appSecret = '5ate975gpiv9we6p';
   final appKey = 'N790KtqEKXZujq08';
+  final orderNum = Get.arguments ?? '';
 
   RxString url = ''.obs;
   RxString title = '发票管理'.obs;
@@ -37,13 +38,12 @@ class PlanDetailLogic extends GetxController {
       EasyLoading.dismiss();
       if (value == null) return;
       value = json.decode(value.toString());
-      print(value);
       if (value["code"] != 1) {
         EasyLoading.showError(value["message"] ?? '获取token失败');
         return;
       }
       url.value =
-          'https://fapiao-h5.easyapi.com?accessToken=${value["content"]["accessToken"]}';
+          'https://fapiao-h5.easyapi.com/make/single-query?accessToken=${value["content"]["accessToken"]}&outOrderNo=$orderNum';
     });
   }
 

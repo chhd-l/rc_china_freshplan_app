@@ -20,4 +20,5 @@ abstract class AppRoutes {
   static const breedPick='/breed-pick';
   static const planDetail='/plan-detail';
   static const invoiceManage='/invoice-manage';
+  static const invoiceDetail='/invoice-detail';
 }
