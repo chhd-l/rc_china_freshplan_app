@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'util.dart';
@@ -37,7 +38,7 @@ class PetDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Obx(() => petAvatarPick(() {
-                          petCtl.selectImageType();
+                          PetUtil.selectImageType();
                         }, petCtl.image.value)),
                     const SizedBox(width: 10),
                     Obx(() => Text(

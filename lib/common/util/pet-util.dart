@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
+import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/api/pet/index.dart';
 import 'storage.dart';
+
+import 'package:dio/src/multipart_file.dart' as DIOMUL;
+import 'package:dio/src/form_data.dart' as DIOFORM;
 
 class PetUtil {
   static List<Pet> petList = [];
@@ -107,4 +114,80 @@ class PetUtil {
     petList.clear();
     StorageUtil().remove('${consumer?.phone}_petList');
   }
+
+  //select pet avatar start
+  static selectImageType() {
+    Get.bottomSheet(Container(
+      height: 320,
+      padding: const EdgeInsets.all(24),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+      child: Column(
+        children: [
+          Text("上传宠物头像", style: textSyle700(fontSize: 18)),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      tapHeadIcon('camera');
+                      Get.back();
+                    },
+                    child: Image.asset(
+                      'assets/images/carame-image.png',
+                      width: 63,
+                      height: 63,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text('去拍照', style: textSyle700(fontSize: 15)),
+                ],
+              ),
+              Column(
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        tapHeadIcon('gallery');
+                        Get.back();
+                      },
+                      child: Image.asset('assets/images/carame-image.png')),
+                  const SizedBox(height: 16),
+                  Text('相册选择', style: textSyle700(fontSize: 15)),
+                ],
+              )
+            ],
+          ),
+          const SizedBox(height: 40),
+          titleButton('取消', () {
+            Get.back();
+          }, height: 46, isCircle: true)
+        ],
+      ),
+    ));
+  }
+
+  static Future upLoadImage(XFile image) async {
+    var data = await PetEndPoint.uploadImage(image);
+    return data;
+  }
+
+  static Future tapHeadIcon(type) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+        imageQuality: 80,
+        maxWidth: 540,
+        source: type == 'camera' ? ImageSource.camera : ImageSource.gallery);
+    if (pickedFile != null) {
+      await PetEndPoint.uploadImage(pickedFile).then((value) {
+        EventBus().sendBroadcast('pet-avatar-update', value);
+      });
+    }
+  }
+  //select pet avatar end
 }

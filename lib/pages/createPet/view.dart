@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
@@ -68,7 +69,7 @@ class CreatePetPage extends StatelessWidget {
                         child: Column(
                           children: [
                             petAvatarPick(() {
-                              logic.selectImageType();
+                              PetUtil.selectImageType();
                             }, state.avatar.value,
                                 bgColor: AppColors.selectYellow,
                                 childAsset:

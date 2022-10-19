@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_pickers/style/picker_style.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:dio/src/multipart_file.dart' as DIOMUL;
-import 'package:dio/src/form_data.dart' as DIOFORM;
+
 import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
@@ -17,7 +16,6 @@ import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_pickers/pickers.dart';
 import 'package:rc_china_freshplan_app/pages/breedPicker/view.dart';
 
 import 'state.dart';
@@ -40,12 +38,19 @@ class CreatePetLogic extends GetxController {
   ];
 
   @override
-  void onInit() {
-    super.onInit();
+  void onReady() {
+    EventBus().addListener('pet-avatar-update', (arg) {
+      state.avatar.value = arg;
+    });
+    super.onReady();
+  }
 
+  @override
+  void onInit() {
     petNameController.addListener(() {
       state.name.value = petNameController.text;
     });
+    super.onInit();
   }
 
   isCanNext(showTip) {
@@ -85,89 +90,6 @@ class CreatePetLogic extends GetxController {
             state.recentPosture.value != '';
     }
     return true;
-  }
-
-  selectImageType() {
-    Get.bottomSheet(Container(
-      height: 320,
-      padding: const EdgeInsets.all(24),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
-      child: Column(
-        children: [
-          Text("上传宠物头像", style: textSyle700(fontSize: 18)),
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      tapHeadIcon('camera');
-                    },
-                    child: Image.asset(
-                      'assets/images/carame-image.png',
-                      width: 63,
-                      height: 63,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text('去拍照', style: textSyle700(fontSize: 15)),
-                ],
-              ),
-              Column(
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        tapHeadIcon('gallery');
-                      },
-                      child: Image.asset('assets/images/carame-image.png')),
-                  const SizedBox(height: 16),
-                  Text('相册选择', style: textSyle700(fontSize: 15)),
-                ],
-              )
-            ],
-          ),
-          const SizedBox(height: 40),
-          titleButton('取消', () {
-            Get.back();
-          }, height: 46, isCircle: true)
-        ],
-      ),
-    ));
-  }
-
-  tapHeadIcon(type) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-        imageQuality: 80,
-        maxWidth: 540,
-        source: type == 'camera' ? ImageSource.camera : ImageSource.gallery);
-    if (pickedFile != null) {
-      _upLoadImage(pickedFile);
-    }
-  }
-
-  _upLoadImage(XFile image) async {
-    String path = image.path;
-    var name = path.substring(path.lastIndexOf("/") + 1, path.length);
-    DIOFORM.FormData formdata = DIOFORM.FormData.fromMap(
-        {"file": await DIOMUL.MultipartFile.fromFile(path, filename: name)});
-
-    EasyLoading.show();
-    HttpUtil()
-        .post(upload, params: formdata)
-        .onError((ErrorEntity error, stackTrace) {
-      EasyLoading.showError(error.message!);
-    }).then((value) {
-      EasyLoading.dismiss();
-      if (value == null) return;
-      state.avatar.value = json.decode(value.toString())["url"];
-    });
   }
 
   void recommendedRecipes() async {

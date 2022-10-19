@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
@@ -56,6 +57,14 @@ class PetController extends GetxController {
     nameController.text = pet.name ?? '';
     recentWeightController.text = pet.recentWeight.toString();
     targetWeightController.text = pet.targetWeight.toString();
+  }
+
+  @override
+  void onReady() {
+    EventBus().addListener('pet-avatar-update', (arg) {
+      image.value = arg;
+    });
+    super.onReady();
   }
 
   @override
@@ -142,32 +151,6 @@ class PetController extends GetxController {
   void changeTargetWeight(String text) {
     double? v = double.tryParse(text);
     targetWeight.value = v ?? 0.0;
-  }
-
-  void uploadPetImage(XFile file) async {
-    String path = file.path;
-    var name = path.substring(path.lastIndexOf("/") + 1, path.length);
-
-    // state.avatar.value = path;
-
-    DIOFORM.FormData formdata = DIOFORM.FormData.fromMap(
-        {"file": await DIOMUL.MultipartFile.fromFile(path, filename: name)});
-
-    EasyLoading.show();
-    HttpUtil()
-        .post(upload, params: formdata)
-        .onError((ErrorEntity error, stackTrace) {
-      print('333333');
-      print(error.message);
-      EasyLoading.showError(error.message!);
-    }).then((value) {
-      EasyLoading.dismiss();
-      print('11111');
-      print(value);
-      if (value == null) return;
-      image.value = json.decode(value.toString())["url"];
-      print(image.value);
-    });
   }
 
   void selectBreed() {
@@ -278,71 +261,6 @@ class PetController extends GetxController {
         ],
       ),
     );
-  }
-
-  void tapHeadIcon(type) async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(
-        imageQuality: 80,
-        maxWidth: 540,
-        source: type == 'camera' ? ImageSource.camera : ImageSource.gallery);
-    if (pickedFile != null) {
-      uploadPetImage(pickedFile);
-    }
-  }
-
-  selectImageType() {
-    Get.bottomSheet(Container(
-      height: 320,
-      padding: const EdgeInsets.all(24),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
-      child: Column(
-        children: [
-          Text("上传宠物头像", style: textSyle700(fontSize: 18)),
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      tapHeadIcon('camera');
-                    },
-                    child: Image.asset(
-                      'assets/images/carame-image.png',
-                      width: 63,
-                      height: 63,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text('去拍照', style: textSyle700(fontSize: 15)),
-                ],
-              ),
-              Column(
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        tapHeadIcon('gallery');
-                      },
-                      child: Image.asset('assets/images/carame-image.png')),
-                  const SizedBox(height: 16),
-                  Text('相册选择', style: textSyle700(fontSize: 15)),
-                ],
-              )
-            ],
-          ),
-          const SizedBox(height: 40),
-          titleButton('取消', () {
-            Get.back();
-          }, height: 46, isCircle: true)
-        ],
-      ),
-    ));
   }
 
   void handlePressSave() async {
