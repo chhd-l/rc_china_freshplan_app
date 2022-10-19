@@ -83,7 +83,7 @@ Widget petItemView(Pet pet) {
 Widget addPetIconView() {
   return GestureDetector(
     child: Container(
-      margin: const EdgeInsets.only(right: 10),
+      margin: const EdgeInsets.only(right: 10,left: 20),
       width: 58,
       height: 58,
       decoration: BoxDecoration(
@@ -158,10 +158,7 @@ Column buildOrderItem(String img, String label, int quantity) {
 Widget buildEmpltyPetListRegion() {
   return Row(
     children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: addPetIconView(),
-      ),
+      addPetIconView(),
       GestureDetector(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

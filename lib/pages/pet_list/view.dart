@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'controller.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
@@ -10,22 +11,8 @@ class PetListPage extends GetView<PetListController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.getPetList();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('宠物列表'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-          ),
-          onTap: () {
-            Get.toNamed(AppRoutes.account);
-          },
-        ),
-      ),
+      appBar: commonAppBar('宠物列表'),
       backgroundColor: const Color.fromARGB(255, 249, 249, 249),
       body: Container(
         padding: const EdgeInsets.all(0),
@@ -97,8 +84,7 @@ class PetListPage extends GetView<PetListController> {
                                               pet.breedName ?? '',
                                               style: const TextStyle(
                                                   fontSize: 12,
-                                                  color: Color.fromARGB(
-                                                      255, 153, 153, 153)),
+                                                  color: AppColors.text999),
                                             ),
                                           ],
                                         ),

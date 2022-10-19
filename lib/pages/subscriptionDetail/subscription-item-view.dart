@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
@@ -12,7 +10,7 @@ Widget subCommonBox(String icon, String title, Widget child,
     {String? subTitle = ''}) {
   return Container(
     padding: const EdgeInsets.all(15),
-    margin: EdgeInsets.only(bottom: 15),
+    margin: const EdgeInsets.only(bottom: 15),
     decoration: const BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -211,9 +209,12 @@ Widget buildSubDeliveryHouseView(deliveryTime, isCancel, subId) {
                 ? 'assets/images/cancel-delivery-house-icon.png'
                 : 'assets/images/delivery-house.png'),
             const SizedBox(width: 10),
-            Text(
-              isCancel ? "本次Fresh plan已取消" : '下一次将在$deliveryTime发货，请注意查收!',
-              style: textSyle700(color: AppColors.text222),
+            SizedBox(
+              width: 240,
+              child: Text(
+                isCancel ? "本次Fresh plan已取消" : '下一次将在$deliveryTime发货，请注意查收!',
+                style: textSyle700(color: AppColors.text222),
+              ),
             )
           ],
         ),

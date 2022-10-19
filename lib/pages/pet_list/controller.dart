@@ -5,6 +5,12 @@ import "package:rc_china_freshplan_app/common/util/pet-util.dart";
 class PetListController extends GetxController {
   List<Pet> petList = [];
 
+  @override
+  void onInit() {
+    getPetList();
+    super.onInit();
+  }
+
   void getPetList() {
     PetUtil.getPetList().then((value) {
       petList.clear();

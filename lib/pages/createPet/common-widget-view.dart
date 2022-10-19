@@ -201,18 +201,21 @@ Widget buildProgressView(int currentStep) {
         // 上面的进度条盒子
         Container(
           height: 8,
-          width: 50 * currentStep.toDouble(), // 动态更改进度条盒子的宽度即可
+          width: 46 * currentStep.toDouble(), // 动态更改进度条盒子的宽度即可
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Color.fromRGBO(150, 204, 57, 1),
+            color: AppColors.tint,
           ),
         ),
         Positioned(
-            left: 48 * currentStep.toDouble(),
             top: 10,
-            child: Text(
-              '${13 * currentStep}%',
-              style: textSyle400(color: AppColors.tint),
+            child: Container(
+              width: 46 * currentStep.toDouble(),
+              alignment: Alignment.centerRight,
+              child: Text(
+                '${13 * currentStep}%',
+                style: textSyle400(color: AppColors.tint),
+              ),
             ))
       ],
     ),
