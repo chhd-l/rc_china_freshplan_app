@@ -29,7 +29,7 @@ Widget petItem(Pet pet, Pet selectPet) {
             Positioned(
               right: 0,
               child: Image.asset(
-                  'assets/images/pet-type-${selectPet == pet ? 'selected' : 'select'}.png'),
+                  'assets/images/pet-type-${selectPet.id == pet.id ? 'selected' : 'select'}.png'),
             )
           ],
         ),

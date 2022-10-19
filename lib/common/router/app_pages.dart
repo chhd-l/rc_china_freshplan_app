@@ -87,7 +87,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.newAddress,
-      page: () => const NewAddress(),
+      page: () => NewAddress(),
     ),
     GetPage(
       name: AppRoutes.orderList,

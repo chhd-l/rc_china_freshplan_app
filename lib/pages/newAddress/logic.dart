@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/util/address-util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
@@ -17,21 +16,27 @@ class CreateAddressLogic extends GetxController {
   var detail = ''.obs;
   var isDefault = false.obs;
 
-  TextEditingController contNameroller = TextEditingController();
+  final updateAddressId = Get.arguments ?? '-1';
 
-  TextEditingController contPhoneroller = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
-  TextEditingController contDateliroller = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
-  void onChangeID(String text) => {id.value = text};
+  TextEditingController detailController = TextEditingController();
 
   void onChangeName(String text) => {receiverName.value = text};
 
-  void onChangephone(String text) => {phone.value = text};
+  void onChangePhone(String text) => {phone.value = text};
 
-  void onChangedetail(String text) => {detail.value = text};
+  void onChangeDetail(String text) => {detail.value = text};
 
-  void onChangeisDefault(bool text) => {isDefault.value = text};
+  void onChangeIsDefault(bool text) => {isDefault.value = text};
+
+  @override
+  void onInit() {
+    initData(updateAddressId);
+    super.onInit();
+  }
 
   void initData(args) {
     var address = AddRessUtil.getAddRess(args);
@@ -44,13 +49,13 @@ class CreateAddressLogic extends GetxController {
       region.value = address.region!;
       detail.value = address.detail!;
       isDefault.value = address.isDefault!;
-      contNameroller.text = address.receiverName!;
-      contPhoneroller.text = address.phone!;
-      contDateliroller.text = address.detail!;
+      nameController.text = address.receiverName!;
+      phoneController.text = address.phone!;
+      detailController.text = address.detail!;
     }
   }
 
-  void recommendedRecipes(String updid) async {
+  void save() async {
     if (receiverName.isEmpty ||
         phone.isEmpty ||
         province.isEmpty ||
@@ -68,7 +73,7 @@ class CreateAddressLogic extends GetxController {
     }
     AddRess address = AddRess(
       receiverName: receiverName.value,
-      id: updid != '-1' ? updid : id.value,
+      id: updateAddressId != '-1' ? updateAddressId : id.value,
       phone: phone.value,
       province: province.value,
       city: city.value,
@@ -78,7 +83,7 @@ class CreateAddressLogic extends GetxController {
     );
     print(address.toJson());
     dynamic flag;
-    if (updid != '-1') {
+    if (updateAddressId != '-1') {
       flag = await AddRessUtil.updateAddRess(address);
     } else {
       flag = await AddRessUtil.addRes(address);
@@ -111,9 +116,6 @@ class CreateAddressLogic extends GetxController {
       city.value = tempResult.cityName!;
       region.value = tempResult.areaName!;
       print(province.value);
-      // setState(() {
-      //   resultArr = tempResult;
-      // });
     }
   }
 }

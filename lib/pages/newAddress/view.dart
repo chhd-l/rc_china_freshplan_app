@@ -6,34 +6,15 @@ import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'logic.dart';
 
 class NewAddress extends StatelessWidget {
-  const NewAddress({Key? key}) : super(key: key);
+  NewAddress({Key? key}) : super(key: key);
+
+  final CreateAddressLogic logic = Get.put(CreateAddressLogic());
 
   @override
   Widget build(BuildContext context) {
-    final CreateAddressLogic logic = Get.put(CreateAddressLogic());
-    var args = Get.arguments;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      logic.initData(args);
-    });
-
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "${args != '-1' ? '修改' : '新增'}地址",
-            style: textSyle700(fontSize: 18),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.arrow_back_ios,
-            ),
-            onTap: () {
-              Get.back();
-            },
-          ),
-        ),
+        appBar:
+            commonAppBar("${logic.updateAddressId != '-1' ? '修改' : '新增'}地址"),
         backgroundColor: const Color.fromARGB(255, 249, 249, 249),
         body: Column(
           children: [
@@ -58,7 +39,7 @@ class NewAddress extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: TextField(
-                          controller: logic.contNameroller,
+                          controller: logic.nameController,
                           onChanged: ((value) => {logic.onChangeName(value)}),
                           decoration: const InputDecoration(
                               hintText: '请输入姓名',
@@ -78,8 +59,8 @@ class NewAddress extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: TextField(
-                          controller: logic.contPhoneroller,
-                          onChanged: ((value) => {logic.onChangephone(value)}),
+                          controller: logic.phoneController,
+                          onChanged: ((value) => {logic.onChangePhone(value)}),
                           keyboardType: TextInputType.phone,
                           decoration: const InputDecoration(
                               hintText: '请输入联系电话',
@@ -127,8 +108,8 @@ class NewAddress extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: TextField(
-                          controller: logic.contDateliroller,
-                          onChanged: ((value) => {logic.onChangedetail(value)}),
+                          controller: logic.detailController,
+                          onChanged: ((value) => {logic.onChangeDetail(value)}),
                           maxLines: 3,
                           decoration: const InputDecoration(
                               hintText: '请输入详细地址',
@@ -162,7 +143,7 @@ class NewAddress extends StatelessWidget {
                           activeColor: AppColors.tint,
                           value: logic.isDefault.value,
                           onChanged: (value) {
-                            logic.onChangeisDefault(value);
+                            logic.onChangeIsDefault(value);
                           }))
                     ])),
           ],
@@ -175,7 +156,7 @@ class NewAddress extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 48, right: 48, top: 12),
             child: titleButton('保存', () {
-              logic.recommendedRecipes(args);
+              logic.save();
             }, isCircle: true, fontSize: 18, height: 46),
           ),
         ));

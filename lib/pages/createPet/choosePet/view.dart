@@ -44,8 +44,9 @@ class ChoosePetPage extends StatelessWidget {
                                 onTap: () {
                                   logic.selectPet(state.petList.value[index]);
                                 },
-                                child: petItem(state.petList.value[index],
-                                    state.currentPet.value),
+                                child: Obx(() => petItem(
+                                    state.petList.value[index],
+                                    state.currentPet.value)),
                               );
                             },
                           )),
@@ -79,9 +80,9 @@ class ChoosePetPage extends StatelessWidget {
                                           logic.selectPet(
                                               state.petList.value[index * 4]);
                                         },
-                                        child: petItem(
+                                        child: Obx(() => petItem(
                                             state.petList.value[index * 4],
-                                            state.currentPet.value))
+                                            state.currentPet.value)))
                                     : Container(),
                                 index * 4 + 1 <= state.petList.value.length - 1
                                     ? GestureDetector(
@@ -89,9 +90,9 @@ class ChoosePetPage extends StatelessWidget {
                                           logic.selectPet(state
                                               .petList.value[index * 4 + 1]);
                                         },
-                                        child: petItem(
+                                        child: Obx(() => petItem(
                                             state.petList.value[index * 4 + 1],
-                                            state.currentPet.value))
+                                            state.currentPet.value)))
                                     : Container(),
                                 index * 4 + 2 <= state.petList.value.length - 1
                                     ? GestureDetector(
@@ -99,9 +100,9 @@ class ChoosePetPage extends StatelessWidget {
                                           logic.selectPet(state
                                               .petList.value[index * 4 + 2]);
                                         },
-                                        child: petItem(
+                                        child: Obx(() => petItem(
                                             state.petList.value[index * 4 + 2],
-                                            state.currentPet.value))
+                                            state.currentPet.value)))
                                     : Container(),
                                 index * 4 + 3 <= state.petList.value.length - 1
                                     ? GestureDetector(
@@ -109,9 +110,9 @@ class ChoosePetPage extends StatelessWidget {
                                           logic.selectPet(state
                                               .petList.value[index * 4 + 3]);
                                         },
-                                        child: petItem(
+                                        child: Obx(() => petItem(
                                             state.petList.value[index * 4 + 3],
-                                            state.currentPet.value))
+                                            state.currentPet.value)))
                                     : Container(),
                                 index ==
                                         (state.petList.value.length % 4 >= 0
