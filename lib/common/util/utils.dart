@@ -36,7 +36,8 @@ getAgeYear(birthdayStr) {
 }
 
 showTipAlertDialog(
-    BuildContext context, String title, VoidCallback confirmAction) {
+    BuildContext context, String title, VoidCallback confirmAction,
+    {bool? needCancelBtn = true}) {
   return showCupertinoDialog(
       context: context,
       builder: (context) {
@@ -53,7 +54,9 @@ showTipAlertDialog(
             Padding(
               padding: const EdgeInsets.all(12),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: needCancelBtn == true
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
                 children: [
                   titleButton('确定', () async {
                     Get.back();
@@ -64,9 +67,11 @@ showTipAlertDialog(
                       isCircle: true,
                       bgColor: const Color.fromRGBO(200, 227, 153, 1),
                       fontSize: 12),
-                  titleButton('我在想想', () {
-                    Get.back();
-                  }, width: 112, height: 30, isCircle: true, fontSize: 12),
+                  needCancelBtn == true
+                      ? titleButton('我在想想', () {
+                          Get.back();
+                        }, width: 112, height: 30, isCircle: true, fontSize: 12)
+                      : Container(),
                 ],
               ),
             )
