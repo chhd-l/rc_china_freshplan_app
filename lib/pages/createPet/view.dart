@@ -242,38 +242,51 @@ class CreatePetPage extends StatelessWidget {
                               Container(
                                 margin:
                                     const EdgeInsets.only(top: 16, bottom: 32),
-                                decoration: const BoxDecoration(
-                                    color: AppColors.baseGray,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15))),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                child: Column(
                                   children: [
-                                    Expanded(
-                                        child: statusBox(
-                                            state.recentPosture.value ==
-                                                'EMACIATED',
-                                            'thin',
-                                            '瘦弱', () {
-                                      state.recentPosture.value = 'EMACIATED';
-                                    })),
-                                    Expanded(
-                                        child: statusBox(
-                                            state.recentPosture.value ==
-                                                'STANDARD',
-                                            'standard',
-                                            '标准', () {
-                                      state.recentPosture.value = 'STANDARD';
-                                    })),
-                                    Expanded(
-                                        child: statusBox(
-                                            state.recentPosture.value ==
-                                                'OBESITY',
-                                            'overweight',
-                                            '超重', () {
-                                      state.recentPosture.value = 'OBESITY';
-                                    })),
+                                    Container(
+                                        decoration: const BoxDecoration(
+                                            color: AppColors.baseGray,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                                child: statusBox(
+                                                    state.recentPosture.value ==
+                                                        'EMACIATED',
+                                                    'thin',
+                                                    '瘦弱', () {
+                                              state.recentPosture.value =
+                                                  'EMACIATED';
+                                            })),
+                                            Expanded(
+                                                child: statusBox(
+                                                    state.recentPosture.value ==
+                                                        'STANDARD',
+                                                    'standard',
+                                                    '标准', () {
+                                              state.recentPosture.value =
+                                                  'STANDARD';
+                                            })),
+                                            Expanded(
+                                                child: statusBox(
+                                                    state.recentPosture.value ==
+                                                        'OBESITY',
+                                                    'overweight',
+                                                    '超重', () {
+                                              state.recentPosture.value =
+                                                  'OBESITY';
+                                            })),
+                                          ],
+                                        )),
+                                    Visibility(
+                                        visible:
+                                            state.recentPosture.value != '',
+                                        child: statusTipBox(
+                                            state.recentPosture.value))
                                   ],
                                 ),
                               ),

@@ -14,7 +14,10 @@ class OrderUtil {
       params['orderState'] = orderState;
     }
     if (nameOrNum != '') {
-      params["queryParameters"] = {"fieldName": "", "fieldValue": nameOrNum};
+      params["queryParameters"] = {
+        "fieldName": "orderNoOrProductName",
+        "fieldValue": nameOrNum
+      };
     }
     var data = await OrderEndPoint.getOrders(currentPage, params);
     return data;

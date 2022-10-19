@@ -103,9 +103,7 @@ Widget statusBox(
             color: isSelected
                 ? const Color.fromRGBO(224, 241, 196, 1)
                 : AppColors.baseGray,
-            borderRadius: isSelected
-                ? const BorderRadius.all(Radius.circular(15))
-                : const BorderRadius.all(Radius.circular(0))),
+            borderRadius: const BorderRadius.all(Radius.circular(15))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -115,6 +113,43 @@ Widget statusBox(
           ],
         ),
       ));
+}
+
+Widget statusTipBox(String status) {
+  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Container(
+      color: Colors.white,
+      margin: EdgeInsets.only(
+          left: status == 'EMACIATED'
+              ? 25
+              : status == 'STANDARD'
+                  ? 150
+                  : 270),
+      transform: Matrix4.translationValues(0, 2, 0),
+      padding: const EdgeInsets.only(left: 20, top: 9),
+      child: Image.asset(
+        'assets/images/status-tip-icon.png',
+        width: 19,
+        height: 15,
+        fit: BoxFit.fitWidth,
+      ),
+    ),
+    Container(
+      width: double.infinity,
+      padding: const EdgeInsets.only(top: 9, bottom: 9, left: 24),
+      height: 34,
+      decoration: const BoxDecoration(
+          color: AppColors.baseGray,
+          borderRadius: BorderRadius.all(Radius.circular(25))),
+      child: Text(
+          status == 'EMACIATED'
+              ? '偏瘦：轻薄脂肪覆盖，肋骨容易触及'
+              : status == 'STANDARD'
+                  ? '正常：柔软脂肪覆盖，肋骨尚能触及'
+                  : '偏胖：较厚脂肪覆盖，肋骨难以触及',
+          style: textSyle700(fontSize: 12)),
+    )
+  ]);
 }
 
 Widget petAvatarPick(VoidCallback onPress, String petAvatar,

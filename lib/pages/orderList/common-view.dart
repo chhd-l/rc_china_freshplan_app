@@ -488,6 +488,7 @@ Widget listTabItem(VoidCallback pressed, bool isSelected, String title) {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
+          top: BorderSide.none,
           bottom: isSelected
               ? const BorderSide(color: Color(0xFF96CC39), width: 2)
               : BorderSide.none,

@@ -37,8 +37,13 @@ class OrderList extends StatelessWidget {
                             color: const Color.fromRGBO(202, 203, 206, 1)),
                         icon: 'assets/images/search-icon.png')),
                 Obx(() => Visibility(
-                    visible: logic.showSearchBtn.value,
-                    child: titleButton('搜索', () {}, width: 80, isCircle: true)))
+                    visible: logic.showSearchBtn.value ||
+                        logic.nameOrNumController.text != '',
+                    child: titleButton('搜索', () {
+                      logic.curPageNum.value = 1;
+                      logic.getOrderList(
+                          logic.curPageNum.value, logic.tagType.value);
+                    }, width: 80, isCircle: true)))
               ],
             ),
           ),
