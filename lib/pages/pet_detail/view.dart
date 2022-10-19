@@ -7,12 +7,8 @@ import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'util.dart';
 import 'tabs.dart';
 import 'pet.dart';
-import 'package:rc_china_freshplan_app/data/pet.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class PetDetailPage extends StatelessWidget {
   PetDetailPage({super.key});
@@ -23,153 +19,9 @@ class PetDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var args = Get.arguments;
-    var pet = PetUtil.getPet(args.toString());
-    print(3333);
-    print(pet.toJson());
     WidgetsBinding.instance.addPostFrameCallback((_) {
       c.changeTab(0);
-      petCtl.initData(pet);
     });
-
-    void _handlePressSave() async {
-      var updateFlag = await PetUtil.updatePet(Pet(
-        id: pet.id,
-        name: petCtl.name.value,
-        image: petCtl.image.value,
-        type: petCtl.type.value,
-        gender: petCtl.gender.value,
-        isSterilized: false,
-        birthday: petCtl.birthday.value,
-        breedCode: petCtl.breedCode.value,
-        breedName: petCtl.breedName.value,
-        targetWeight: petCtl.targetWeight.value,
-        recentWeight: petCtl.recentWeight.value,
-        recentHealth: List<String>.from(
-            petCtl.recentHealth.value.map((e) => e.toString())),
-        recentPosture: petCtl.recentPosture.value,
-      ));
-      if (updateFlag) {
-        Get.toNamed(AppRoutes.petList);
-      }
-    }
-
-    void tapHeadIcon(type) async {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(
-          imageQuality: 80,
-          maxWidth: 540,
-          source: type == 'camera' ? ImageSource.camera : ImageSource.gallery);
-      if (pickedFile != null) {
-        petCtl.uploadPetImage(pickedFile);
-      }
-    }
-
-    selectImageType() {
-      Get.bottomSheet(Container(
-        height: 320,
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20), topLeft: Radius.circular(20))),
-        child: Column(
-          children: [
-            Text("上传宠物头像", style: textSyle700(fontSize: 18)),
-            const SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        tapHeadIcon('camera');
-                      },
-                      child: Image.asset(
-                        'assets/images/carame-image.png',
-                        width: 63,
-                        height: 63,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text('去拍照', style: textSyle700(fontSize: 15)),
-                  ],
-                ),
-                Column(
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          tapHeadIcon('gallery');
-                        },
-                        child: Image.asset('assets/images/carame-image.png')),
-                    const SizedBox(height: 16),
-                    Text('相册选择', style: textSyle700(fontSize: 15)),
-                  ],
-                )
-              ],
-            ),
-            const SizedBox(height: 40),
-            titleButton('取消', () {
-              Get.back();
-            }, height: 46, isCircle: true)
-          ],
-        ),
-      ));
-    }
-
-    void _handleDelete() {
-      if (pet.subscriptionNo != null && pet.subscriptionNo!.isNotEmpty) {
-        EasyLoading.showToast('定制计划中，暂无法删除');
-      } else {
-        showCupertinoDialog(
-            context: context,
-            builder: (context) {
-              return CupertinoAlertDialog(
-                title: const Text(''),
-                content: Column(
-                  children: [
-                    Image.asset('assets/images/dialog-tip-icon.png'),
-                    const SizedBox(height: 24),
-                    Text('您确定要删除这个宠物吗？',
-                        style: textSyle700(color: AppColors.text333))
-                  ],
-                ),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        titleButton('确定', () async {
-                          Get.back();
-                          var deleteFlag = await PetUtil.removePet(pet);
-                          if (deleteFlag) {
-                            Get.toNamed(AppRoutes.petList);
-                          }
-                        },
-                            width: 96,
-                            height: 30,
-                            isCircle: true,
-                            bgColor: const Color.fromRGBO(200, 227, 153, 1),
-                            fontSize: 12),
-                        titleButton('我在想想', () {
-                          Get.back();
-                        },
-                            width: 112,
-                            height: 30,
-                            isCircle: true,
-                            fontSize: 12),
-                      ],
-                    ),
-                  )
-                ],
-                insetAnimationDuration: const Duration(seconds: 2),
-              );
-            });
-      }
-    }
 
     Widget bodySection = SingleChildScrollView(
       child: Column(
@@ -185,7 +37,7 @@ class PetDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Obx(() => petAvatarPick(() {
-                          selectImageType();
+                          petCtl.selectImageType();
                         }, petCtl.image.value)),
                     Container(
                       margin: const EdgeInsets.only(left: 10),
@@ -217,7 +69,7 @@ class PetDetailPage extends StatelessWidget {
                       fit: BoxFit.fitWidth,
                     ),
                     onTap: () {
-                      _handleDelete();
+                      petCtl.handleDelete(context);
                     }),
               ],
             ),
@@ -711,17 +563,18 @@ class PetDetailPage extends StatelessWidget {
         color: Colors.white,
       ),
       child: Row(
-        mainAxisAlignment:
-            pet.subscriptionNo != null && pet.subscriptionNo!.isEmpty
-                ? MainAxisAlignment.spaceBetween
-                : MainAxisAlignment.center,
+        mainAxisAlignment: petCtl.pet.subscriptionNo != null &&
+                petCtl.pet.subscriptionNo!.isEmpty
+            ? MainAxisAlignment.spaceBetween
+            : MainAxisAlignment.center,
         children: [
           titleButton('保存编辑', () {
-            _handlePressSave();
+            petCtl.handlePressSave();
           },
               height: 46,
               isCircle: true,
-              width: pet.subscriptionNo != null && pet.subscriptionNo!.isEmpty
+              width: petCtl.pet.subscriptionNo != null &&
+                      petCtl.pet.subscriptionNo!.isEmpty
                   ? 155
                   : 280,
               icon: Padding(
@@ -734,10 +587,10 @@ class PetDetailPage extends StatelessWidget {
                 ),
               )),
           Visibility(
-              visible:
-                  pet.subscriptionNo != null && pet.subscriptionNo!.isEmpty,
+              visible: petCtl.pet.subscriptionNo != null &&
+                  petCtl.pet.subscriptionNo!.isEmpty,
               child: titleButton('开始定制', () {
-                Get.put(GlobalConfigService()).checkoutPet.value = pet;
+                Get.put(GlobalConfigService()).checkoutPet.value = petCtl.pet;
                 Get.toNamed(AppRoutes.recommendRecipes);
               },
                   width: 155,

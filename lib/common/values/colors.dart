@@ -39,4 +39,7 @@ class AppColors {
 
   ///#222222
   static const Color text222 = Color.fromRGBO(34, 34, 34, 1);
+
+  /// select yellow
+  static const Color selectYellow = Color.fromRGBO(255, 176, 56, 1);
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
@@ -28,6 +30,8 @@ class PetController extends GetxController {
   var targetWeight = 0.0.obs;
   var recentHealth = Rx<List<String>>([]);
   dynamic isSterilized = ''.obs;
+
+  var pet = PetUtil.getPet((Get.arguments ?? '').toString());
 
   int weight1 = 0;
   int weight2 = 0;
@@ -56,6 +60,7 @@ class PetController extends GetxController {
 
   @override
   void onInit() {
+    initData(pet);
     super.onInit();
 
     nameController.addListener(() {
@@ -273,5 +278,144 @@ class PetController extends GetxController {
         ],
       ),
     );
+  }
+
+  void tapHeadIcon(type) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(
+        imageQuality: 80,
+        maxWidth: 540,
+        source: type == 'camera' ? ImageSource.camera : ImageSource.gallery);
+    if (pickedFile != null) {
+      uploadPetImage(pickedFile);
+    }
+  }
+
+  selectImageType() {
+    Get.bottomSheet(Container(
+      height: 320,
+      padding: const EdgeInsets.all(24),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+      child: Column(
+        children: [
+          Text("上传宠物头像", style: textSyle700(fontSize: 18)),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      tapHeadIcon('camera');
+                    },
+                    child: Image.asset(
+                      'assets/images/carame-image.png',
+                      width: 63,
+                      height: 63,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text('去拍照', style: textSyle700(fontSize: 15)),
+                ],
+              ),
+              Column(
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        tapHeadIcon('gallery');
+                      },
+                      child: Image.asset('assets/images/carame-image.png')),
+                  const SizedBox(height: 16),
+                  Text('相册选择', style: textSyle700(fontSize: 15)),
+                ],
+              )
+            ],
+          ),
+          const SizedBox(height: 40),
+          titleButton('取消', () {
+            Get.back();
+          }, height: 46, isCircle: true)
+        ],
+      ),
+    ));
+  }
+
+  void handlePressSave() async {
+    var updateFlag = await PetUtil.updatePet(Pet(
+      id: pet.id,
+      name: name.value,
+      image: image.value,
+      type: type.value,
+      gender: gender.value,
+      isSterilized: false,
+      birthday: birthday.value,
+      breedCode: breedCode.value,
+      breedName: breedName.value,
+      targetWeight: targetWeight.value,
+      recentWeight: recentWeight.value,
+      recentHealth:
+          List<String>.from(recentHealth.value.map((e) => e.toString())),
+      recentPosture: recentPosture.value,
+    ));
+    if (updateFlag) {
+      Get.toNamed(AppRoutes.petList);
+    }
+  }
+
+  void handleDelete(context) {
+    if (pet.subscriptionNo != null && pet.subscriptionNo!.isNotEmpty) {
+      EasyLoading.showToast('定制计划中，暂无法删除');
+    } else {
+      showCupertinoDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title: const Text(''),
+              content: Column(
+                children: [
+                  Image.asset('assets/images/dialog-tip-icon.png'),
+                  const SizedBox(height: 24),
+                  Text('您确定要删除这个宠物吗？',
+                      style: textSyle700(color: AppColors.text333))
+                ],
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      titleButton('确定', () async {
+                        Get.back();
+                        var deleteFlag = await PetUtil.removePet(pet);
+                        if (deleteFlag) {
+                          Get.toNamed(AppRoutes.petList);
+                        }
+                      },
+                          width: 96,
+                          height: 30,
+                          isCircle: true,
+                          bgColor: const Color.fromRGBO(200, 227, 153, 1),
+                          fontSize: 12),
+                      titleButton('我在想想', () {
+                        Get.back();
+                      },
+                          width: 112,
+                          height: 30,
+                          isCircle: true,
+                          fontSize: 12),
+                    ],
+                  ),
+                )
+              ],
+              insetAnimationDuration: const Duration(seconds: 2),
+            );
+          });
+    }
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
-import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 
 import 'common-widget-view.dart';
 import 'logic.dart';
@@ -47,8 +46,7 @@ class CreatePetPage extends StatelessWidget {
                                       pickAsset:
                                           'assets/images/pet-type-${state.type.value == 'CAT' ? 'selected' : 'select'}.png',
                                       bgColor: state.type.value == 'CAT'
-                                          ? const Color.fromRGBO(
-                                              255, 176, 56, 1)
+                                          ? AppColors.selectYellow
                                           : const Color.fromRGBO(
                                               239, 239, 240, 1)),
                                   petAvatarPick(() {
@@ -58,8 +56,7 @@ class CreatePetPage extends StatelessWidget {
                                       pickAsset:
                                           'assets/images/pet-type-${state.type.value == 'DOG' ? 'selected' : 'select'}.png',
                                       bgColor: state.type.value == 'DOG'
-                                          ? const Color.fromRGBO(
-                                              255, 176, 56, 1)
+                                          ? AppColors.selectYellow
                                           : const Color.fromRGBO(
                                               239, 239, 240, 1)),
                                 ],
@@ -73,7 +70,7 @@ class CreatePetPage extends StatelessWidget {
                             petAvatarPick(() {
                               logic.selectImageType();
                             }, state.avatar.value,
-                                bgColor: const Color.fromRGBO(255, 176, 56, 1),
+                                bgColor: AppColors.selectYellow,
                                 childAsset:
                                     'assets/images/${state.type.value == 'DOG' ? 'dog' : 'cat'}.png'),
                             const SizedBox(height: 46),
