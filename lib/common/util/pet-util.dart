@@ -5,15 +5,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
-import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/api/pet/index.dart';
 import 'storage.dart';
-
-import 'package:dio/src/multipart_file.dart' as DIOMUL;
-import 'package:dio/src/form_data.dart' as DIOFORM;
 
 class PetUtil {
   static List<Pet> petList = [];

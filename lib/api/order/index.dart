@@ -219,4 +219,30 @@ class OrderEndPoint {
     });
     return data;
   }
+
+  static dynamic getExpressCompany() async {
+    print(333333);
+    if (consumer == null) {
+      return false;
+    }
+    EasyLoading.show();
+    var data = await HttpUtil().post(orderUrl, params: {
+      "query": expressCompanyFindQuery,
+      "variables": {}
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      print(4444);
+      print(value);
+      var res = json.decode(value.toString());
+      if (res['data'] != null) {
+        return res['data']['expressCompanyFind'];
+      } else {
+        EasyLoading.showError('请求错误');
+        return false;
+      }
+    });
+    return data;
+  }
 }

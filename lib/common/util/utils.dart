@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:rc_china_freshplan_app/common/util/order_util.dart';
+import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 
@@ -79,4 +81,24 @@ showTipAlertDialog(
           insetAnimationDuration: const Duration(seconds: 2),
         );
       });
+}
+
+getExpressCompanyName(code) async {
+  if (code == null || code == '') {
+    return '';
+  }
+  List expressCompanies = StorageUtil().getJSON('express-company') ?? [];
+  print(111111111);
+  print(expressCompanies);
+  if (expressCompanies.isEmpty) {
+    await OrderUtil.getExpressCompany().then((value) {
+      expressCompanies = value;
+      StorageUtil().setJSON('express-company', value);
+    });
+  }
+  var index = expressCompanies.indexWhere((element) => element["code"] == code);
+  if (index > -1) {
+    return expressCompanies[index]["name"];
+  }
+  return '';
 }

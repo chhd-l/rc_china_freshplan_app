@@ -102,4 +102,13 @@ class OrderUtil {
       }
     });
   }
+
+  static Future getExpressCompany() async {
+    print(222222);
+    var data = await OrderEndPoint.getExpressCompany();
+    if (data == false) {
+      return [];
+    }
+    return data ?? [];
+  }
 }

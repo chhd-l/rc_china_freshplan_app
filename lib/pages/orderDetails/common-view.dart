@@ -535,7 +535,7 @@ Widget buildDeliveryInfoView(
       ),
       child: Column(
         children: [
-          delivery != null && delivery != 'null' && delivery != null
+          delivery != null && delivery != 'null'
               ? SizedBox(
                   height: 200,
                   child: orderDeliveryItem(delivery),

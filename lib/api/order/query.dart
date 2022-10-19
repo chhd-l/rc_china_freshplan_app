@@ -332,3 +332,19 @@ id
 }
 }
 ''';
+
+const String expressCompanyFindQuery = r'''
+query expressCompanyFind{
+expressCompanyFind{
+id
+name
+nameEn
+img
+code
+isChecked
+isDeleted
+isEnabled
+storeId
+}
+}
+''';

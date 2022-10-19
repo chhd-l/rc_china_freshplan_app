@@ -19,6 +19,7 @@ class OrderLogic extends GetxController {
   TextEditingController nameOrNumController=TextEditingController();
   FocusNode nameOrNumFocus=FocusNode();
 
+  @override
   void onInit() {
     var args = Get.arguments ?? 'ALL';
     onChangeTagType(args.toString());

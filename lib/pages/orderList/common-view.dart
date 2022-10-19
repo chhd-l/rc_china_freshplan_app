@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/api/order/index.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/order_util.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/values/const.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
@@ -377,7 +378,7 @@ Widget orderDeliveryItem(delivery) {
               ),
               const SizedBox(width: 10),
               Text(
-                delivery["shippingCompany"],
+                getExpressCompanyName(delivery["shippingCompany"]),
                 style:
                     textSyle400(color: const Color.fromRGBO(148, 148, 148, 1)),
               ),
