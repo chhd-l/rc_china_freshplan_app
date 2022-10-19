@@ -39,26 +39,22 @@ class PetDetailPage extends StatelessWidget {
                     Obx(() => petAvatarPick(() {
                           petCtl.selectImageType();
                         }, petCtl.image.value)),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      child: Obx(() => Text(
-                            petCtl.name.value,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                          )),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      child: Obx(() => Icon(
-                            petCtl.type.value == 'MALE'
-                                ? Icons.male
-                                : Icons.female,
-                            size: 16,
-                            color: const Color.fromARGB(255, 212, 157, 40),
-                          )),
-                    ),
+                    const SizedBox(width: 10),
+                    Obx(() => Text(
+                          petCtl.name.value,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                          ),
+                        )),
+                    const SizedBox(width: 10),
+                    Obx(() => Icon(
+                          petCtl.type.value == 'MALE'
+                              ? Icons.male
+                              : Icons.female,
+                          size: 16,
+                          color: const Color.fromARGB(255, 212, 157, 40),
+                        )),
                   ],
                 )),
                 GestureDetector(
@@ -88,7 +84,7 @@ class PetDetailPage extends StatelessWidget {
                           fontSize: 18,
                           color: c.tab.value == 1
                               ? const Color.fromARGB(255, 11, 11, 11)
-                              : const Color.fromARGB(255, 150, 204, 57),
+                              : AppColors.tint,
                         ),
                       )),
                   onTap: () {
@@ -102,7 +98,7 @@ class PetDetailPage extends StatelessWidget {
                           fontSize: 18,
                           color: c.tab.value == 0
                               ? const Color.fromARGB(255, 11, 11, 11)
-                              : const Color.fromARGB(255, 150, 204, 57),
+                              : AppColors.tint,
                         ),
                       )),
                   onTap: () {
@@ -138,49 +134,22 @@ class PetDetailPage extends StatelessWidget {
                         ''),
                     buildPetItem(
                         '${petCtl.name.value}是',
-                        buildGenderItem(
-                            Obx(() => Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 60, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: petCtl.gender.value == 'FEMALE'
-                                        ? Colors.white
-                                        : const Color.fromARGB(
-                                            255, 150, 204, 57),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Text(
-                                    '小鲜肉',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: petCtl.gender.value == 'FEMALE'
-                                          ? Colors.black
-                                          : Colors.white,
-                                    ),
-                                  ),
-                                )),
-                            Obx(() => Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 60, vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: petCtl.gender.value == 'MALE'
-                                        ? Colors.white
-                                        : const Color.fromARGB(
-                                            255, 150, 204, 57),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Text(
-                                    '小公主',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: petCtl.gender.value == 'MALE'
-                                          ? Colors.black
-                                          : Colors.white,
-                                    ),
-                                  ),
-                                )), (String gender) {
-                          petCtl.changeGender(gender);
-                        }),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              genderBox(petCtl.gender.value == 'MALE', '小鲜肉',
+                                  () {
+                                petCtl.changeGender('MALE');
+                              }, bgColor: Colors.white),
+                              genderBox(petCtl.gender.value == 'FEMALE', '小公主',
+                                  () {
+                                petCtl.changeGender('FEMALE');
+                              }, bgColor: Colors.white),
+                            ],
+                          ),
+                        ),
                         ''),
                     buildPetItem(
                         '${petCtl.name.value}的品种是',
@@ -291,108 +260,39 @@ class PetDetailPage extends StatelessWidget {
                         '(kg)'),
                     buildPetItem(
                         '${petCtl.name.value}近期状态',
-                        buildPostureItem(
-                            Obx(() => Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color: petCtl.recentPosture.value ==
-                                            'EMACIATED'
-                                        ? const Color.fromARGB(
-                                            255, 150, 204, 57)
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/pet-thin.png',
-                                        width: 62,
-                                        height: 52,
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          '瘦弱',
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                            Obx(() => Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        petCtl.recentPosture.value == 'STANDARD'
-                                            ? const Color.fromARGB(
-                                                255, 150, 204, 57)
-                                            : Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/pet-std.png',
-                                        width: 62,
-                                        height: 52,
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          '标准',
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                            Obx(() => Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        petCtl.recentPosture.value == 'OBESITY'
-                                            ? const Color.fromARGB(
-                                                255, 150, 204, 57)
-                                            : Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/pet-fat.png',
-                                        width: 62,
-                                        height: 52,
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          '超重',
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )), (String posture) {
-                          petCtl.changeRencentPosture(posture);
-                        }),
+                        Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: statusBox(
+                                        petCtl.recentPosture.value ==
+                                            'EMACIATED',
+                                        'thin',
+                                        '瘦弱', () {
+                                  petCtl.recentPosture.value = 'EMACIATED';
+                                }, bgColor: Colors.white)),
+                                Expanded(
+                                    child: statusBox(
+                                        petCtl.recentPosture.value ==
+                                            'STANDARD',
+                                        'standard',
+                                        '标准', () {
+                                  petCtl.recentPosture.value = 'STANDARD';
+                                }, bgColor: Colors.white)),
+                                Expanded(
+                                    child: statusBox(
+                                        petCtl.recentPosture.value == 'OBESITY',
+                                        'overweight',
+                                        '超重', () {
+                                  petCtl.recentPosture.value = 'OBESITY';
+                                }, bgColor: Colors.white)),
+                              ],
+                            )),
                         ''),
                     buildPetItem(
                         '${petCtl.name.value}成年目标体重',

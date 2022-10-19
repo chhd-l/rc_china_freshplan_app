@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/global.dart';
@@ -188,7 +189,7 @@ class _VerifyPageState extends State<ResetPasswordVerifyPage> {
               children: [
                 Expanded(
                   child: MaterialButton(
-                    color: const Color.fromARGB(255, 150, 204, 57),
+                    color: AppColors.tint,
                     textColor: Colors.white,
                     onPressed: () {
                       _onPressLogin();

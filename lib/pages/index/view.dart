@@ -171,7 +171,7 @@ class IndexPage extends StatelessWidget {
           ),
         ],
         unselectedItemColor: AppColors.text999,
-        selectedItemColor: const Color.fromARGB(255, 150, 204, 57),
+        selectedItemColor: AppColors.tint,
         currentIndex: 0,
         onTap: (idx) {
           if (idx == 0) {

@@ -94,7 +94,8 @@ Widget fixBottomContainer(Widget child) {
 }
 
 Widget statusBox(
-    bool isSelected, String status, String title, VoidCallback onPressed) {
+    bool isSelected, String status, String title, VoidCallback onPressed,
+    {Color? bgColor}) {
   return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -102,7 +103,7 @@ Widget statusBox(
         decoration: BoxDecoration(
             color: isSelected
                 ? const Color.fromRGBO(224, 241, 196, 1)
-                : AppColors.baseGray,
+                : bgColor ?? AppColors.baseGray,
             borderRadius: const BorderRadius.all(Radius.circular(15))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

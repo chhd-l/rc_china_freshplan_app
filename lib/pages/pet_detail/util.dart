@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
 
 Widget buildPetItem(String title, Widget item, String? desc) {
   return Container(
@@ -19,7 +20,7 @@ Widget buildPetItem(String title, Widget item, String? desc) {
               height: 20,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(3),
-                color: const Color.fromARGB(255, 150, 204, 57),
+                color: AppColors.tint,
               ),
             ),
             Text(

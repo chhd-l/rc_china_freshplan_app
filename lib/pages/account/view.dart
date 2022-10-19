@@ -319,7 +319,7 @@ class AccountPage extends GetView<AccountController> {
           ),
         ],
         unselectedItemColor: const Color.fromARGB(255, 153, 153, 153),
-        selectedItemColor: const Color.fromARGB(255, 150, 204, 57),
+        selectedItemColor: AppColors.tint,
         currentIndex: 1,
         onTap: (idx) {
           if (idx == 0) {

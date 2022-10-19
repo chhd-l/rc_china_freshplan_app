@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:rc_china_freshplan_app/common/values/colors.dart';
 
 class TimerButton extends StatefulWidget {
   final String text;
@@ -31,7 +32,7 @@ class _TimerButtonState extends State<TimerButton> {
               _text,
               style: const TextStyle(
                 fontSize: 14,
-                color: Color.fromARGB(255, 150, 204, 57),
+                color: AppColors.tint,
               ),
             ),
           )),
