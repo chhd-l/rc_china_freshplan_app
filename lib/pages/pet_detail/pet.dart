@@ -153,7 +153,7 @@ class PetController extends GetxController {
       recentPosture: recentPosture.value,
     ));
     if (updateFlag) {
-      Get.toNamed(AppRoutes.petList);
+      Get.back();
     }
   }
 
@@ -164,7 +164,7 @@ class PetController extends GetxController {
       showTipAlertDialog(context, '您确定要删除这个宠物吗？', () async {
         var deleteFlag = await PetUtil.removePet(pet);
         if (deleteFlag) {
-          Get.toNamed(AppRoutes.petList);
+          Get.back();
         }
       });
     }
