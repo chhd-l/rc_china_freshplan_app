@@ -66,9 +66,9 @@ class Consumer {
 
   Map<String, dynamic> payConsumerAccountToJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    var consumerAccount=StorageUtil().getJSON('consumerAccount');
+    var consumerAccount = StorageUtil().getJSON('consumerAccount');
     data['unionId'] = consumerAccount["unionId"];
-    data['openId'] = consumerAccount["openId"];
+    data['openId'] = consumerAccount["openId"] ?? '';
     data['isWXGroupVip'] = consumerAccount["isWXGroupVip"];
     return data;
   }
@@ -83,7 +83,7 @@ class Consumer {
     data['level'] = level;
     data['points'] = points;
     data['avatarUrl'] = avatarUrl;
-    data['account']=payConsumerAccountToJson();
+    data['account'] = payConsumerAccountToJson();
     return data;
   }
 }

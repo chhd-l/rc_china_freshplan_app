@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/widgets/text_fields.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -14,7 +15,9 @@ class OrderList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: commonAppBar('订单列表'),
+        appBar: commonAppBar('订单列表',onPressed:(){
+          Get.offAndToNamed(AppRoutes.account);
+        }),
         backgroundColor: const Color.fromARGB(255, 249, 249, 249),
         body: Column(children: [
           Container(

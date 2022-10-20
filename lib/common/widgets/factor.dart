@@ -105,7 +105,8 @@ TextStyle textSyle400(
 PreferredSizeWidget commonAppBar(String appBarTitle,
     {bool needBack = true,
     List<Widget>? actions,
-    Color bgColor = Colors.white}) {
+    Color bgColor = Colors.white,
+    VoidCallback? onPressed}) {
   return PreferredSize(
       preferredSize: const Size.fromHeight(70.0),
       child: Container(
@@ -126,9 +127,10 @@ PreferredSizeWidget commonAppBar(String appBarTitle,
           leading: needBack
               ? IconButton(
                   icon: Image.asset('assets/images/arrow-left.png'),
-                  onPressed: () {
-                    Get.back();
-                  })
+                  onPressed: onPressed ??
+                      () {
+                        Get.back();
+                      })
               : Container(),
           automaticallyImplyLeading: true,
           elevation: 0,

@@ -62,7 +62,7 @@ class Pet {
     data['recentPosture'] = recentPosture;
     data['targetWeight'] = targetWeight;
     data['recentHealth'] = recentHealth;
-    data['subscriptionNo']=subscriptionNo;
+    // data['subscriptionNo']=subscriptionNo;
     return data;
   }
 }

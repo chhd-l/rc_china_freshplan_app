@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
@@ -66,6 +67,8 @@ class CheckoutLogic extends GetxController {
       EasyLoading.showError(error.message!);
     }).then((value) async {
       EasyLoading.dismiss();
+      print(111111);
+      print(value);
       if (value == null) return;
       value = json.decode(value.toString());
       var payInfo = value["data"]["subscriptionCreateAndPay"]
@@ -84,10 +87,7 @@ class CheckoutLogic extends GetxController {
     var consumer = Consumer.fromJson(StorageUtil().getJSON('loginUser'))
         .payConsumerToJson();
 
-    var pet = json.decode(json.encode(global.checkoutPet.value.toJson()));
-    pet["recentHealth"] = (pet["recentHealth"] ?? []).join('|');
-    pet["birthday"] =
-        handleDateTimeToZone(DateTime.parse(pet["birthday"].toString()));
+    var pet = PetUtil.normalizeToApi(global.checkoutPet.value, needId: true);
 
     var address = global.checkoutAddress.value.clonePayAddressToJson();
 
@@ -116,9 +116,10 @@ class CheckoutLogic extends GetxController {
           "firstDeliveryTime": handleDateTimeToZone(DateTime.now()),
           "totalDeliveryTimes": 6
         },
-        "payWayId": "ALI_PAY_APP",
+        "payWayCode": "ALI_PAY_APP",
         "storeId": "39b6444b-683b-4915-8b75-5d8403f40a02",
-        "operator": "Timyee"
+        "operator": "Timyee",
+        "projectName": 'FRESH_PLAN_ALI_APP'
       }
     };
     return payParams;

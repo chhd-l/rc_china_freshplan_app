@@ -195,14 +195,17 @@ class OrderEndPoint {
       "variables": {
         "input": {
           "consumerId": order["consumer"]["consumerId"],
-          "consumerOpenId": order["consumer"]["openId"],
+          "consumerOpenId": order["consumer"]["openId"] ??
+              StorageUtil().getJSON('consumerAccount')["openId"] ??
+              '',
           "orderId": order["_id"],
           "orderNo": order["orderNumber"],
           "orderDescription": '订单支付',
-          "payWayId": 'ALI_PAY_APP',
+          "payWayCode": 'ALI_PAY_APP',
           "amount": order["orderPrice"]["totalPrice"] * 100,
           "currency": 'CNY',
           "storeId": storeId,
+          "projectName": 'FRESH_PLAN_ALI_APP'
         }
       }
     }).onError((ErrorEntity error, stackTrace) {
