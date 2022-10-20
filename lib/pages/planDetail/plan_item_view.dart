@@ -194,9 +194,15 @@ Widget buildDeliveryInfoView(isCancel, deliveryDate, address) {
           const SizedBox(width: 10),
           Text('收货地址', style: textSyle700(color: AppColors.text666)),
           const SizedBox(width: 10),
-          Text(
-              '${address["receiverName"]} ${address["phone"]}\n${address["province"]}${address["city"]}${address["region"]} ${address["province"]}',
-              style: textSyle700(color: AppColors.text666)),
+          SizedBox(
+            width: 220,
+            child: Text(
+              '${address["receiverName"]} ${address["phone"]}\n${address["province"]}${address["city"]}${address["region"]} ${address["detail"]}',
+              style: textSyle700(color: AppColors.text666),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
       !isCancel
@@ -206,7 +212,9 @@ Widget buildDeliveryInfoView(isCancel, deliveryDate, address) {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   titleButton('修改地址', () {
-                    Get.put(GlobalConfigService()).isPlanDetailSelectAddress.value=true;
+                    Get.put(GlobalConfigService())
+                        .isPlanDetailSelectAddress
+                        .value = true;
                     Get.toNamed(AppRoutes.addressManage);
                   },
                       width: 100,

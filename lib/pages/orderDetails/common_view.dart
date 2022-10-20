@@ -557,7 +557,13 @@ Widget buildDeliveryInfoView(
                               color: Color(0xFF666666), fontSize: 12)),
                     ],
                   ),
-                  Text('$province $city $region $detail'),
+                  SizedBox(
+                    width: 300,
+                    child: Text(
+                      '$province $city $region $detail',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               )
             ],
