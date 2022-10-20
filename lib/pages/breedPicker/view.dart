@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:azlistview/azlistview.dart';
-import 'package:lpinyin/lpinyin.dart';
-import 'package:rc_china_freshplan_app/common/values/values.dart';
-import 'package:rc_china_freshplan_app/data/petBreed.dart';
-import 'package:rc_china_freshplan_app/global.dart';
+import 'package:rc_china_freshplan_app/data/pet_breed.dart';
 
 import '../../common/widgets/factor.dart';
 import 'logic.dart';

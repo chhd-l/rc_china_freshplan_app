@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 
 import 'state.dart';

@@ -1,14 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rc_china_freshplan_app/common/util/address-util.dart';
+import 'package:rc_china_freshplan_app/common/util/address_util.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/values/const.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/address.dart';
-import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/global.dart';
@@ -96,7 +93,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                   Get.back();
                                 }
                                 if (global.isPlanDetailSelectAddress.value) {
-                                  print(111111);
                                   global.isPlanDetailSelectAddress.value =
                                       false;
                                   EventBus().sendBroadcast(updatePlanAddress);

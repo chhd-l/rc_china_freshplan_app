@@ -19,11 +19,9 @@ class PlanDetailLogic extends GetxController {
   void onReady() {
     getSubscriptionDetail();
     EventBus().addListener(cancelSubscription, (arg) {
-      print(00000);
       getSubscriptionDetail();
     });
     EventBus().addListener(updatePlanAddress, (arg) {
-      print(11111);
       updateSubscriptionAddress();
     });
     super.onReady();
@@ -38,9 +36,8 @@ class PlanDetailLogic extends GetxController {
   }
 
   updateSubscriptionAddress() async {
-    print(2222222);
-    await SubscriptionUtil.updateSubscriptionAddress(
-            subscriptionId, global.planDetailAddress.value.clonePayAddressToJson())
+    await SubscriptionUtil.updateSubscriptionAddress(subscriptionId,
+            global.planDetailAddress.value.clonePayAddressToJson())
         .then((value) {
       if (value != false) {
         getSubscriptionDetail();

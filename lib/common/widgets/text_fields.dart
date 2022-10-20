@@ -145,11 +145,11 @@ Widget passwordTextFiled(
             keyboardType: TextInputType.visiblePassword),
         showSeeIcon
             ? Positioned(
+                right: 10,
                 child: IconButton(
                     icon: Image.asset(
                         'assets/images/${obscureText ? 'close_eye' : 'open_eye'}.png'),
                     onPressed: obscureOnPressed),
-                right: 10,
               )
             : Container()
       ],

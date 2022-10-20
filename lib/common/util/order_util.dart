@@ -1,12 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/api/order/index.dart';
-import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
-import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/values/const.dart';
-import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:tobias/tobias.dart' as tobias;
 
 class OrderUtil {
@@ -92,7 +87,6 @@ class OrderUtil {
     await orderContinuePay(order).then((value) async {
       if (value == false) return;
       var payInfo = value["aliPaymentRequest"]["orderStr"];
-      print(payInfo);
       var result = await tobias.aliPay(payInfo);
       print(result);
       if (result["resultStatus"].toString() == '9000' ||
@@ -104,7 +98,6 @@ class OrderUtil {
   }
 
   static Future getExpressCompany() async {
-    print(222222);
     var data = await OrderEndPoint.getExpressCompany();
     if (data == false) {
       return [];

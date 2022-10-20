@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
-import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
+import 'package:rc_china_freshplan_app/common/values/const.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/pages/breedPicker/view.dart';
 
@@ -22,7 +21,7 @@ class PetController extends GetxController {
   var recentPosture = "".obs;
   var targetWeight = 0.0.obs;
   var recentHealth = Rx<List<String>>([]);
-  dynamic isSterilized = ''.obs;
+  RxBool isSterilized = false.obs;
 
   var pet = PetUtil.getPet((Get.arguments ?? '').toString());
 
@@ -40,6 +39,7 @@ class PetController extends GetxController {
     recentPosture.value = pet.recentPosture!;
     targetWeight.value = pet.targetWeight!;
     recentHealth.value = pet.recentHealth!;
+    isSterilized.value = pet.isSterilized ?? false;
 
     nameController.text = pet.name ?? '';
   }
@@ -132,7 +132,7 @@ class PetController extends GetxController {
   }
 
   void changeIsSterilized(value) {
-    isSterilized = value;
+    isSterilized.value = value;
   }
 
   void handlePressSave() async {
@@ -142,7 +142,7 @@ class PetController extends GetxController {
       image: image.value,
       type: type.value,
       gender: gender.value,
-      isSterilized: false,
+      isSterilized: isSterilized.value,
       birthday: birthday.value,
       breedCode: breedCode.value,
       breedName: breedName.value,
@@ -153,6 +153,7 @@ class PetController extends GetxController {
       recentPosture: recentPosture.value,
     ));
     if (updateFlag) {
+      EventBus().sendBroadcast(updatePet);
       Get.back();
     }
   }
@@ -164,6 +165,7 @@ class PetController extends GetxController {
       showTipAlertDialog(context, '您确定要删除这个宠物吗？', () async {
         var deleteFlag = await PetUtil.removePet(pet);
         if (deleteFlag) {
+          EventBus().sendBroadcast(updatePet);
           Get.back();
         }
       });

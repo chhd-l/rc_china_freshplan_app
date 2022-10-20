@@ -28,11 +28,7 @@ class SubscriptionDetailLogic extends GetxController {
   }
 
   getSubscriptionDetail() async {
-    print('dddddd');
-    print(Get.arguments);
     await SubscriptionUtil.getSubscription(subscriptionId).then((value) {
-      print(2222);
-      print(value);
       if (value != false) {
         subscriptionDetail.value = value;
       }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rc_china_freshplan_app/common/util/address-util.dart';
+import 'package:rc_china_freshplan_app/common/util/address_util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/data/address.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -40,7 +40,6 @@ class CreateAddressLogic extends GetxController {
 
   void initData(args) {
     var address = AddRessUtil.getAddRess(args);
-    print(address);
     if (address.id != '-1') {
       receiverName.value = address.receiverName!;
       phone.value = address.phone!;
@@ -81,7 +80,6 @@ class CreateAddressLogic extends GetxController {
       detail: detail.value,
       isDefault: isDefault.value,
     );
-    print(address.toJson());
     dynamic flag;
     if (updateAddressId != '-1') {
       flag = await AddRessUtil.updateAddRess(address);
@@ -98,7 +96,7 @@ class CreateAddressLogic extends GetxController {
     Result? tempResult = await CityPickers.showCityPicker(
         context: context,
         theme:
-            Theme.of(context).copyWith(primaryColor: Color(0xfffe1314)), // 设置主题
+            Theme.of(context).copyWith(primaryColor: const Color(0xfffe1314)), // 设置主题
         locationCode: resultArr != null
             ? resultArr.areaId ??
                 resultArr.cityId ??
@@ -110,12 +108,10 @@ class CreateAddressLogic extends GetxController {
         confirmWidget: const Text('确定',
             style: TextStyle(fontSize: 15, color: AppColors.tint)),
         height: 220.0);
-    print(tempResult);
     if (tempResult != null) {
       province.value = tempResult.provinceName!;
       city.value = tempResult.cityName!;
       region.value = tempResult.areaName!;
-      print(province.value);
     }
   }
 }

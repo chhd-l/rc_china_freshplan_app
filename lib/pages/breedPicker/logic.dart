@@ -1,6 +1,6 @@
 import 'package:azlistview/azlistview.dart';
 import 'package:get/get.dart';
-import 'package:rc_china_freshplan_app/data/petBreed.dart';
+import 'package:rc_china_freshplan_app/data/pet_breed.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:lpinyin/lpinyin.dart';
 
@@ -9,6 +9,7 @@ class BreedPickerLogic extends GetxController {
 
   final callback = Get.arguments == null ? null : Get.arguments['callback'];
 
+  @override
   void onInit() {
     super.onInit();
     final petType = Get.arguments == null ? null : Get.arguments['petType'];
@@ -25,7 +26,6 @@ class BreedPickerLogic extends GetxController {
     if (list.isEmpty) return [];
     for (int i = 0, length = list.length; i < length; i++) {
       String pinyin = PinyinHelper.getPinyinE(list[i].name ?? '');
-      print(pinyin);
       String tag = pinyin.substring(0, 1).toUpperCase();
       list[i].namePinyin = pinyin;
       if (RegExp("[A-Z]").hasMatch(tag)) {
@@ -34,7 +34,6 @@ class BreedPickerLogic extends GetxController {
         list[i].tagIndex = "#";
       }
     }
-    print(list);
     SuspensionUtil.sortListBySuspensionTag(list);
     SuspensionUtil.setShowSuspensionStatus(list);
   }

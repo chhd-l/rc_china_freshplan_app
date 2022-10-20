@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/subscription_util.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
@@ -197,8 +195,7 @@ Widget buildDeliveryInfoView(isCancel, deliveryDate, address) {
           Text('收货地址', style: textSyle700(color: AppColors.text666)),
           const SizedBox(width: 10),
           Text(
-              '${address["receiverName"]} ${address["phone"]}\n${address["province"]}${address["city"]}${address["region"]} ${address["province"]}' ??
-                  '',
+              '${address["receiverName"]} ${address["phone"]}\n${address["province"]}${address["city"]}${address["region"]} ${address["province"]}',
               style: textSyle700(color: AppColors.text666)),
         ],
       ),

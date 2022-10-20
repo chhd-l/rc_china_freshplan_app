@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
-import 'package:rc_china_freshplan_app/data/pet.dart';
+import 'package:rc_china_freshplan_app/common/widgets/text_fields.dart';
 
-import 'common-widget-view.dart';
+import 'common_widget_view.dart';
 import 'logic.dart';
 import 'state.dart';
 

@@ -93,6 +93,7 @@ class PetUtil {
               birthday: '',
               breedCode: '',
               breedName: '',
+              isSterilized: false,
               recentHealth: [],
               targetWeight: 0.0,
               recentWeight: 0.0,

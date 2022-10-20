@@ -221,7 +221,6 @@ class OrderEndPoint {
   }
 
   static dynamic getExpressCompany() async {
-    print(333333);
     if (consumer == null) {
       return false;
     }
@@ -233,8 +232,6 @@ class OrderEndPoint {
       EasyLoading.showError(error.message!);
     }).then((value) {
       EasyLoading.dismiss();
-      print(4444);
-      print(value);
       var res = json.decode(value.toString());
       if (res['data'] != null) {
         return res['data']['expressCompanyFind'];

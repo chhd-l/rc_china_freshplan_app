@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
+import 'package:rc_china_freshplan_app/pages/createPet/common_widget_view.dart';
 
 import 'logic.dart';
 import 'recommend_recipes_common_view.dart';

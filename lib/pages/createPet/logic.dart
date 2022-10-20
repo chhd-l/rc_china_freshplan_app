@@ -1,18 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-
-import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
-import 'package:rc_china_freshplan_app/common/util/http.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
-import 'package:rc_china_freshplan_app/common/values/api_path.dart';
-import 'package:rc_china_freshplan_app/common/values/values.dart';
-import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'package:rc_china_freshplan_app/global.dart';
 import 'package:flutter/cupertino.dart';
@@ -125,7 +116,6 @@ class CreatePetLogic extends GetxController {
       targetWeight: state.targetWeight.value,
       recentHealth: state.recentHealth.value,
     );
-    print(pet.toJson());
     var createFlag = await PetUtil.addPet(pet);
     if (createFlag != false) {
       global.checkoutPet.value = pet;

@@ -1,7 +1,6 @@
 import 'package:rc_china_freshplan_app/common/util/http.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import '../consumer/index.dart';
 import 'query.dart';
 import 'dart:convert';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';

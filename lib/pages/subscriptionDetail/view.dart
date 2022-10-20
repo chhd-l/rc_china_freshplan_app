@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/pages/subscriptionDetail/subscription-item-view.dart';
+import 'package:rc_china_freshplan_app/pages/subscriptionDetail/subscription_item_view.dart';
 
 import 'logic.dart';
 import 'state.dart';

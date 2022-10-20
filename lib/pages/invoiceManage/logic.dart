@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -37,7 +36,6 @@ class PlanDetailLogic extends GetxController {
       EasyLoading.dismiss();
       if (value == null) return;
       value = json.decode(value.toString());
-      print(value);
       if (value["code"] != 1) {
         EasyLoading.showError(value["message"] ?? '获取token失败');
         return;
@@ -50,12 +48,11 @@ class PlanDetailLogic extends GetxController {
   /// 获取当前加载页面的 title
   Future<void> loadTitle() async {
     final String temp = await webViewController.getTitle() ?? '发票管理';
-    print('title:' + temp);
     title.value = temp;
   }
 
   Set<JavascriptChannel> loadJavascriptChannel(BuildContext context) {
-    final Set<JavascriptChannel> channels = Set<JavascriptChannel>();
+    final Set<JavascriptChannel> channels = <JavascriptChannel>{};
     JavascriptChannel toastChannel = JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {

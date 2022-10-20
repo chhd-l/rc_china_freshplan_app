@@ -5,9 +5,9 @@ import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
-import 'package:rc_china_freshplan_app/pages/checkout/checkout-widget-view.dart';
-import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
+import 'package:rc_china_freshplan_app/common/widgets/text_fields.dart';
+import 'package:rc_china_freshplan_app/pages/checkout/checkout_widget_view.dart';
+import 'package:rc_china_freshplan_app/pages/createPet/common_widget_view.dart';
 
 import 'logic.dart';
 import 'state.dart';

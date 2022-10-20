@@ -14,20 +14,19 @@ class IndexLogic extends GetxController {
 
   @override
   void onReady() {
-    print(StorageUtil().getJSON("loginUser"));
     isLogin.value = StorageUtil().getJSON("loginUser") != null;
     bus.addListener('user-login', (arg) {
       isLogin.value = true;
       getSubscriptionList();
     });
     EventBus().addListener(cancelSubscription, (arg) {
-      print(00000);
       getSubscriptionList();
     });
     getSubscriptionList();
     super.onReady();
   }
 
+  @override
   void onInit() {
     getSubscriptionList();
     super.onInit();

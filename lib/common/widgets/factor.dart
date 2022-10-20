@@ -47,49 +47,6 @@ Widget titleButton(String title, VoidCallback? onPressed,
   );
 }
 
-// Widget textButton(String text, VoidCallback onPressed,
-//     {Color fontColor = AppColors.tint, double fontSize = 14.0}) {
-//   return GestureDetector(
-//     child: Text(
-//       text,
-//       style: TextStyle(
-//           fontFamily: 'Nunito-black', fontSize: fontSize, color: fontColor),
-//     ),
-//     onTap: onPressed,
-//   );
-// }
-
-Widget titleToast(String title,
-    {Color bgColor = defaultBgColor, Color fontColor = Colors.black}) {
-  if (title.length <= 0) return Container();
-  return Container(
-    alignment: Alignment.center,
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10.0),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5.0),
-      boxShadow: [
-        BoxShadow(offset: Offset(2, 2), color: Colors.grey, blurRadius: 5.0)
-      ],
-      color: bgColor,
-    ),
-    child: Text(title,
-        style: TextStyle(
-            fontSize: 12.sp, fontFamily: 'Nunito-Black', color: fontColor)),
-  );
-}
-
-Widget bottomContainer(Widget widget, {double? height, EdgeInsets? padding}) =>
-    Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24), topRight: Radius.circular(24)),
-      ),
-      padding: padding != null ? padding : EdgeInsets.all(24),
-      child: widget,
-      height: height,
-    );
-
 TextStyle textSyle900(
     {double? fontSize,
     Color color = AppColors.primaryText,

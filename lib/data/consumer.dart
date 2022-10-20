@@ -47,25 +47,25 @@ class Consumer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['gender'] = this.gender;
-    data['nickName'] = this.nickName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['level'] = this.level;
-    data['points'] = this.points;
-    data['defaultConsumerAddressId'] = this.defaultConsumerAddressId;
-    data['lastLoginTime'] = this.lastLoginTime;
-    data['storeId'] = this.storeId;
-    data['avatarUrl'] = this.avatarUrl;
-    data['addresslist'] = this.addresslist;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['gender'] = gender;
+    data['nickName'] = nickName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['level'] = level;
+    data['points'] = points;
+    data['defaultConsumerAddressId'] = defaultConsumerAddressId;
+    data['lastLoginTime'] = lastLoginTime;
+    data['storeId'] = storeId;
+    data['avatarUrl'] = avatarUrl;
+    data['addresslist'] = addresslist;
     return data;
   }
 
   Map<String, dynamic> payConsumerAccountToJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     var consumerAccount=StorageUtil().getJSON('consumerAccount');
     data['unionId'] = consumerAccount["unionId"];
     data['openId'] = consumerAccount["openId"];
@@ -74,15 +74,15 @@ class Consumer {
   }
 
   Map<String, dynamic> payConsumerToJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['nickName'] = this.nickName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['level'] = this.level;
-    data['points'] = this.points;
-    data['avatarUrl'] = this.avatarUrl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['nickName'] = nickName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['level'] = level;
+    data['points'] = points;
+    data['avatarUrl'] = avatarUrl;
     data['account']=payConsumerAccountToJson();
     return data;
   }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/common/widgets/textFields.dart';
+import 'package:rc_china_freshplan_app/common/widgets/text_fields.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import 'common-view.dart';
+import 'common_view.dart';
 import 'logic.dart';
 
 class OrderList extends StatelessWidget {

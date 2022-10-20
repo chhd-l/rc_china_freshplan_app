@@ -32,27 +32,27 @@ class AddRess {
 
   
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['receiverName'] = this.receiverName;
-    data['phone'] = this.phone;
-    data['province'] = this.province;
-    data['city'] = this.city;
-    data['region'] = this.region;
-    data['detail'] = this.detail;
-    data['isDefault'] = this.isDefault;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['receiverName'] = receiverName;
+    data['phone'] = phone;
+    data['province'] = province;
+    data['city'] = city;
+    data['region'] = region;
+    data['detail'] = detail;
+    data['isDefault'] = isDefault;
     return data;
   }
 
   Map<String, dynamic> clonePayAddressToJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['receiverName'] = this.receiverName;
-    data['phone'] = this.phone;
-    data['province'] = this.province;
-    data['city'] = this.city;
-    data['region'] = this.region;
-    data['detail'] = this.detail;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['receiverName'] = receiverName;
+    data['phone'] = phone;
+    data['province'] = province;
+    data['city'] = city;
+    data['region'] = region;
+    data['detail'] = detail;
     return data;
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -88,8 +86,6 @@ getExpressCompanyName(code) async {
     return '';
   }
   List expressCompanies = StorageUtil().getJSON('express-company') ?? [];
-  print(111111111);
-  print(expressCompanies);
   if (expressCompanies.isEmpty) {
     await OrderUtil.getExpressCompany().then((value) {
       expressCompanies = value;

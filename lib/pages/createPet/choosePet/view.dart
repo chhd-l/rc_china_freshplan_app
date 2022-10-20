@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/pages/account/common-view.dart';
+import 'package:rc_china_freshplan_app/pages/account/common_view.dart';
 import 'package:rc_china_freshplan_app/pages/createPet/choosePet/state.dart';
 
-import 'choose-pet-view.dart';
+import 'choose_pet_view.dart';
 import 'logic.dart';
 
 class ChoosePetPage extends StatelessWidget {

@@ -29,7 +29,6 @@ class OrderLogic extends GetxController {
     });
 
     nameOrNumFocus.addListener(() {
-      print(nameOrNumFocus.hasFocus);
       showSearchBtn.value = nameOrNumFocus.hasFocus;
     });
 

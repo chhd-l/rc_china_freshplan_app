@@ -6,10 +6,9 @@ import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
-import 'package:rc_china_freshplan_app/common/util/address-util.dart';
-import '../../common/widgets/factor.dart';
-import 'common-view.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
+import 'package:rc_china_freshplan_app/common/util/address_util.dart';
+import 'common_view.dart';
 import 'controller.dart';
 
 class AccountPage extends GetView<AccountController> {

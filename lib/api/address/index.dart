@@ -1,9 +1,7 @@
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
-import 'package:rc_china_freshplan_app/common/util/address-util.dart';
+import 'package:rc_china_freshplan_app/common/util/address_util.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/api/consumer/index.dart';
 import 'package:rc_china_freshplan_app/data/address.dart';
 import 'query.dart';

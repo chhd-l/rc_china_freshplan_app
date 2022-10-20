@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/data/address.dart';
 
 import 'common/util/storage.dart';
-import 'common/util/pet-util.dart';
-import 'common/util/address-util.dart';
 import 'api/consumer/index.dart';
 import 'constants.dart';
 import 'data/pet.dart';

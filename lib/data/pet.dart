@@ -48,21 +48,21 @@ class Pet {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['gender'] = this.gender;
-    data['type'] = this.type;
-    data['breedCode'] = this.breedCode;
-    data['breedName'] = this.breedName;
-    data['image'] = this.image;
-    data['isSterilized'] = this.isSterilized;
-    data['birthday'] = this.birthday;
-    data['recentWeight'] = this.recentWeight;
-    data['recentPosture'] = this.recentPosture;
-    data['targetWeight'] = this.targetWeight;
-    data['recentHealth'] = this.recentHealth;
-    data['subscriptionNo']=this.subscriptionNo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['gender'] = gender;
+    data['type'] = type;
+    data['breedCode'] = breedCode;
+    data['breedName'] = breedName;
+    data['image'] = image;
+    data['isSterilized'] = isSterilized;
+    data['birthday'] = birthday;
+    data['recentWeight'] = recentWeight;
+    data['recentPosture'] = recentPosture;
+    data['targetWeight'] = targetWeight;
+    data['recentHealth'] = recentHealth;
+    data['subscriptionNo']=subscriptionNo;
     return data;
   }
 }

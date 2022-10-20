@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart' as Res;
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:dio/adapter.dart';

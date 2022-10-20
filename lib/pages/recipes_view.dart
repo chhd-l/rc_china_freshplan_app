@@ -5,7 +5,7 @@ import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import '../common/widgets/factor.dart';
 
 class RecipesPage extends StatelessWidget {
-  RecipesPage({Key? key}) : super(key: key);
+  const RecipesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

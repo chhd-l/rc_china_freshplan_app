@@ -83,7 +83,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.addressManage,
-      page: () => AddressManage(),
+      page: () => const AddressManage(),
     ),
     GetPage(
       name: AppRoutes.newAddress,
@@ -103,7 +103,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.recipesPage,
-      page: () => RecipesPage(),
+      page: () => const RecipesPage(),
     ),
     GetPage(
       name: AppRoutes.choosePet,

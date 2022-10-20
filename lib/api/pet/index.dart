@@ -1,9 +1,8 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:rc_china_freshplan_app/common/util/http.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
 import 'package:rc_china_freshplan_app/common/values/api_path.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/api/consumer/index.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'query.dart';

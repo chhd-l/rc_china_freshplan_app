@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
-import 'package:card_swiper/card_swiper.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/pages/index/subscription-list-view.dart';
+import 'package:rc_china_freshplan_app/pages/index/subscription_list_view.dart';
 
 import '../../common/util/storage.dart';
 import '../../data/consumer.dart';
-import '../createPet/common-widget-view.dart';
 import 'logic.dart';
 
 class IndexPage extends StatelessWidget {

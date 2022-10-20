@@ -1,16 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
-import 'package:rc_china_freshplan_app/data/pet.dart';
 import 'util.dart';
 import 'tabs.dart';
 import 'pet.dart';
 import 'package:rc_china_freshplan_app/global.dart';
-import 'package:rc_china_freshplan_app/pages/createPet/common-widget-view.dart';
+import 'package:rc_china_freshplan_app/pages/createPet/common_widget_view.dart';
 
 class PetDetailPage extends StatelessWidget {
   PetDetailPage({super.key});
@@ -220,25 +218,24 @@ class PetDetailPage extends StatelessWidget {
                           ),
                         ),
                         ''),
-                    buildPetItem(
+                    Obx(() => buildPetItem(
                         '${petCtl.name.value}的绝育状态',
                         Padding(
                           padding: const EdgeInsets.only(top: 16, bottom: 32),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              genderBox(petCtl.isSterilized == false, '未绝育',
+                              genderBox(petCtl.isSterilized.value == false, '未绝育',
                                   () {
-                                print(111);
                                 petCtl.changeIsSterilized(false);
                               }, bgColor: Colors.white),
-                              genderBox(petCtl.isSterilized == true, '已绝育', () {
+                              genderBox(petCtl.isSterilized.value == true, '已绝育', () {
                                 petCtl.changeIsSterilized(true);
                               }, bgColor: Colors.white),
                             ],
                           ),
                         ),
-                        '')
+                        ''))
                   ],
                 ),
               )),

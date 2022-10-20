@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 
 Widget buildPetItem(String title, Widget item, String? desc) {

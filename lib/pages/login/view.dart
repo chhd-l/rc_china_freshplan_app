@@ -2,7 +2,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:rc_china_freshplan_app/common/router/app_router.dart';
 import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
@@ -10,8 +9,8 @@ import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/global.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
-import 'package:rc_china_freshplan_app/common/util/address-util.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
+import 'package:rc_china_freshplan_app/common/util/address_util.dart';
 import 'package:rc_china_freshplan_app/api/consumer/index.dart';
 
 import 'logic.dart';

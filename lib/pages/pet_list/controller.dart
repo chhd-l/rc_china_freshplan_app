@@ -1,6 +1,8 @@
 import "package:get/get.dart";
+import 'package:rc_china_freshplan_app/common/util/event_bus.dart';
+import 'package:rc_china_freshplan_app/common/values/const.dart';
 import "package:rc_china_freshplan_app/data/pet.dart";
-import "package:rc_china_freshplan_app/common/util/pet-util.dart";
+import "package:rc_china_freshplan_app/common/util/pet_util.dart";
 
 class PetListController extends GetxController {
   List<Pet> petList = [];
@@ -8,6 +10,9 @@ class PetListController extends GetxController {
   @override
   void onInit() {
     getPetList();
+    EventBus().addListener(updatePet, (arg) {
+      getPetList();
+    });
     super.onInit();
   }
 

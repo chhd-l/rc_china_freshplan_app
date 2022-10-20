@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import 'package:rc_china_freshplan_app/common/widgets/factor.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -51,13 +50,9 @@ class InvoiceDetailPage extends StatelessWidget {
                       },
                       javascriptChannels: logic.loadJavascriptChannel(context),
                       onPageFinished: (String url) {
-                        print(1111);
-                        print(logic.webViewController.getTitle());
                         logic.loadTitle();
                       },
                       onPageStarted: (String url) {
-                        print(1111);
-                        print(logic.webViewController.getTitle());
                         logic.loadTitle();
                       },
                       javascriptMode: JavascriptMode.unrestricted,

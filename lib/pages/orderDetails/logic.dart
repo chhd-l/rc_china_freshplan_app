@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import 'package:rc_china_freshplan_app/common/util/order_util.dart';
-import 'package:rc_china_freshplan_app/data/order.dart';
 
 class OrderDetailsLogic extends GetxController {
   var orderDetails = {};
@@ -40,12 +39,7 @@ class OrderDetailsLogic extends GetxController {
     OrderUtil.getOrderDetail(orderNum).then((value) {
       orderDetails = value;
 
-      print(22222);
-      print(value["delivery"]);
-
       delivery=value["delivery"]["trackingId"]!=null?value["delivery"]:null;
-
-      print(delivery);
 
       orderNumber.value = value['orderNumber'];
       subscriptionNo.value = value['subscriptionNo'];
@@ -66,12 +60,6 @@ class OrderDetailsLogic extends GetxController {
       deliveryPrice.value = '${value['orderPrice']['deliveryPrice']}';
       discountsPrice.value = '${value['orderPrice']['discountsPrice']}';
       totalPrice.value = '${value['orderPrice']['totalPrice']}';
-
-      print('${value['orderPrice']}');
-      print(productPrice);
-      print(deliveryPrice);
-      print(discountsPrice);
-      print(totalPrice);
 
       paymentFinishTime.value = value['payment']['paymentFinishTime'];
       createdAt.value = value['orderState']['createdAt'];

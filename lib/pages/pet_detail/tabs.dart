@@ -69,10 +69,8 @@ class _PetTabWidgetState extends State<PetTabWidget>
     return TabBarView(
       controller: _controller,
       children: tabs.map((item) {
-        return Container(
-          child: Center(
-            child: Text(item),
-          ),
+        return Center(
+          child: Text(item),
         );
       }).toList(),
     );
@@ -81,15 +79,13 @@ class _PetTabWidgetState extends State<PetTabWidget>
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        child: Column(
-          children: [
-            _tabBar(),
-            Expanded(
-              child: _body(),
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          _tabBar(),
+          Expanded(
+            child: _body(),
+          ),
+        ],
       ),
     );
   }

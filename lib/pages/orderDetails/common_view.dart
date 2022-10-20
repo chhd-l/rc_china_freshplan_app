@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,7 @@ import 'package:rc_china_freshplan_app/common/values/colors.dart';
 import '../../common/router/app_router.dart';
 import '../../common/util/order_util.dart';
 import '../../common/widgets/factor.dart';
-import '../orderList/common-view.dart';
+import '../orderList/common_view.dart';
 
 Widget orderStep(int step) {
   return Row(
@@ -524,8 +523,6 @@ Widget orderOperatorItem(
 
 Widget buildDeliveryInfoView(
     receiverName, phone, province, city, region, detail, delivery) {
-  print(1111);
-  print(delivery);
   return Container(
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.symmetric(vertical: 12),

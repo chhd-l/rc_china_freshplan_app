@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-import 'package:rc_china_freshplan_app/api/order/index.dart';
 import 'package:rc_china_freshplan_app/common/util/order_util.dart';
-import 'package:rc_china_freshplan_app/common/util/pet-util.dart';
+import 'package:rc_china_freshplan_app/common/util/pet_util.dart';
 import 'package:rc_china_freshplan_app/common/util/storage.dart';
 import 'package:rc_china_freshplan_app/data/consumer.dart';
 import 'package:rc_china_freshplan_app/data/pet.dart';
@@ -13,6 +12,7 @@ class AccountController extends GetxController {
   RxInt toShipOrderQuantity = 0.obs;
   RxInt shippedOrderQuantity = 0.obs;
 
+  @override
   void onInit(){
     Consumer? consumer = StorageUtil().getJSON("loginUser") != null
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
