@@ -40,8 +40,8 @@ class ConsumerEndPoint {
     }).then((value) {
       EasyLoading.dismiss();
       var res = json.decode(value.toString());
-      if (res['data'] != null && res['data']['wxRegisterAndLogin'] != null) {
-        return res['data']['wxRegisterAndLogin'];
+      if (res['data'] != null && res['data']['allAuth'] != null) {
+        return res['data']['allAuth'];
       } else {
         EasyLoading.showError('用户名或密码错误');
         return false;

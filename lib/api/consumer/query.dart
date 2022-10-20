@@ -1,6 +1,6 @@
 const String appLoginQuery = r'''
-  query wxRegisterAndLogin($input: WxLoginInput!, $updateConsumerFiled: UpdateConsumerInput!, $operator: String) {
-    wxRegisterAndLogin(
+  query allAuth($input: AuthInput!, $updateConsumerFiled: UpdateConsumerInput!, $operator: String) {
+    allAuth(
       input: $input,
       updateConsumerFiled: $updateConsumerFiled,
       operator: $operator
