@@ -72,7 +72,8 @@ class SubscriptionEndPoint {
         'subscriptionId': subscriptionId,
         'subscriptionType': 'FRESH_PLAN',
         'agreementNo': '',
-        'aliPayUserId': ''
+        'aliPayUserId': '',
+        "projectName": 'FRESH_PLAN_ALI_APP'
       }
     }).onError((ErrorEntity error, stackTrace) {
       EasyLoading.showError(error.message!);

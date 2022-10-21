@@ -27,7 +27,7 @@ class OrderEndPoint {
           "sample": {...sample, "consumerId": consumerId},
           'withTotal': true,
           "limit": 10,
-          "offset": offset,
+          "offset": offset * 10 - 10,
           "storeId": consumer?.storeId,
         }
       }

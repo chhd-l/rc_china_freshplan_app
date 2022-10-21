@@ -36,6 +36,11 @@ class PlanDetailLogic extends GetxController {
   }
 
   updateSubscriptionAddress() async {
+    print(111);
+    print(global.planDetailAddress.value);
+    print(global.planDetailAddress.value.toJson());
+    print(2222);
+    print(global.planDetailAddress.value.clonePayAddressToJson());
     await SubscriptionUtil.updateSubscriptionAddress(subscriptionId,
             global.planDetailAddress.value.clonePayAddressToJson())
         .then((value) {

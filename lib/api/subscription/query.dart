@@ -623,8 +623,8 @@ discountsPrice
 ''';
 
 const String  subscriptionCancelMutation = r'''
-mutation subscriptionCancel($subscriptionId: String!, $subscriptionType: SubscriptionType!, $agreementNo: String, $aliPayUserId: String) {
-subscriptionCancel(subscriptionId: $subscriptionId, subscriptionType: $subscriptionType, agreementNo: $agreementNo, aliPayUserId: $aliPayUserId)
+mutation subscriptionCancel($subscriptionId: String!, $subscriptionType: SubscriptionType!, $agreementNo: String, $aliPayUserId: String,$projectName:ProjectNameEnum!) {
+subscriptionCancel(subscriptionId: $subscriptionId, subscriptionType: $subscriptionType, agreementNo: $agreementNo, aliPayUserId: $aliPayUserId,projectName:$projectName)
 }
 ''';
 
