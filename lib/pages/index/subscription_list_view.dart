@@ -10,7 +10,7 @@ import '../../common/values/colors.dart';
 
 Widget buildSubscriptionListView(List subscriptionList) {
   return SizedBox(
-      height: 500,
+      height: 540,
       child: Swiper(
           pagination: const SwiperPagination(
               alignment: Alignment.bottomCenter,
@@ -45,18 +45,18 @@ Widget buildSubscriptionListView(List subscriptionList) {
                 ),
                 const SizedBox(height: 28),
                 Container(
-                  width: 312,
+                  width: 340,
                   height: 195,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image:
-                              AssetImage('assets/images/plan-title-bg.png'))),
+                          image: AssetImage('assets/images/plan-title-bg.png'),
+                          fit: BoxFit.fitWidth)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 8),
+                        padding: const EdgeInsets.only(left: 10, top: 2),
                         child: Text(
                           'FRESH编号：${item["no"]}',
                           style: textSyle400(
@@ -68,7 +68,6 @@ Widget buildSubscriptionListView(List subscriptionList) {
                         padding:
                             const EdgeInsets.only(top: 12, left: 12, right: 12),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ClipOval(
@@ -90,7 +89,8 @@ Widget buildSubscriptionListView(List subscriptionList) {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            Column(
+                            Expanded(
+                                child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(item["pet"]["name"] ?? '',
@@ -124,7 +124,7 @@ Widget buildSubscriptionListView(List subscriptionList) {
                                   ],
                                 ),
                               ],
-                            ),
+                            )),
                             Icon(
                               item["pet"]["gender"] == 'MALE'
                                   ? Icons.male
@@ -136,35 +136,42 @@ Widget buildSubscriptionListView(List subscriptionList) {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 22, left: 36),
-                        child: titleButton('管理计划', () {
-                          Get.toNamed(AppRoutes.subscriptionDetail,
-                              arguments: item["id"] ?? '');
-                        },
-                            bgColor: Colors.white,
-                            fontSize: 13,
-                            fontColor: AppColors.tint,
-                            width: 240,
-                            height: 36,
-                            isCircle: true),
+                        padding: const EdgeInsets.only(top: 32),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            titleButton('管理计划', () {
+                              Get.toNamed(AppRoutes.subscriptionDetail,
+                                  arguments: item["id"] ?? '');
+                            },
+                                bgColor: Colors.white,
+                                fontSize: 13,
+                                fontColor: AppColors.tint,
+                                width: 240,
+                                height: 36,
+                                isCircle: true)
+                          ],
+                        ),
                       )
                     ],
                   ),
                 ),
+                const SizedBox(height: 10),
                 Container(
-                  width: 312,
-                  height: 211,
+                  width: 340,
+                  height: 240,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                           image:
-                              AssetImage('assets/images/plan-content-bg.png'))),
+                              AssetImage('assets/images/plan-content-bg.png'),
+                          fit: BoxFit.cover)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsets.only(top: 24, left: 36, right: 12),
+                            const EdgeInsets.only(top: 40, left: 36, right: 12),
                         child: Row(
                           children: [
                             Container(

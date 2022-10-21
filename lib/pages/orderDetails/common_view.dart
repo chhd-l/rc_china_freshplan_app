@@ -29,21 +29,23 @@ Widget orderStepItem(String title, String subTitle,
       Row(
         children: [
           Container(
-            width: 17,
-            height: 17,
+            width: 20,
+            height: 20,
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(17)),
                 color: isCompleted == true ? AppColors.tint : Colors.white,
                 border:
                     Border.all(color: const Color.fromRGBO(216, 216, 216, 1))),
-            child: Text(
-              title,
-              style: textSyle700(
-                  color: isCompleted == true
-                      ? Colors.white
-                      : const Color.fromRGBO(151, 151, 151, 1),
-                  fontSize: 12),
+            child: Center(
+              child: Text(
+                title,
+                style: textSyle700(
+                    color: isCompleted == true
+                        ? Colors.white
+                        : const Color.fromRGBO(151, 151, 151, 1),
+                    fontSize: 12),
+              ),
             ),
           ),
           showLine == true
@@ -114,7 +116,10 @@ Widget buildOrderStateView(orderState) {
         Text(returnTitleText(orderState)["subTitle"],
             style: const TextStyle(color: Color(0xFF666666), fontSize: 12)),
         const SizedBox(height: 24),
-        returnTitleText(orderState)["child"],
+        Padding(
+          padding: const EdgeInsets.only(left: 0),
+          child: returnTitleText(orderState)["child"],
+        ),
       ],
     ),
   );
