@@ -19,10 +19,6 @@ class AccountPage extends GetView<AccountController> {
     Consumer? consumer = StorageUtil().getJSON("loginUser") != null
         ? Consumer.fromJson(StorageUtil().getJSON("loginUser"))
         : null;
-    // if (consumer != null) {
-    //   controller.getPetList();
-    //   controller.getOrderStatistics();
-    // }
 
     Widget loginSection = Container(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
@@ -44,17 +40,13 @@ class AccountPage extends GetView<AccountController> {
                   height: 55,
                 ),
         ),
-        Expanded(
-            child: Container(
+        Container(
           margin: const EdgeInsets.only(left: 10),
           child: consumer == null
               ? GestureDetector(
                   child: const Text(
                     '点击登录',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Color.fromARGB(255, 51, 51, 51),
-                    ),
+                    style: TextStyle(fontSize: 22, color: AppColors.text333),
                   ),
                   onTap: () {
                     Get.toNamed(AppRoutes.login);
@@ -62,28 +54,9 @@ class AccountPage extends GetView<AccountController> {
                 )
               : Text(
                   consumer.nickName ?? '',
-                  style: const TextStyle(
-                    fontSize: 22,
-                    color: Color.fromARGB(255, 51, 51, 51),
-                  ),
+                  style:
+                      const TextStyle(fontSize: 22, color: AppColors.text333),
                 ),
-        )),
-        GestureDetector(
-          child: Text(
-            consumer != null ? '退出' : '',
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color.fromARGB(255, 153, 153, 153),
-            ),
-          ),
-          onTap: () {
-            StorageUtil().remove('loginUser');
-            StorageUtil().remove('consumerAccount');
-            StorageUtil().remove('accessToken');
-            PetUtil.logout();
-            AddRessUtil.logout();
-            Get.offAllNamed(AppRoutes.login);
-          },
         ),
       ]),
     );
@@ -260,6 +233,23 @@ class AccountPage extends GetView<AccountController> {
       ),
     );
 
+    Widget settingSection = Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+      ),
+      margin: const EdgeInsets.only(bottom: 16),
+      child: GestureDetector(
+        child: commonBoxTitle(
+          'assets/images/account-setting-icon.png',
+          '账号设置',
+        ),
+        onTap: () {
+          Get.toNamed(AppRoutes.setting);
+        },
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('我的'),
@@ -285,7 +275,8 @@ class AccountPage extends GetView<AccountController> {
           orderSection,
           petSection,
           addressSection,
-          invoiceSection
+          invoiceSection,
+          settingSection
         ]),
       )),
       bottomNavigationBar: BottomNavigationBar(

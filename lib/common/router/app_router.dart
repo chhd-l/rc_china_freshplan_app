@@ -16,9 +16,10 @@ abstract class AppRoutes {
   static const resetPasswordStep2 = '/reset-password-step2';
   static const subscriptionDetail = '/subscriptionDetail';
   static const recipesPage = '/recipesPage';
-  static const choosePet='/choose-pet';
-  static const breedPick='/breed-pick';
-  static const planDetail='/plan-detail';
-  static const invoiceManage='/invoice-manage';
-  static const invoiceDetail='/invoice-detail';
+  static const choosePet = '/choose-pet';
+  static const breedPick = '/breed-pick';
+  static const planDetail = '/plan-detail';
+  static const invoiceManage = '/invoice-manage';
+  static const invoiceDetail = '/invoice-detail';
+  static const setting = '/setting';
 }

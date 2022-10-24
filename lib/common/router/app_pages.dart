@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:rc_china_freshplan_app/pages/recipes_view.dart';
 import 'app_router.dart';
 
 import 'package:rc_china_freshplan_app/pages/index/view.dart';
@@ -26,6 +25,8 @@ import 'package:rc_china_freshplan_app/pages/breedPicker/view.dart';
 import 'package:rc_china_freshplan_app/pages/planDetail/view.dart';
 import 'package:rc_china_freshplan_app/pages/invoiceManage/view.dart';
 import 'package:rc_china_freshplan_app/pages/invoiceDetail/view.dart';
+import 'package:rc_china_freshplan_app/pages/setting/view.dart';
+import 'package:rc_china_freshplan_app/pages/recipes_view.dart';
 
 class AppPages {
   static String initial = StorageUtil().getJSON('loginUser') == null
@@ -124,6 +125,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.invoiceDetail,
       page: () => InvoiceDetailPage(),
+    ),
+    GetPage(
+      name: AppRoutes.setting,
+      page: () => SettingPage(),
     ),
   ];
 }
