@@ -198,6 +198,8 @@ class OrderEndPoint {
           "consumerOpenId": order["consumer"]["openId"] ??
               StorageUtil().getJSON('consumerAccount')["openId"] ??
               '',
+          'isSubscription':order["isSubscription"],
+          'subscriptionId':order["subscriptionId"],
           "orderId": order["_id"],
           "orderNo": order["orderNumber"],
           "orderDescription": '订单支付',
