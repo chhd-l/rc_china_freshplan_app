@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:rc_china_freshplan_app/common/util/utils.dart';
 import 'package:rc_china_freshplan_app/common/values/colors.dart';
 
 import '../../common/router/app_router.dart';
@@ -344,10 +345,7 @@ Widget buildOrderPayInfoView(
                         style: TextStyle(
                           color: Color(0xFF666666),
                         )),
-                    Text(payTime != ''
-                        ? DateFormat('yyyy-MM-dd HH:mm:ss')
-                            .format(DateTime.parse(payTime))
-                        : payTime),
+                    Text(handleDateFromApi(payTime,format:'yyyy-MM-dd HH:mm:ss' )),
                   ],
                 ))
             : Container(),
@@ -360,10 +358,7 @@ Widget buildOrderPayInfoView(
                     style: TextStyle(
                       color: Color(0xFF666666),
                     )),
-                Text(payTime != ''
-                    ? DateFormat('yyyy-MM-dd HH:mm:ss')
-                        .format(DateTime.parse(createTime))
-                    : createTime),
+                Text(handleDateFromApi(createTime,format:'yyyy-MM-dd HH:mm:ss' )),
               ],
             )),
         Container(

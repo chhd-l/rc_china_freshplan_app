@@ -91,7 +91,7 @@ Widget orderListItem(order, context) {
                     fontWeight: FontWeight.bold,
                   )),
               Text(
-                  '创建时间:${order['orderState']['createdAt'] != '' ? DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.parse(order['orderState']['createdAt'])) : order['orderState']['createdAt']}',
+                  '创建时间:${handleDateFromApi(order['orderState']['createdAt'],format: 'yyyy-MM-dd HH:mm:ss')}',
                   textAlign: TextAlign.right,
                   style: const TextStyle(
                     color: Color(0xFF666666),

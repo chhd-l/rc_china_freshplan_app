@@ -17,9 +17,19 @@ handleDateTimeToZone(DateTime time) {
   return '${time.toIso8601String().split('.')[0]}.000Z';
 }
 
-handleDateFromApi(date) {
-  return DateFormat('yyyy-MM-dd')
-      .format(DateTime.parse(date ?? DateTime.now().toString()));
+handleDateFromApi(String date, {String? format = 'yyyy-MM-dd'}) {
+  if (date == null || date == '') {
+    return '';
+  }
+  print(date);
+  if (date.contains('+08:00')) {
+    return DateFormat(format).format(DateTime.parse(date).toLocal());
+  }
+  if (date.contains('.')) {
+    return DateFormat(format)
+        .format(DateTime.parse('${date.split('.')[0]}-0800'));
+  }
+  return DateFormat(format).format(DateTime.parse(date));
 }
 
 getAgeYear(birthdayStr) {
