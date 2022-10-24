@@ -156,4 +156,25 @@ class ConsumerEndPoint {
     });
     return data;
   }
+
+  //注销账户
+  static dynamic appLogout() async {
+    EasyLoading.show();
+    var data = await HttpUtil().post(wxAuthUrl, params: {
+      "query": consumerCancellationMutation,
+      "variables": {}
+    }).onError((ErrorEntity error, stackTrace) {
+      EasyLoading.showError(error.message!);
+    }).then((value) {
+      EasyLoading.dismiss();
+      var res = json.decode(value.toString());
+      if (res['data'] != null && res['data']['consumerCancellation'] != null) {
+        return res['data']['consumerCancellation'];
+      } else {
+        EasyLoading.showError('操作错误');
+        return false;
+      }
+    });
+    return data;
+  }
 }

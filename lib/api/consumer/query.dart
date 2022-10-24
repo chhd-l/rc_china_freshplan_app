@@ -82,3 +82,9 @@ const String checkCodeMutation = r'''
     checkVerificationCode(input: $input)
   }
 ''';
+
+const String consumerCancellationMutation = r'''
+  mutation consumerCancellation {
+    consumerCancellation
+  }
+''';
